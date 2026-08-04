@@ -1,0 +1,139 @@
+/* CSS variables for theme settings */
+:root{
+
+    /* ==========================================================
+       Typography
+    ========================================================== */
+
+    --font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-display: "Poppins", var(--font-family);
+
+    --font-xs:12px;
+    --font-sm:14px;
+    --font-md:16px;
+    --font-lg:18px;
+    --font-xl:22px;
+    --font-2xl:28px;
+    --font-3xl:36px;
+
+    --font-normal:400;
+    --font-medium:500;
+    --font-semibold:600;
+    --font-bold:700;
+
+    /* ==========================================================
+       Brand
+    ========================================================== */
+
+    --primary:#4f46e5;
+    --primary-hover:#4338ca;
+    --primary-light:#e0e7ff;
+    --primary-soft:#f5f3ff;
+
+    --success:#10b981;
+    --warning:#f59e0b;
+    --danger:#ef4444;
+    --info:#06b6d4;
+
+    /* ==========================================================
+       Per-block-type accent
+    ========================================================== */
+
+    --c-audio:#3b82f6;
+    --c-video:#3b82f6;
+    --c-sequence:#3b82f6;
+    --c-dictation:#3b82f6;
+
+    --c-dialogue:#f97316;
+    --c-voice:#f97316;
+    --c-pronunciation:#f97316;
+    --c-roleplay:#f97316;
+    --c-input:#f97316;
+
+    --c-text:#10b981;
+    --c-heading:#10b981;
+    --c-image:#10b981;
+    --c-quiz:#10b981;
+    --c-match:#10b981;
+    --c-flashcard:#10b981;
+    --c-crossword:#10b981;
+    --c-memory:#10b981;
+    --c-wordsearch:#10b981;
+    --c-reading_passage:#10b981;
+
+    --c-fill_blank:#8b5cf6;
+    --c-sentence:#8b5cf6;
+    --c-writing_prompt:#8b5cf6;
+
+    --c-true_false:#d97706;
+    --c-drag_drop:#d97706;
+    --c-grammar_correction:#d97706;
+
+    /* ==========================================================
+       Surfaces
+    ========================================================== */
+
+    --background:#f8fafc;
+
+    --surface:#ffffff;
+    --surface-secondary:#f1f5f9;
+    --surface-tertiary:#e2e8f0;
+
+    /* ==========================================================
+       Text
+    ========================================================== */
+
+    --text-primary:#0f172a;
+    --text-secondary:#475569;
+    --text-muted:#64748b;
+    --text-disabled:#94a3b8;
+
+    /* ==========================================================
+       Borders
+    ========================================================== */
+
+    --border-width:1px;
+    --border:#e2e8f0;
+    --border-hover:#cbd5e1;
+    --border-focus:#a5b4fc;
+
+    /* ==========================================================
+       Radius
+    ========================================================== */
+
+    --radius-sm:12px;
+    --radius-md:16px;
+    --radius-lg:24px;
+    --radius-pill:999px;
+
+    /* ==========================================================
+       Spacing
+    ========================================================== */
+
+    --space-1:4px;
+    --space-2:8px;
+    --space-3:12px;
+    --space-4:16px;
+    --space-5:24px;
+    --space-6:32px;
+    --space-7:48px;
+    --space-8:64px;
+
+    /* ==========================================================
+       Shadows
+    ========================================================== */
+
+    --shadow-xs:0 2px 8px rgba(0,0,0,.04);
+    --shadow-sm:0 4px 20px rgba(0,0,0,.06);
+    --shadow-md:0 10px 30px rgba(0,0,0,.08);
+    --shadow-lg:0 20px 48px rgba(0,0,0,.12);
+
+    /* ==========================================================
+       Motion
+    ========================================================== */
+
+    --transition-fast:150ms ease;
+    --transition-normal:250ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow:350ms cubic-bezier(0.4, 0, 0.2, 1);
+
+}

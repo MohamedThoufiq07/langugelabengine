@@ -1,0 +1,17 @@
+/* Root CSS Entry Point */
+@import "./runtime/ui/index.css";
+
+.two-column-layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.one-column-layout, .elab-one-column {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}

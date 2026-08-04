@@ -1,3 +1,5 @@
+import "../header/RuntimeHeader.css";
+
 function RuntimeHeader({ runtime, progress }) {
 
     const experience = runtime.getExperience();

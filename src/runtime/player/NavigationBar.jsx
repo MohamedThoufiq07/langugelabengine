@@ -1,3 +1,5 @@
+import "../navigation/NavigationBar.css";
+
 function NavigationBar({
 
     canGoBack,
@@ -11,45 +13,19 @@ function NavigationBar({
 
     return (
 
-        <>
+        <footer className="navigation-bar">
 
-            <button
-                className="elab-nav-fab elab-nav-fab-prev"
-                disabled={!canGoBack}
-                onClick={onPrevious}
-                aria-label="Previous"
-                title="Previous"
-            >
-                ←
-            </button>
-
-            {isLastScreen ? (
+            <div className="nav-bar-centered">
 
                 <button
-                    className="elab-nav-fab elab-nav-fab-next elab-nav-fab-finish"
-                    disabled={!canGoNext}
-                    onClick={onNext}
-                    aria-label="Finish"
-                    title="Finish"
+                    className="elab-nav-btn elab-nav-btn-prev"
+                    disabled={!canGoBack}
+                    onClick={onPrevious}
+                    aria-label="Previous"
+                    title="Previous"
                 >
-                    ✓
+                    ← Previous
                 </button>
-
-            ) : (
-
-                <button
-                    className="elab-nav-fab elab-nav-fab-next"
-                    disabled={!canGoNext}
-                    onClick={onNext}
-                    aria-label="Next"
-                    title="Next"
-                >
-                    →
-                </button>
-
-            )}
-
-            <footer className="navigation-bar">
 
                 <button
                     className="nav-btn exit"
@@ -58,9 +34,35 @@ function NavigationBar({
                     🏠 Exit
                 </button>
 
-            </footer>
+                {isLastScreen ? (
 
-        </>
+                    <button
+                        className="elab-nav-btn elab-nav-btn-next elab-nav-btn-finish"
+                        disabled={!canGoNext}
+                        onClick={onNext}
+                        aria-label="Finish"
+                        title="Finish"
+                    >
+                        Finish ✓
+                    </button>
+
+                ) : (
+
+                    <button
+                        className="elab-nav-btn elab-nav-btn-next"
+                        disabled={!canGoNext}
+                        onClick={onNext}
+                        aria-label="Next"
+                        title="Next"
+                    >
+                        Next →
+                    </button>
+
+                )}
+
+            </div>
+
+        </footer>
 
     );
 

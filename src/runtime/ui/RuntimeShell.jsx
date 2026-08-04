@@ -1,7 +1,7 @@
 import RuntimeHeader from "./RuntimeHeader";
-import ContentCard from "./ContentCard";
-import SceneBackdrop from "./SceneBackdrop";
 import NavigationBar from "../player/NavigationBar";
+import "../RuntimeShell.css";
+import "../backdrop/SceneBackdrop.css";
 
 function RuntimeShell({
 
@@ -25,18 +25,16 @@ function RuntimeShell({
 
         <div className="runtime-shell" data-grade-band={gradeBand} style={theme}>
 
-            <SceneBackdrop />
-
             <RuntimeHeader
                 runtime={runtime}
                 progress={progress}
             />
 
-            <ContentCard>
+            <main className="scene-backdrop">
 
                 {children}
 
-            </ContentCard>
+            </main>
 
             <NavigationBar
                 canGoBack={progress.currentScreen > 1}

@@ -1,3 +1,5 @@
+import "../../components/BlockCard.css";
+
 function BlockCard({
 
     children,
