@@ -1,38 +1,37 @@
 {
   "schemaVersion": "1.0.0",
   "version": "1.0.0",
-  "id": "107",
-  "title": "chapter 2",
-  "description": "sdflksdhvsm,dvdbisd",
+  "id": "115",
+  "title": "mobile shop",
+  "description": "conversation abbout the mobilies",
   "language": "English",
-  "grade": "Grade 3",
+  "grade": "Grade 6",
   "subject": "General",
-  "estimatedDuration": 15,
+  "estimatedDuration": 25,
   "activities": [
     {
-      "id": "102",
-      "title": "starting",
-      "description": "asdfgbdfh",
+      "id": "110",
+      "title": "Listening",
+      "description": "d;kkdkfgiusdf",
       "sequence": 1,
-      "estimatedDuration": 5,
+      "estimatedDuration": 2,
       "skills": [
         "listening"
       ],
       "screens": [
         {
-          "id": "151",
+          "id": "161",
           "title": "screen 1",
-          "type": "text",
+          "type": "mcq",
           "content": {
             "tag": "H1",
             "font": "Poppins",
             "size": 48,
-            "text": "this is the tseskhvmvo9h v avo sala sjf;oisdv   vijay is gay",
+            "text": "Welcome Screen Text",
             "color": "#1F2937",
             "steps": [
               {
                 "name": "Ben",
-                "side": "left",
                 "step": 1,
                 "text": "Hi! What would you like to order?"
               },
@@ -47,68 +46,77 @@
             "weight": "Bold",
             "elements": [
               {
-                "id": "block-1785474959518-xurvjru1o",
+                "id": "block-1785839769482-5",
                 "slot": "left",
-                "type": "heading",
+                "type": "quiz",
                 "styles": {
-                  "top": "5px",
-                  "left": "178px",
-                  "color": "#1F2937",
-                  "fontSize": "32px",
-                  "alignment": "Center",
-                  "blockWidth": "239px",
-                  "fontFamily": "Poppins",
-                  "fontWeight": "Bold"
+                  "top": "177px",
+                  "left": "244px",
+                  "minHeight": "212px",
+                  "blockWidth": "321px"
                 },
                 "content": {
-                  "tag": "H2",
-                  "text": "heading 1"
+                  "options": [
+                    {
+                      "text": "subash"
+                    },
+                    {
+                      "text": "dhanaos"
+                    },
+                    {
+                      "text": "kannan"
+                    },
+                    {
+                      "text": "abuthahi"
+                    }
+                  ],
+                  "question": "who is gay?",
+                  "correctAnswerIndex": 0
+                },
+                "enableRemedial": true,
+                "remedialConfig": {
+                  "mode": "ai_pregenerated",
+                  "hintText": "Sexual orientation describes who a person is romantically or sexually attracted to, and it's a natural part of who someone is.",
+                  "foundationOptions": [
+                    "They are attracted only to people of the opposite gender.",
+                    "They are attracted to people of the same gender.",
+                    "They are attracted to all genders.",
+                    "They are not attracted to anyone at all."
+                  ],
+                  "correctAnswerIndex": 1,
+                  "foundationQuestion": "When someone identifies as 'gay', what does it primarily mean regarding their attractions?"
                 }
               },
               {
-                "id": "block-1785474978645-kl6173tgk",
+                "id": "block-1785842279270-01flar2uf",
                 "slot": "right",
                 "type": "image",
                 "styles": {
-                  "top": "97px",
-                  "left": "193px",
-                  "blockWidth": "230px"
+                  "minHeight": "169px",
+                  "blockWidth": "198px"
                 },
                 "content": {
-                  "url": "http://localhost:8000/media/media_library/32169c8ab6f14340aa0e074ddaa90b0f.png",
+                  "url": "http://localhost:8000/media/media_library/3d3e99e4925d4d2b90637f0b5088523f.jpeg",
                   "caption": "",
-                  "media_id": 39,
+                  "media_id": 27,
                   "media_type": "IMAGE"
                 }
               },
               {
-                "id": "block-1785474995363-us57smgvc",
+                "id": "block-1785842320608-b708gq0s5",
                 "slot": "right",
                 "type": "audio",
                 "styles": {
-                  "top": "319px",
-                  "left": "196px",
-                  "blockWidth": "265px"
+                  "top": "47px",
+                  "left": "542px",
+                  "minHeight": "79px",
+                  "blockWidth": "299px"
                 },
                 "content": {
                   "url": "http://localhost:8000/media/media_library/5b6bbaf8b9ce42de997d08e6a02ce2d3.mp3",
                   "title": "Audio Clip",
                   "media_id": 29,
                   "media_type": "AUDIO"
-                }
-              },
-              {
-                "id": "block-1785475023138-x4row01em",
-                "slot": "left",
-                "type": "dictation",
-                "styles": {
-                  "top": "441px",
-                  "left": "102px",
-                  "blockWidth": "395px"
-                },
-                "content": {
-                  "url": "",
-                  "question": "Listen and type what you hear."
                 }
               }
             ],
@@ -118,42 +126,239 @@
             "media_type": "AUDIO",
             "columnRatio": "50-50",
             "quiz_options": [
-              "Option A",
-              "Option B",
-              "Option C",
-              "Option D"
+              "subash",
+              "dhanaos",
+              "kannan",
+              "abuthahi"
             ],
-            "quiz_question": "Question text?",
+            "quiz_question": "who is gay?",
             "quiz_correct_index": 0,
-            "audio": "assets/audio/5b6bbaf8b9ce42de997d08e6a02ce2d3.mp3",
-            "image": "assets/images/32169c8ab6f14340aa0e074ddaa90b0f.png"
+            "image": "assets/images/3d3e99e4925d4d2b90637f0b5088523f.jpeg",
+            "audio": "assets/audio/5b6bbaf8b9ce42de997d08e6a02ce2d3.mp3"
           },
           "resolvedMedia": [
             {
+              "media_id": 27,
+              "type": "IMAGE",
+              "url": "assets/images/3d3e99e4925d4d2b90637f0b5088523f.jpeg",
+              "missing": false
+            },
+            {
               "media_id": 29,
               "type": "AUDIO",
               "url": "assets/audio/5b6bbaf8b9ce42de997d08e6a02ce2d3.mp3",
               "missing": false
             },
             {
-              "media_id": 39,
-              "type": "IMAGE",
-              "url": "assets/images/32169c8ab6f14340aa0e074ddaa90b0f.png",
-              "missing": false
-            },
-            {
               "media_id": 29,
               "type": "AUDIO",
               "url": "assets/audio/5b6bbaf8b9ce42de997d08e6a02ce2d3.mp3",
               "missing": false
             },
             {
-              "media_id": 39,
+              "media_id": 27,
               "type": "IMAGE",
-              "url": "assets/images/32169c8ab6f14340aa0e074ddaa90b0f.png",
+              "url": "assets/images/3d3e99e4925d4d2b90637f0b5088523f.jpeg",
               "missing": false
             }
           ]
+        }
+      ]
+    },
+    {
+      "id": "112",
+      "title": "Speaking",
+      "description": "dfdfkljdhdkfj",
+      "sequence": 2,
+      "estimatedDuration": 5,
+      "skills": [
+        "speaking"
+      ],
+      "screens": [
+        {
+          "id": "163",
+          "title": "screen 1",
+          "type": "text",
+          "content": {
+            "tag": "H1",
+            "font": "Poppins",
+            "size": 48,
+            "text": "onu  ilal safsldfvhskdjgh;isudghsdmvnisdjvh",
+            "color": "#1F2937",
+            "steps": [
+              {
+                "name": "Ben",
+                "step": 1,
+                "text": "Hi! What would you like to order?"
+              },
+              {
+                "name": "Anna",
+                "step": 2,
+                "text": "I'd like a cup of coffee, please."
+              }
+            ],
+            "title": "screen 1",
+            "layout": "1-column",
+            "weight": "Bold",
+            "elements": [
+              {
+                "id": "block-1785842677401-lb081q0h8",
+                "type": "voice_recorder",
+                "styles": {
+                  "blockWidth": "544px"
+                },
+                "content": {
+                  "prompt": "Please record your response."
+                }
+              },
+              {
+                "id": "block-1785842680158-g4afz1bh7",
+                "type": "pronunciation",
+                "styles": {
+                  "top": "178px",
+                  "left": "5px"
+                },
+                "content": {
+                  "word": "Hello",
+                  "phonetic": "/həˈloʊ/"
+                }
+              },
+              {
+                "id": "block-1785842684886-ib6dqdkzh",
+                "type": "input",
+                "styles": {
+                  "top": "189px",
+                  "left": "332px"
+                },
+                "content": {
+                  "placeholder": "Type your answer here..."
+                }
+              },
+              {
+                "id": "block-1785842692440-czrvg2k11",
+                "type": "text",
+                "styles": {
+                  "top": "341px",
+                  "left": "138px",
+                  "color": "#334155",
+                  "fontSize": "16px",
+                  "alignment": "Left",
+                  "blockWidth": "339px",
+                  "fontFamily": "Poppins",
+                  "fontWeight": "Normal"
+                },
+                "content": {
+                  "text": "onu  ilal safsldfvhskdjgh;isudghsdmvnisdjvh"
+                }
+              }
+            ],
+            "media_id": "",
+            "alignment": "Center",
+            "media_url": "",
+            "media_type": "",
+            "columnRatio": "50-50",
+            "quiz_options": [
+              "",
+              "",
+              "",
+              ""
+            ],
+            "quiz_question": "",
+            "quiz_correct_index": 0
+          },
+          "resolvedMedia": []
+        }
+      ]
+    },
+    {
+      "id": "111",
+      "title": "Grammar",
+      "description": "dkdjfgkdf",
+      "sequence": 3,
+      "estimatedDuration": 5,
+      "skills": [
+        "grammar"
+      ],
+      "screens": [
+        {
+          "id": "164",
+          "title": "gvhjkhd",
+          "type": "text",
+          "content": {
+            "tag": "H1",
+            "font": "Poppins",
+            "size": 48,
+            "text": "Welcome Screen Text",
+            "color": "#1F2937",
+            "steps": [
+              {
+                "name": "Ben",
+                "step": 1,
+                "text": "Hi! What would you like to order?"
+              },
+              {
+                "name": "Anna",
+                "step": 2,
+                "text": "I'd like a cup of coffee, please."
+              }
+            ],
+            "title": "gvhjkhd",
+            "layout": "1-column",
+            "weight": "Bold",
+            "elements": [
+              {
+                "id": "block-1785842764112-owq1c4inp",
+                "type": "drag_drop",
+                "styles": {
+                  "minHeight": "153px",
+                  "blockWidth": "585px"
+                },
+                "content": {
+                  "pairs": [
+                    {
+                      "id": "pair-1",
+                      "source": "Apple",
+                      "target": "Fruit"
+                    },
+                    {
+                      "id": "pair-2",
+                      "source": "Carrot",
+                      "target": "Vegetable"
+                    }
+                  ],
+                  "question": "Drag the correct words to their destinations."
+                }
+              },
+              {
+                "id": "block-1785842771616-0o31hwfq8",
+                "type": "fill_blank",
+                "styles": {
+                  "top": "184px",
+                  "left": "-5px",
+                  "minHeight": "119px",
+                  "blockWidth": "590px"
+                },
+                "content": {
+                  "text": "The quick brown [fox] jumps over the lazy [dog].",
+                  "question": "Complete the sentence by filling in the blanks."
+                }
+              }
+            ],
+            "media_id": "",
+            "alignment": "Center",
+            "media_url": "",
+            "media_type": "",
+            "columnRatio": "50-50",
+            "quiz_options": [
+              "",
+              "",
+              "",
+              ""
+            ],
+            "quiz_question": "",
+            "quiz_correct_index": 0
+          },
+          "resolvedMedia": []
         }
       ]
     }
