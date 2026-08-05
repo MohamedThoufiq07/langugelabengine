@@ -102,15 +102,21 @@ getProgress() {
     const progress =
         this.engineState.getProgress();
 
-    const activity =
-        experience.getActivity(activityIndex);
-console.log({
-    experience,
-    activityIndex,
-    screenIndex,
-    activity,
-    progress
-});
+    // Calculate total screens and current global screen across all activities
+    let totalScreens = 0;
+    let cumulativeScreenIndex = 0;
+
+    for (let i = 0; i < experience.totalActivities; i++) {
+        const act = experience.getActivity(i);
+        if (act && act.screens) {
+            totalScreens += act.screens.length;
+            if (i < activityIndex) {
+                cumulativeScreenIndex += act.screens.length;
+            }
+        }
+    }
+
+    const currentScreen = cumulativeScreenIndex + screenIndex + 1;
 
     return {
 
@@ -118,12 +124,12 @@ console.log({
 
         totalActivities: experience.totalActivities,
 
-        currentScreen: screenIndex + 1,
+        currentScreen: currentScreen,
 
-        totalScreens: activity.screens.length,
+        totalScreens: totalScreens,
 
         percentage: Math.round(
-            ((screenIndex + 1) / activity.screens.length) * 100
+            (currentScreen / totalScreens) * 100
         ),
 
         score: progress.score,

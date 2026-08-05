@@ -172,6 +172,9 @@ body,
 #root{
     width:100%;
     height:100%;
+    margin:0;
+    padding:0;
+    overflow:hidden;
 }
 
 body{
@@ -181,7 +184,7 @@ body{
     line-height:1.6;
 
     color:var(--text-primary);
-    background:var(--background);
+    background:transparent;
 
     text-rendering:optimizeLegibility;
     -webkit-font-smoothing:antialiased;
@@ -336,11 +339,15 @@ ol{
 
 }
 
-.runtime-logo-mark{
+.runtime-logo-img{
 
-    width:26px;
+    width:100%;
 
-    height:26px;
+    height:100%;
+
+    object-fit:contain;
+
+    border-radius:16px;
 
 }
 
@@ -1022,22 +1029,23 @@ ol{
     display:flex;
     flex-direction:column;
 
-    gap:32px;
+    gap:20px;
 
-    padding:32px;
+    padding: 1.25rem 1.5rem;
 
     background:var(--surface);
 
     border:1px solid var(--border);
 
-    border-radius:var(--radius-md);
+    border-radius: 18px;
 
-    box-shadow:var(--shadow-sm);
+    box-shadow:
+        0 4px 15px rgba(0,0,0,.04),
+        0 1px 3px rgba(0,0,0,.03);
 
     transition:
         border-color var(--transition-normal),
-        box-shadow var(--transition-normal),
-        transform var(--transition-normal);
+        box-shadow var(--transition-normal);
 
 }
 
@@ -1046,8 +1054,6 @@ ol{
     border-color:var(--border-hover);
 
     box-shadow:var(--shadow-md);
-
-    transform:translateY(-2px);
 
 }
 
@@ -1085,6 +1091,43 @@ ol{
     width:100%;
 
 }
+
+/* ==========================================
+   Free-form Canvas (mirrors CMS editor canvas)
+   Elements inside are absolutely positioned
+   to match the top/left set in the studio.
+========================================== */
+
+.elab-canvas {
+    position: relative;
+    width: 100%;
+    /* minHeight is set inline by LayoutEngine */
+}
+
+/* ==========================================
+   Vertical Blocks Layout
+   Simple vertical block spacing when step tracks are disabled.
+========================================== */
+
+.elab-block-row {
+    width: 100%;
+    margin-bottom: 1.5rem;
+}
+
+.elab-block-row:last-child {
+    margin-bottom: 0;
+}
+
+/* Unsupported block fallback */
+.elab-unsupported-block {
+    padding: 1rem 1.25rem;
+    border-radius: 12px;
+    background: #fff8f8;
+    border: 1.5px dashed #fca5a5;
+    color: #b91c1c;
+    font-size: 14px;
+}
+
 
 .elab-one-column{
 
@@ -1444,6 +1487,75 @@ ol{
     overflow:hidden;
     background:#F1F5F9;
     box-shadow:0 6px 20px rgba(0,0,0,.06);
+    position: relative;
+}
+
+.video-overlay-banner {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.75);
+    color: #fff;
+    padding: 8px 12px;
+    font-size: 13px;
+    text-align: center;
+    font-weight: 500;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    backdrop-filter: blur(4px);
+    pointer-events: none;
+}
+
+.video-play-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.25);
+    transition: background 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    border-radius: 16px;
+}
+
+.video-play-overlay:hover {
+    background: rgba(0, 0, 0, 0.35);
+}
+
+.video-play-btn {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--c-video), color-mix(in srgb, var(--c-video) 65%, white));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 24px color-mix(in srgb, var(--c-video) 50%, transparent);
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    font-size: 24px;
+    border: none;
+    cursor: pointer;
+}
+
+.video-play-btn svg {
+    width: 28px;
+    height: 28px;
+    fill: currentColor;
+    margin-left: 4px; /* visually centering the triangle play icon */
+}
+
+.video-play-overlay:hover .video-play-btn {
+    transform: scale(1.12);
+    box-shadow: 0 12px 28px color-mix(in srgb, var(--c-video) 60%, transparent);
+}
+
+.video-play-overlay:active .video-play-btn {
+    transform: scale(0.94);
 }
 
 .elab-media-frame img,
@@ -1660,17 +1772,7 @@ ol{
     line-height:1.7;
 }
 
-.elab-completion-hint{
-    margin-top:24px;
-    text-align:center;
-    font-size:14px;
-    font-weight:600;
-    color:var(--text-secondary);
-    background:#F8FAFC;
-    border:1px dashed var(--border);
-    border-radius:12px;
-    padding:10px 16px;
-}
+
 
 .elab-input{
     width:100%;
@@ -2091,3 +2193,143 @@ ol{
     color:var(--text-muted);
 
 }
+
+/* ==========================================================
+   ScreenStepBar  (ssb-*)
+   Horizontal numbered step progress indicator.
+
+   Structure:
+     <nav.ssb-wrapper>
+       <div.ssb-track-row>          ← single flex row
+         <div.ssb-cell>             ← badge + label column
+           <div.ssb-badge>          ← numbered circle
+           <div.ssb-connector>      ← dotted line (flex sibling)
+           <div.ssb-label>          ← title below badge
+         </div>
+         … repeated …
+       </div>
+     </nav>
+
+   Key design decision: .ssb-connector is INSIDE .ssb-cell as a
+   flex sibling of the badge — not absolutely positioned — so it
+   grows to fill the space between badges naturally.
+========================================================== */
+
+/* ── Outer nav wrapper ── */
+.ssb-wrapper {
+    width: 100%;
+    padding: 4px 0 2px;
+    overflow: visible;
+}
+
+/* ── Single horizontal flex row containing all cells ── */
+.ssb-track-row {
+    display: flex;
+    align-items: center;       /* vertically center badges + connectors */
+    justify-content: center;
+    width: 100%;
+    padding: 0 4px;            /* tiny side padding so badge outlines aren't clipped */
+    box-sizing: border-box;
+}
+
+/*
+   ── One cell = badge + connector side by side ──
+   No label row — just a simple flex row.
+   Connector grows to fill the space between badges.
+*/
+.ssb-cell {
+    display: flex;
+    align-items: center;
+    flex: 1;           /* cells grow equally */
+    min-width: 36px;
+}
+
+/* Last cell: only the badge, no connector, no flex growth */
+.ssb-cell:last-child {
+    flex: 0 0 auto;
+}
+
+/* ── Badge ── */
+.ssb-badge {
+    flex-shrink: 0;
+
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    background: var(--ssb-color, var(--primary));
+    box-shadow: 0 4px 14px var(--ssb-shadow, rgba(99,102,241,0.30));
+    flex-shrink: 0;
+    position: relative;
+    z-index: 2;
+    transition:
+        transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+        box-shadow 0.2s ease;
+    outline: 3px solid transparent;
+    outline-offset: 3px;
+    box-sizing: border-box;
+}
+
+.ssb-badge--active {
+    transform: scale(1.12);
+    outline-color: var(--ssb-color, var(--primary));
+    box-shadow:
+        0 4px 14px var(--ssb-shadow, rgba(99,102,241,0.30)),
+        0 0 0 5px color-mix(in srgb, var(--ssb-color, var(--primary)) 18%, transparent);
+}
+
+.ssb-badge--complete {
+    opacity: 0.88;
+}
+
+/* ── Checkmark SVG inside completed badge ── */
+.ssb-check {
+    width: 18px;
+    height: 18px;
+    stroke: #fff;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+}
+
+/* ── Connector — flex sibling of badge, grows to fill gap ── */
+.ssb-connector {
+    flex: 1;
+    height: 2px;
+    background: repeating-linear-gradient(
+        to right,
+        #cbd5e1 0px,
+        #cbd5e1 5px,
+        transparent 5px,
+        transparent 11px
+    );
+}
+
+.ssb-connector--done {
+    background: repeating-linear-gradient(
+        to right,
+        var(--primary) 0px,
+        var(--primary) 5px,
+        transparent 5px,
+        transparent 11px
+    );
+    opacity: 0.55;
+}
+
+/* ── Divider between step bar and block content ── */
+.ssb-divider {
+    width: 100%;
+    height: 1px;
+    background: var(--border);
+    margin: 0.5rem 0 0.875rem;
+    border-radius: 999px;
+    opacity: 0.45;
+}
+

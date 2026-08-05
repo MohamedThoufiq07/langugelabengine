@@ -100,6 +100,23 @@ class NavigationEngine {
 
             this.engineState.setCurrentScreen(current - 1);
 
+            return this.getCurrentScreen();
+
+        }
+
+        const activityIndex =
+            this.engineState.getCurrentActivityIndex();
+
+        if (activityIndex > 0) {
+
+            this.engineState.setCurrentActivity(activityIndex - 1);
+
+            const prevActivity = this.getCurrentActivity();
+
+            this.engineState.setCurrentScreen(prevActivity.screens.length - 1);
+
+            return this.getCurrentScreen();
+
         }
 
         return this.getCurrentScreen();

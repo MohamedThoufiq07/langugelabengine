@@ -1,11 +1,18 @@
-/* BlockCard styling overrides */
-.block-card, .elab-block-card {
-  width: 100%;
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 1.5rem;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
-  border: 1px solid #f1f5f9;
-  box-sizing: border-box;
-  margin-bottom: 1.5rem;
+/* ==========================================================
+   BlockCard — individual block wrapper
+   Spacing between blocks is handled by the stepper rows
+   in LayoutEngine; no margin-bottom needed here.
+========================================================== */
+
+.block-card,
+.elab-block-card {
+    width: 100%;
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 1.25rem 1.5rem;
+    box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.04),
+        0 1px 3px rgba(0, 0, 0, 0.03);
+    border: 1px solid #f1f5f9;
+    box-sizing: border-box;
 }

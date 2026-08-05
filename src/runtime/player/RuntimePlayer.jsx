@@ -116,6 +116,15 @@ function RuntimePlayer({
 
     const progress = runtime.getProgress();
 
+    // Flatten ALL screens from ALL activities into one list for the global step bar.
+    // This gives us screen 1 through N across every activity.
+    const experience = runtime.getExperience();
+    const allScreens = (experience?.activities || []).flatMap(
+        activity => activity.screens || []
+    );
+    // progress.currentScreen is 1-based, convert to 0-based index
+    const currentScreenIndex = (progress.currentScreen ?? 1) - 1;
+
     const Renderer = registry.getRenderer("screen");
 
     const theme = pickThemeForScreen(screen, progress.currentScreen).vars;
@@ -149,6 +158,10 @@ function RuntimePlayer({
                 screen={screen}
 
                 onComplete={handleComplete}
+
+                activityScreens={allScreens}
+
+                currentScreenIndex={currentScreenIndex}
 
             />
 

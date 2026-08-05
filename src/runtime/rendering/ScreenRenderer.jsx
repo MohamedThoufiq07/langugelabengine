@@ -17,14 +17,17 @@ const GATING_TYPES = new Set([
     "reading_passage",
     "writing_prompt",
     "dictation",
-    "grammar_correction"
+    "grammar_correction",
+    "video"
 
 ]);
 
 function ScreenRenderer({
 
     screen,
-    onComplete
+    onComplete,
+    activityScreens,
+    currentScreenIndex
 
 }) {
 
@@ -94,27 +97,11 @@ function ScreenRenderer({
 
         <ScreenCompletionContext.Provider value={{ reportAnswered }}>
 
-            <div
-                style={{
-                    padding: "8px"
-                }}
-            >
-
-                <LayoutEngine
-                    screen={screen}
-                />
-
-                {requiredIds.length > 0 && remaining > 0 && (
-
-                    <div className="elab-completion-hint">
-
-                        Finish {remaining} more {remaining === 1 ? "activity" : "activities"} on this screen to continue
-
-                    </div>
-
-                )}
-
-            </div>
+            <LayoutEngine
+                screen={screen}
+                activityScreens={activityScreens}
+                currentScreenIndex={currentScreenIndex}
+            />
 
         </ScreenCompletionContext.Provider>
 

@@ -1,35 +1,35 @@
-import OneColumn from "./layout/OneColumn";
 import ElementRenderer from "./ElementRenderer";
+import ScreenStepBar from "./ScreenStepBar";
 
-// The CMS only authors a single-column screen now (the layout/column-ratio
-// picker and left/right slots were removed) — every screen is just a
-// straight list of blocks, so this always renders one column.
-function LayoutEngine({ screen }) {
+function LayoutEngine({ screen, activityScreens = [], currentScreenIndex = 0 }) {
 
     const { elements } = screen.content;
+    const list = elements || [];
 
     return (
+        <div className="scene-backdrop-content">
 
-        <OneColumn>
+            {/* ── Horizontal step progress bar at the top ── */}
+            <ScreenStepBar
+                screens={activityScreens}
+                currentIndex={currentScreenIndex}
+            />
 
-            {
+            {/* ── Divider below step bar ── */}
+            {activityScreens.length > 1 && (
+                <div className="ssb-divider" />
+            )}
 
-                (elements || []).map(element => (
+            {/* ── Blocks stacked cleanly, no step numbers ── */}
+            <div className="elab-stage">
+                {list.map((element) => (
+                    <div key={element.id} className="elab-block-row">
+                        <ElementRenderer element={element} />
+                    </div>
+                ))}
+            </div>
 
-                    <ElementRenderer
-
-                        key={element.id}
-
-                        element={element}
-
-                    />
-
-                ))
-
-            }
-
-        </OneColumn>
-
+        </div>
     );
 
 }

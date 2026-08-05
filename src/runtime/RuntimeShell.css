@@ -8,6 +8,10 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  background-color: #ffffff;
+  background: transparent;
   box-sizing: border-box;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
