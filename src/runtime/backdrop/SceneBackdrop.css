@@ -20,14 +20,13 @@
 .scene-content-area {
   position: absolute;
   inset: 0;
-  padding: 2rem 2rem 8rem 2rem;
+  padding: 2rem 2rem 8rem 8rem; /* Increased left padding to shift content slightly to the right */
   overflow-y: auto;
   overflow-x: hidden;
   box-sizing: border-box;
   z-index: 5;
   display: flex;
-  justify-content: flex-end; /* Shift main container towards the right */
-  padding-right: calc(10% + 2rem); /* Keep offset from the absolute right edge */
+  justify-content: center; /* Center the main container */
   align-items: flex-start;
 }
 

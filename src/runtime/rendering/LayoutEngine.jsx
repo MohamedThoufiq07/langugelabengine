@@ -7,7 +7,7 @@ function LayoutEngine({ screen, activityScreens = [], currentScreenIndex = 0 }) 
     const list = elements || [];
 
     return (
-        <div className="scene-backdrop-content">
+        <div className="layout-engine-container">
 
             {/* ── Horizontal step progress bar at the top ── */}
             <ScreenStepBar
@@ -15,18 +15,15 @@ function LayoutEngine({ screen, activityScreens = [], currentScreenIndex = 0 }) 
                 currentIndex={currentScreenIndex}
             />
 
-            {/* ── Divider below step bar ── */}
-            {activityScreens.length > 1 && (
-                <div className="ssb-divider" />
-            )}
-
             {/* ── Blocks stacked cleanly, no step numbers ── */}
-            <div className="elab-stage">
-                {list.map((element) => (
-                    <div key={element.id} className="elab-block-row">
-                        <ElementRenderer element={element} />
-                    </div>
-                ))}
+            <div className="scene-backdrop-content">
+                <div className="elab-stage">
+                    {list.map((element) => (
+                        <div key={element.id} className="elab-block-row">
+                            <ElementRenderer element={element} />
+                        </div>
+                    ))}
+                </div>
             </div>
 
         </div>

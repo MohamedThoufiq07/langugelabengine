@@ -43,6 +43,7 @@ function ScreenStepBar({ screens = [], currentIndex = 0 }) {
                                     "ssb-badge",
                                     isActive   ? "ssb-badge--active"   : "",
                                     isComplete ? "ssb-badge--complete" : "",
+                                    isLast     ? "ssb-badge--last"     : "",
                                 ].filter(Boolean).join(" ")}
                                 style={{
                                     "--ssb-color":  color.bg,
@@ -51,6 +52,9 @@ function ScreenStepBar({ screens = [], currentIndex = 0 }) {
                                 aria-current={isActive ? "step" : undefined}
                                 title={screen.title || `Screen ${idx + 1}`}
                             >
+                                {isLast && (
+                                    <span className="ssb-star-badge">⭐</span>
+                                )}
                                 {isComplete ? (
                                     <svg className="ssb-check" viewBox="0 0 24 24" aria-hidden="true">
                                         <path d="M5 13l4 4L19 7" />
@@ -60,13 +64,16 @@ function ScreenStepBar({ screens = [], currentIndex = 0 }) {
                                 )}
                             </div>
 
-                            {/* Dotted connector between badges (not after last) */}
+                            {/* Solid connector between badges (not after last) */}
                             {!isLast && (
                                 <div
                                     className={[
                                         "ssb-connector",
                                         isComplete ? "ssb-connector--done" : ""
                                     ].filter(Boolean).join(" ")}
+                                    style={{
+                                        "--ssb-connector-color": color.bg
+                                    }}
                                     aria-hidden="true"
                                 />
                             )}
