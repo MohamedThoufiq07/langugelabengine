@@ -59,70 +59,48 @@ function FlashcardBlock({ block }) {
 
         <BlockCard type="flashcard">
 
-            <BlockHeader
+            <div className="elab-block-two-column">
+                <div className="elab-block-interactive-side">
+                    <BlockHeader
+                        type="flashcard"
+                        title="FLASHCARDS"
+                        subtitle="Tap the card to flip it"
+                    />
 
-                type="flashcard"
-
-                title="Flashcards"
-
-                subtitle="Tap the card to flip it"
-
-            />
-
-            <div className="elab-flashcard-scene">
-
-                <div
-
-                    className={`elab-flashcard ${flipped ? "is-flipped" : ""}`}
-
-                    onClick={() =>
-
-                        setFlipped(!flipped)
-
-                    }
-
-                >
-
-                    <div className="elab-flashcard-face front">
-
-                        {currentCard.front}
-
+                    <div className="elab-flashcard-scene">
+                        <div
+                            className={`elab-flashcard ${flipped ? "is-flipped" : ""}`}
+                            onClick={() => setFlipped(!flipped)}
+                        >
+                            <div className="elab-flashcard-face front">
+                                {currentCard.front}
+                            </div>
+                            <div className="elab-flashcard-face back">
+                                {currentCard.back}
+                            </div>
+                        </div>
                     </div>
 
-                    <div className="elab-flashcard-face back">
-
-                        {currentCard.back}
-
+                    <div className="elab-flashcard-nav">
+                        <button className="elab-btn-icon secondary" onClick={previousCard}>
+                            ◀ Previous
+                        </button>
+                        <span className="elab-flashcard-counter">
+                            📖 {currentIndex + 1} / {cards.length}
+                        </span>
+                        <button className="elab-btn-icon" onClick={nextCard}>
+                            Next ▶
+                        </button>
                     </div>
-
                 </div>
 
-            </div>
-
-            <div className="elab-flashcard-nav">
-
-                <button className="elab-btn-icon secondary" onClick={previousCard}>
-
-                    ◀ Previous
-
-                </button>
-
-                <span className="elab-flashcard-counter">
-
-                    {currentIndex + 1}
-
-                    {" / "}
-
-                    {cards.length}
-
-                </span>
-
-                <button className="elab-btn-icon" onClick={nextCard}>
-
-                    Next ▶
-
-                </button>
-
+                <div className="elab-block-illustration-side">
+                    <img 
+                        src="/assets/flashcard.jpeg" 
+                        alt="Flashcards Illustration" 
+                        className="elab-block-illustration-image elab-crop-flashcard"
+                    />
+                </div>
             </div>
 
         </BlockCard>

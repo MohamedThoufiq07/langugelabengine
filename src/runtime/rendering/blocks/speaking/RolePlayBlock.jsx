@@ -56,99 +56,58 @@ function RolePlayBlock({ block }) {
 
         <BlockCard type="roleplay">
 
-            <BlockHeader
-
-                type="roleplay"
-
-                title="Role Play"
-
-                subtitle={character}
-
-            />
-
-            <p className="elab-plain-text" style={{ fontSize: "17px", fontStyle: "italic" }}>
-
-                "{dialogue}"
-
-            </p>
-
-            {
-
-                referenceAudio &&
-
-                <div className="elab-media-frame">
-
-                    <audio
-
-                        controls
-
-                        src={referenceAudio}
-
+            <div className="elab-block-two-column">
+                <div className="elab-block-interactive-side">
+                    <BlockHeader
+                        type="roleplay"
+                        title="ROLE PLAY"
+                        subtitle={character}
                     />
 
-                </div>
+                    <p className="elab-plain-text" style={{ fontSize: "17px", fontStyle: "italic" }}>
+                        "{dialogue}"
+                    </p>
 
-            }
+                    {referenceAudio && (
+                        <div className="elab-media-frame">
+                            <audio controls src={referenceAudio} />
+                        </div>
+                    )}
 
-            {
+                    {error && (
+                        <div className="elab-feedback error">{error}</div>
+                    )}
 
-                error &&
-
-                <div className="elab-feedback error">{error}</div>
-
-            }
-
-            <div className="elab-chip-row">
-
-                {
-
-                    !recording ? (
-
-                        <button className="elab-btn-icon" onClick={startRecording}>
-
-                            🎤 Record My Reply
-
-                        </button>
-
-                    ) : (
-
-                        <button className="elab-btn-icon danger" onClick={stopRecording}>
-
-                            ⏹ Stop Recording
-
-                        </button>
-
-                    )
-
-                }
-
-            </div>
-
-            {
-
-                audio && (
-
-                    <div className="elab-media-frame">
-
-                        <audio
-
-                            controls
-
-                            src={audio}
-
-                        />
-
-                        <p className="elab-caption" style={{ padding: "10px 14px" }}>
-
-                            My Response
-
-                        </p>
-
+                    <div className="elab-chip-row">
+                        {!recording ? (
+                            <button className="elab-btn-icon" onClick={startRecording}>
+                                🎤 Record My Reply
+                            </button>
+                        ) : (
+                            <button className="elab-btn-icon danger" onClick={stopRecording}>
+                                ⏹ Stop Recording
+                            </button>
+                        )}
                     </div>
 
-                )
+                    {audio && (
+                        <div className="elab-media-frame">
+                            <audio controls src={audio} />
+                            <p className="elab-caption" style={{ padding: "10px 14px" }}>
+                                My Response
+                            </p>
+                        </div>
+                    )}
+                </div>
 
-            }
+                <div className="elab-block-illustration-side">
+                    <img 
+                        src="/assets/role and voice .jpeg" 
+                        alt="Role Play Illustration" 
+                        className="elab-block-illustration-image elab-crop-roleplay"
+                    />
+                </div>
+            </div>
 
         </BlockCard>
 

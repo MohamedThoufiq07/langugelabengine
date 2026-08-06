@@ -124,78 +124,44 @@ function MemoryBlock({ block }) {
 
         <BlockCard type="memory">
 
-            <BlockHeader
+            <div className="elab-block-two-column">
+                <div className="elab-block-interactive-side">
+                    <BlockHeader
+                        type="memory"
+                        title="Memory Game"
+                        subtitle="Find the matching pairs"
+                    />
 
-                type="memory"
+                    <div
+                        style={{
+                            display: "grid",
+                            gridTemplateColumns: "repeat(3, 1fr)",
+                            gap: 12
+                        }}
+                    >
+                        {cards.map((card, index) => (
+                            <button
+                                key={index}
+                                onClick={() => flipCard(index)}
+                                className={`elab-grid-cell ${card.matched ? "is-matched" : ""}`}
+                                style={{
+                                    height: 72,
+                                    fontSize: "14px"
+                                }}
+                            >
+                                {card.flipped || card.matched ? card.text : "?"}
+                            </button>
+                        ))}
+                    </div>
+                </div>
 
-                title="Memory Game"
-
-                subtitle="Find the matching pairs"
-
-            />
-
-            <div
-
-                style={{
-
-                    display: "grid",
-
-                    gridTemplateColumns: "repeat(4, 1fr)",
-
-                    gap: 12
-
-                }}
-
-            >
-
-                {
-
-                    cards.map((card, index) =>
-
-                        <button
-
-                            key={index}
-
-                            onClick={() =>
-
-                                flipCard(index)
-
-                            }
-
-                            className={`elab-grid-cell ${card.matched ? "is-matched" : ""}`}
-
-                            style={{
-
-                                height: 90,
-
-                                fontSize: "15px"
-
-                            }}
-
-                        >
-
-                            {
-
-                                card.flipped ||
-
-                                card.matched
-
-                                    ?
-
-                                card.text
-
-                                    :
-
-                                "?"
-
-                            }
-
-                        </button>
-
-                    )
-
-                }
-
+                <div className="elab-block-illustration-side">
+                    <img 
+                        src="/assets/reading para and memory game.jpeg" 
+                        alt="Memory Game Illustration" 
+                        className="elab-block-illustration-image elab-crop-memory"
+                    />
+                </div>
             </div>
 
         </BlockCard>

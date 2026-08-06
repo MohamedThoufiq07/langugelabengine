@@ -2346,3 +2346,91 @@ ol{
 .ssb-divider {
     display: none;
 }
+
+/* ── Redesigned Block Elements - Two-Column Layout ── */
+.elab-block-two-column {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    width: 100%;
+}
+
+.elab-block-interactive-side {
+    flex: 1.25;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.elab-block-illustration-side {
+    flex: 0.75;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #ffffff;
+    border: 2px solid #f1f5f9;
+    border-radius: 24px;
+    padding: 0;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+    overflow: hidden;
+    height: 300px;
+    position: relative;
+}
+
+.elab-block-illustration-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Specific crops for each template type to extract characters */
+.elab-crop-flashcard {
+    object-position: 84% 50%;
+    transform: scale(1.6);
+}
+
+.elab-crop-roleplay {
+    object-position: 82% 28%;
+    transform: scale(2.2);
+}
+
+.elab-crop-voice {
+    object-position: 78% 78%;
+    transform: scale(2.2);
+}
+
+.elab-crop-reading {
+    object-position: 80% 26%;
+    transform: scale(2.3);
+}
+
+.elab-crop-memory {
+    object-position: 80% 72%;
+    transform: scale(2.1);
+}
+
+.elab-crop-sequence {
+    object-position: 85% 32%;
+    transform: scale(1.9);
+}
+
+.elab-crop-audio {
+    object-position: 82% 24%;
+    transform: scale(2.2);
+}
+
+.elab-crop-dictation {
+    object-position: 82% 76%;
+    transform: scale(2.2);
+}
+
+/* Responsive adjustment */
+@media (max-width: 768px) {
+    .elab-block-two-column {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .elab-block-illustration-side {
+        height: 200px;
+    }
+}

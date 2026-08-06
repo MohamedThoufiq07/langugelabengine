@@ -28,47 +28,44 @@ function ReadingBlock({ block }) {
 
         <BlockCard type="reading_passage">
 
-            <BlockHeader
+            <div className="elab-block-two-column">
+                <div className="elab-block-interactive-side">
+                    <BlockHeader
+                        type="reading_passage"
+                        title={title || "Reading Passage"}
+                        subtitle={question || "Read the passage carefully"}
+                    />
 
-                type="reading_passage"
+                    <p
+                        style={{
+                            fontSize: "17px",
+                            color: "#374151",
+                            lineHeight: 1.8,
+                            margin: 0,
+                            whiteSpace: "pre-wrap"
+                        }}
+                    >
+                        {passage}
+                    </p>
 
-                title={title || "Reading Passage"}
+                    <button
+                        className="elab-btn-icon"
+                        disabled={confirmed}
+                        onClick={handleConfirm}
+                        style={{ marginTop: "12px" }}
+                    >
+                        {confirmed ? "✔ Marked as read" : "I've finished reading"}
+                    </button>
+                </div>
 
-                subtitle={question || "Read the passage carefully"}
-
-            />
-
-            <p
-
-                style={{
-                    fontSize: "17px",
-                    color: "#374151",
-                    lineHeight: 1.8,
-                    margin: 0,
-                    whiteSpace: "pre-wrap"
-                }}
-
-            >
-
-                {passage}
-
-            </p>
-
-            <button
-
-                className="elab-btn-icon"
-
-                disabled={confirmed}
-
-                onClick={handleConfirm}
-
-                style={{ marginTop: "12px" }}
-
-            >
-
-                {confirmed ? "Marked as read" : "I've finished reading"}
-
-            </button>
+                <div className="elab-block-illustration-side">
+                    <img 
+                        src="/assets/reading para and memory game.jpeg" 
+                        alt="Reading Passage Illustration" 
+                        className="elab-block-illustration-image elab-crop-reading"
+                    />
+                </div>
+            </div>
 
         </BlockCard>
 

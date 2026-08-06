@@ -108,143 +108,82 @@ function VoiceRecorderBlock({ block }) {
 
         <BlockCard type="voice">
 
-            <BlockHeader
-
-                type="voice"
-
-                title="Voice Recorder"
-
-                subtitle={prompt}
-
-            />
-
-            {
-
-                recording &&
-
-                <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-
-                    <span className="elab-recording-dot" />
-
-                    <span className="elab-plain-text">Recording{paused ? " (paused)" : ""}...</span>
-
-                </div>
-
-            }
-
-            {
-
-                error &&
-
-                <div className="elab-feedback error">{error}</div>
-
-            }
-
-            <div className="elab-chip-row">
-
-                {
-
-                    !recording &&
-
-                    <button className="elab-btn-icon" onClick={startRecording}>
-
-                        🎤 Start Recording
-
-                    </button>
-
-                }
-
-                {
-
-                    recording && !paused &&
-
-                    <button className="elab-btn-icon secondary" onClick={pauseRecording}>
-
-                        ⏸ Pause
-
-                    </button>
-
-                }
-
-                {
-
-                    recording && paused &&
-
-                    <button className="elab-btn-icon secondary" onClick={resumeRecording}>
-
-                        ▶ Resume
-
-                    </button>
-
-                }
-
-                {
-
-                    recording &&
-
-                    <button className="elab-btn-icon danger" onClick={stopRecording}>
-
-                        ⏹ Stop
-                    </button>
-
-                }
-
-            </div>
-
-            {
-
-                audio &&
-
-                <div className="elab-media-frame">
-
-                    <audio
-
-                        controls
-
-                        src={audio}
-
+            <div className="elab-block-two-column">
+                <div className="elab-block-interactive-side">
+                    <BlockHeader
+                        type="voice"
+                        title="VOICE RECORDER"
+                        subtitle={prompt}
                     />
 
-                    <p className="elab-caption" style={{ padding: "10px 14px" }}>
+                    {recording && (
+                        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                            <span className="elab-recording-dot" />
+                            <span className="elab-plain-text">Recording{paused ? " (paused)" : ""}...</span>
+                        </div>
+                    )}
 
-                        Duration:
+                    {error && (
+                        <div className="elab-feedback error">{error}</div>
+                    )}
 
-                        {" "}
+                    <div className="elab-chip-row">
+                        {!recording && (
+                            <button className="elab-btn-icon" onClick={startRecording}>
+                                🎤 Start Recording
+                            </button>
+                        )}
 
-                        {Math.round(duration / 1000)}
+                        {recording && !paused && (
+                            <button className="elab-btn-icon secondary" onClick={pauseRecording}>
+                                ⏸ Pause
+                            </button>
+                        )}
 
-                        sec
+                        {recording && paused && (
+                            <button className="elab-btn-icon secondary" onClick={resumeRecording}>
+                                ▶ Resume
+                            </button>
+                        )}
 
-                    </p>
+                        {recording && (
+                            <button className="elab-btn-icon danger" onClick={stopRecording}>
+                                ⏹ Stop
+                            </button>
+                        )}
+                    </div>
 
+                    {audio && (
+                        <div className="elab-media-frame">
+                            <audio controls src={audio} />
+                            <p className="elab-caption" style={{ padding: "10px 14px" }}>
+                                Duration: {Math.round(duration / 1000)} sec
+                            </p>
+                        </div>
+                    )}
+
+                    {analyzing && (
+                        <div className="elab-feedback" style={{ background: "#F1F5F9", color: "var(--text-secondary)" }}>
+                            <span className="elab-loading-spinner" style={{ width: 16, height: 16, borderWidth: 2 }} />
+                            Transcribing your recording…
+                        </div>
+                    )}
+
+                    {heardText && (
+                        <div className="elab-feedback" style={{ background: "#F1F5F9", color: "var(--text-secondary)" }}>
+                            🗣️ We heard: "{heardText}"
+                        </div>
+                    )}
                 </div>
 
-            }
-
-            {
-
-                analyzing &&
-
-                <div className="elab-feedback" style={{ background: "#F1F5F9", color: "var(--text-secondary)" }}>
-
-                    <span className="elab-loading-spinner" style={{ width: 16, height: 16, borderWidth: 2 }} />
-                    Transcribing your recording…
-
+                <div className="elab-block-illustration-side">
+                    <img 
+                        src="/assets/role and voice .jpeg" 
+                        alt="Voice Recorder Illustration" 
+                        className="elab-block-illustration-image elab-crop-voice"
+                    />
                 </div>
-
-            }
-
-            {
-
-                heardText &&
-
-                <div className="elab-feedback" style={{ background: "#F1F5F9", color: "var(--text-secondary)" }}>
-
-                    🗣️ We heard: "{heardText}"
-
-                </div>
-
-            }
+            </div>
 
         </BlockCard>
 

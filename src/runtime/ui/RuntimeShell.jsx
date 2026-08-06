@@ -10,6 +10,9 @@ const BACKDROP_STYLE = {
 };
 
 
+// Set this to true to enable proctoring warnings/blocking and page protection features
+const PROCTORING_ENABLED = false;
+
 function RuntimeShell({
     runtime,
     progress,
@@ -43,6 +46,8 @@ function RuntimeShell({
 
     // ── Tab Switch / Focus Detection ──
     useEffect(() => {
+        if (!PROCTORING_ENABLED) return;
+
         const handleTabSwitch = () => {
             if (isBlocked) return;
 
@@ -70,6 +75,8 @@ function RuntimeShell({
 
     // ── Content Protection ──
     useEffect(() => {
+        if (!PROCTORING_ENABLED) return;
+
         const handleKeyDown = (e) => {
             // Block Ctrl+C, Ctrl+X, Ctrl+A, Ctrl+P, F12
             if (
@@ -126,10 +133,10 @@ function RuntimeShell({
             className="runtime-shell"
             data-grade-band={gradeBand}
             style={theme}
-            onContextMenu={(e) => e.preventDefault()} // block right-click
-            onCopy={(e) => e.preventDefault()} // block copying
-            onCut={(e) => e.preventDefault()} // block cutting
-            onDragStart={(e) => e.preventDefault()} // block dragging content
+            onContextMenu={PROCTORING_ENABLED ? (e) => e.preventDefault() : undefined} // block right-click
+            onCopy={PROCTORING_ENABLED ? (e) => e.preventDefault() : undefined} // block copying
+            onCut={PROCTORING_ENABLED ? (e) => e.preventDefault() : undefined} // block cutting
+            onDragStart={PROCTORING_ENABLED ? (e) => e.preventDefault() : undefined} // block dragging content
         >
             <main className="scene-backdrop" style={BACKDROP_STYLE}>
                 {/* Scrollable content area */}
