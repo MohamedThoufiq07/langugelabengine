@@ -1,7 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import BlockCard from "../../../ui/components/BlockCard";
-import BlockHeader from "../../../ui/components/BlockHeader";
 import { useScreenCompletion } from "../../../screen/ScreenCompletionContext";
+
+import iconDashboard from "../../../samples/assets/images/icon_dashboard.png";
+import iconStudio from "../../../samples/assets/images/icon_studio.png";
+import iconTeacher from "../../../samples/assets/images/icon_teacher.png";
+import iconLibrary from "../../../samples/assets/images/icon_library.png";
+import boyMagnifyingImg from "../../../samples/assets/images/reading_boy_magnifying.png";
 
 const DIRECTIONS = [
 
@@ -11,6 +16,38 @@ const DIRECTIONS = [
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+const WORD_CONFIGS = {
+    DASHBOARD: {
+        icon: iconDashboard,
+        bg: "#E8F0FE",
+        color: "#1A73E8",
+        borderColor: "#D2E3FC"
+    },
+    STUDIO: {
+        icon: iconStudio,
+        bg: "#FCE8E6",
+        color: "#C5221F",
+        borderColor: "#FAD2CF"
+    },
+    TEACHER: {
+        icon: iconTeacher,
+        bg: "#E6F4EA",
+        color: "#137333",
+        borderColor: "#CEEAD6"
+    }
+};
+
+function getWordConfig(word, fallbackIcon) {
+    const clean = (word || "").toUpperCase().replace(/[^A-Z]/g, "");
+    if (WORD_CONFIGS[clean]) return WORD_CONFIGS[clean];
+    return {
+        icon: fallbackIcon,
+        bg: "#F1F5F9",
+        color: "#475569",
+        borderColor: "#E2E8F0"
+    };
+}
 
 function cleanWord(word) {
 
@@ -284,109 +321,107 @@ function WordSearchBlock({ block }) {
 
         <BlockCard type="wordsearch">
 
-            <BlockHeader
+            <div className="wordsearch-custom-card-content">
+                <div className="wordsearch-custom-interactive">
+                    <div className="wordsearch-header">
+                        <div className="wordsearch-badge">abc</div>
+                        <div className="wordsearch-header-info">
+                            <h3 className="wordsearch-header-title">WORD SEARCH</h3>
+                            <p className="wordsearch-header-subtitle">
+                                {question || "Find the hidden words in the grid."}
+                            </p>
+                        </div>
+                    </div>
 
-                type="wordsearch"
+                    <div
+                        className="wordsearch-grid-container"
+                        style={{
+                            gridTemplateColumns: `repeat(${size}, 1fr)`,
+                            maxWidth: `${size * 48}px`
+                        }}
+                    >
+                        {
+                            grid.map((row, rowIndex) =>
+                                row.map((cell, colIndex) => {
 
-                title="Word Search"
+                                    const key = cellKey(rowIndex, colIndex);
 
-                subtitle={question || "Drag across letters to find each word"}
+                                    const isFound = foundCellKeys.has(key);
 
-            />
+                                    const isSelecting = selectedKeys.has(key);
 
-            <div
+                                    return (
 
-                style={{
+                                        <div
 
-                    display: "grid",
+                                            key={key}
 
-                    gridTemplateColumns: `repeat(${size}, 1fr)`,
+                                            data-row={rowIndex}
 
-                    gap: "6px",
+                                            data-col={colIndex}
 
-                    maxWidth: `${size * 44}px`
+                                            onMouseDown={() => startSelect(rowIndex, colIndex)}
 
-                }}
+                                            onMouseEnter={() => moveSelect(rowIndex, colIndex)}
 
-            >
+                                            onTouchStart={() => startSelect(rowIndex, colIndex)}
 
-                {
+                                            className={`wordsearch-grid-cell ${isFound ? "is-matched" : ""} ${isSelecting ? "is-selecting" : ""}`}
 
-                    grid.map((row, rowIndex) =>
+                                            style={{ aspectRatio: "1" }}
 
-                        row.map((cell, colIndex) => {
+                                        >
 
-                            const key = cellKey(rowIndex, colIndex);
+                                            {cell}
 
-                            const isFound = foundCellKeys.has(key);
+                                        </div>
 
-                            const isSelecting = selectedKeys.has(key);
+                                    );
 
-                            return (
+                                })
 
-                                <div
+                            )
+                        }
+                    </div>
 
-                                    key={key}
+                    <div className="wordsearch-pills-row">
+                        {
+                            words.map(word => {
+                                const isFound = foundWords.has(word);
+                                const config = getWordConfig(word, iconLibrary);
+                                return (
+                                    <span
+                                        key={word}
+                                        className={`wordsearch-pill ${isFound ? "is-found" : ""}`}
+                                        style={{
+                                            background: config.bg,
+                                            color: config.color,
+                                            borderColor: config.borderColor,
+                                            borderStyle: "solid"
+                                        }}
+                                    >
+                                        <img src={config.icon} className="wordsearch-pill-icon" alt={word} />
+                                        {word}
+                                    </span>
+                                );
+                            })
+                        }
+                    </div>
 
-                                    data-row={rowIndex}
+                    {allFound && (
+                        <div className="elab-feedback success" style={{ width: "100%", maxWidth: `${size * 48}px`, boxSizing: "border-box" }}>
+                            ✅ All words found!
+                        </div>
+                    )}
+                </div>
 
-                                    data-col={colIndex}
-
-                                    onMouseDown={() => startSelect(rowIndex, colIndex)}
-
-                                    onMouseEnter={() => moveSelect(rowIndex, colIndex)}
-
-                                    onTouchStart={() => startSelect(rowIndex, colIndex)}
-
-                                    className={`elab-grid-cell ${isFound ? "is-matched" : ""} ${isSelecting ? "is-selecting" : ""}`}
-
-                                    style={{ aspectRatio: "1", fontSize: "14px" }}
-
-                                >
-
-                                    {cell}
-
-                                </div>
-
-                            );
-
-                        })
-
-                    )
-
-                }
-
+                <div className="wordsearch-custom-illustration">
+                    <img 
+                        src={boyMagnifyingImg} 
+                        alt="Word Search Illustration" 
+                    />
+                </div>
             </div>
-
-            <div className="elab-chip-row" style={{ marginTop: "20px" }}>
-
-                {
-
-                    words.map(word => (
-
-                        <span
-
-                            key={word}
-
-                            className={`elab-chip is-static ${foundWords.has(word) ? "is-found" : ""}`}
-
-                        >
-
-                            {foundWords.has(word) ? "✓ " : ""}{word}
-
-                        </span>
-
-                    ))
-
-                }
-
-            </div>
-
-            {allFound && (
-
-                <div className="elab-feedback success">✅ All words found!</div>
-
-            )}
 
         </BlockCard>
 

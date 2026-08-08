@@ -2434,3 +2434,2463 @@ ol{
         height: 200px;
     }
 }
+
+/* Custom memory game elements */
+.elab-memory-container {
+    background: #F8F6FF;
+    border: 2px dashed #D6C2F9;
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.elab-memory-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    width: 100%;
+}
+
+.elab-memory-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 72px;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    user-select: none;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+}
+
+/* Unflipped (back) */
+.elab-memory-card.is-back {
+    background: #F5F1FF;
+    border: 2px dashed #B19BE4;
+    color: #7E5BE2;
+    font-size: 28px;
+}
+
+.elab-memory-card.is-back:hover {
+    background: #EDE8F5;
+    border-color: #9C82DF;
+}
+
+/* Flipped / Matched (front) */
+.elab-memory-card.is-front {
+    background: #FFFFFF;
+    border: 2px dashed #B19BE4;
+    color: #431F05;
+    font-size: 16px;
+    padding: 8px;
+    text-align: center;
+}
+
+/* Cycle front card border/bg colors to look colorful like the cutouts */
+.elab-memory-card.is-front.color-0 {
+    border-color: #FF8B9A;
+    background: #FFF5F6;
+    color: #D32F2F;
+}
+.elab-memory-card.is-front.color-1 {
+    border-color: #4092FF;
+    background: #F0F6FF;
+    color: #1976D2;
+}
+.elab-memory-card.is-front.color-2 {
+    border-color: #FFA825;
+    background: #FFFBF0;
+    color: #E65100;
+}
+.elab-memory-card.is-front.color-3 {
+    border-color: #9C82DF;
+    background: #F8F6FF;
+    color: #7E5BE2;
+}
+
+/* Float illustrations on block cards without separate boxes */
+.elab-block-illustration-side.elab-no-border-illustration {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* Custom Header Styling & Circular Icons */
+.elab-block-header {
+    border-bottom: none !important;
+    margin-bottom: 24px !important;
+    gap: 16px !important;
+    align-items: center;
+}
+
+.elab-block-title {
+    font-family: 'Poppins', 'Inter', sans-serif;
+    font-size: 26px !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.01em;
+    margin: 0 0 4px 0 !important;
+    text-transform: uppercase;
+}
+
+.elab-block-card[data-type="reading_passage"] .elab-block-title {
+    color: #1E6BFF !important;
+}
+
+.elab-block-card[data-type="flashcard"] .elab-block-title,
+.elab-block-card[data-type="memory"] .elab-block-title {
+    color: #7E5BE2 !important;
+}
+
+.elab-block-subtitle {
+    font-size: 15px !important;
+    color: #4B5563 !important;
+    margin: 0 !important;
+    font-weight: 500;
+}
+
+.elab-block-header .elab-block-icon {
+    width: 64px !important;
+    height: 64px !important;
+    border-radius: 50% !important;
+    font-size: 28px !important;
+    border: 3px solid #ffffff !important;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06) !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    background: #ffffff;
+}
+
+.elab-block-header .elab-block-icon[data-type="reading_passage"] {
+    background: linear-gradient(180deg, #E2F0FF 0%, #B8DAFF 100%) !important;
+}
+
+.elab-block-header .elab-block-icon[data-type="flashcard"] {
+    background: linear-gradient(180deg, #F0E8FF 0%, #D5C2FF 100%) !important;
+}
+
+.elab-block-header .elab-block-icon[data-type="memory"] {
+    background: linear-gradient(180deg, #F0E8FF 0%, #D5C2FF 100%) !important;
+}
+
+/* Custom Reading Block Passage Styles */
+.elab-reading-passage-box {
+    border: 2px dashed #A3C9FF;
+    background-color: #EBF4FF;
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.elab-reading-passage-text {
+    font-size: 16px;
+    color: #374151;
+    line-height: 1.8;
+    margin: 0;
+    white-space: pre-wrap;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Custom Reading Confirmation Button */
+.elab-reading-confirm-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 60px;
+    background: linear-gradient(180deg, #A8D1FF 0%, #5E9EFF 100%);
+    border: 2px solid #ffffff;
+    border-radius: 30px;
+    padding: 0 24px;
+    box-shadow: 0 6px 18px rgba(94, 158, 255, 0.3), inset 0 2px 0 rgba(255,255,255,0.2);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+.elab-reading-confirm-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(94, 158, 255, 0.4);
+}
+
+.elab-reading-confirm-btn:disabled {
+    background: linear-gradient(180deg, #C2DCFF 0%, #9BC4FF 100%);
+    box-shadow: none;
+    cursor: default;
+}
+
+.elab-reading-confirm-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.elab-reading-check-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 2px dashed #5E9EFF;
+    color: #1E6BFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.elab-reading-btn-text {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1E468A;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.elab-reading-book-icon {
+    font-size: 24px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
+}
+
+/* ==========================================================
+   Redesigned Card Block Templates (Screen 3)
+========================================================== */
+
+/* --- Common Custom Header --- */
+.elab-custom-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    width: 100%;
+}
+.elab-header-badge-img {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+.elab-header-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+.elab-custom-title {
+    font-family: 'Poppins', 'Inter', sans-serif;
+    font-size: 26px !important;
+    font-weight: 800 !important;
+    color: #1E6BFF !important;
+    margin: 0 !important;
+    text-transform: uppercase;
+}
+.elab-custom-title-purple {
+    font-family: 'Poppins', 'Inter', sans-serif;
+    font-size: 26px !important;
+    font-weight: 800 !important;
+    color: #7E5BE2 !important;
+    margin: 0 !important;
+    text-transform: uppercase;
+}
+.elab-subtitle-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.elab-custom-subtitle {
+    font-size: 15px !important;
+    color: #4B5563 !important;
+    margin: 0 !important;
+    font-weight: 500;
+}
+.elab-header-stars {
+    color: #fbbf24;
+    font-size: 16px;
+    line-height: 1;
+}
+.elab-header-balloon {
+    height: 48px;
+    object-fit: contain;
+    margin-left: 8px;
+}
+
+/* --- Reading Block Custom Layout --- */
+.elab-reading-passage-text {
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+    word-wrap: break-word !important;
+}
+.elab-reading-passage-text-input {
+    width: 100%;
+    min-height: 120px;
+    background: transparent;
+    border: none;
+    outline: none;
+    resize: none;
+    font-size: 16px;
+    color: #374151;
+    line-height: 1.8;
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+    padding: 0;
+    display: block;
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+.elab-reading-illustration-container {
+    flex: 0.75;
+    position: relative;
+    height: 310px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+.elab-reading-girl {
+    height: 230px;
+    object-fit: contain;
+    z-index: 2;
+}
+.elab-reading-books {
+    height: 120px;
+    object-fit: contain;
+    position: absolute;
+    right: 10px;
+    bottom: 0;
+    z-index: 1;
+}
+.elab-reading-thought {
+    height: 90px;
+    object-fit: contain;
+    position: absolute;
+    right: 0px;
+    top: 10px;
+    z-index: 1;
+}
+
+/* --- Flashcard Block Custom Layout --- */
+.elab-flashcard-block-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.flashcard-header {
+    justify-content: space-between;
+}
+.elab-header-left-side {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+.elab-header-right-side {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.elab-title-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.elab-flashcards-title-badge {
+    background: #7E5BE2;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    padding: 6px 18px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    box-shadow: 0 4px 10px rgba(126, 91, 226, 0.2);
+}
+.elab-learn-badge {
+    background: #9C82DF;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    padding: 6px 16px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(156, 130, 223, 0.2);
+    border: 2px dashed #ffffff;
+}
+.elab-header-balloon-pink {
+    height: 60px;
+    object-fit: contain;
+}
+
+/* Flashcard Scene Wrapper & Large Card Styles */
+.elab-flashcard-scene-wrapper {
+    width: 100%;
+    margin-bottom: 24px;
+}
+.elab-flashcard-scene {
+    width: 100%;
+    height: 340px;
+}
+.elab-flashcard {
+    height: 100% !important;
+    border-radius: 24px !important;
+    box-shadow: 0 12px 36px rgba(126, 91, 226, 0.08) !important;
+}
+.elab-flashcard-face {
+    border-radius: 24px !important;
+    padding: 24px 32px !important;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    border: 3.5px solid #7E5BE2 !important;
+}
+.elab-flashcard-face.front {
+    background: #F8F6FF !important;
+}
+.elab-flashcard-face.back {
+    background: #F0E8FF !important;
+}
+.elab-flashcard-branch {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    font-size: 28px;
+    opacity: 0.6;
+}
+.elab-flashcard-left-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-right: 20px;
+}
+.elab-flashcard-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 42px;
+    font-weight: 800;
+    color: #1a0b40;
+    text-align: center;
+    word-break: break-word;
+}
+.elab-flashcard-decorations {
+    width: 320px;
+    height: 100%;
+    position: relative;
+    flex-shrink: 0;
+}
+.elab-flashcard-stars-top {
+    position: absolute;
+    right: 20px;
+    top: 0;
+    font-size: 24px;
+}
+.elab-flashcard-boy-chibi {
+    height: 290px;
+    object-fit: contain;
+    position: absolute;
+    right: -20px;
+    bottom: -28px;
+    z-index: 3;
+}
+.elab-flashcard-abc-bubble {
+    height: 60px;
+    object-fit: contain;
+    position: absolute;
+    right: -30px;
+    top: 80px;
+    z-index: 4;
+}
+.elab-flashcard-books-blocks {
+    height: 140px;
+    object-fit: contain;
+    position: absolute;
+    left: -20px;
+    bottom: -28px;
+    z-index: 2;
+}
+
+/* Flashcard Navigation Row Custom */
+.elab-flashcard-nav-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding: 10px 0;
+}
+.elab-nav-decor-book {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 90px;
+    object-fit: contain;
+}
+.elab-nav-decor-pencil {
+    position: absolute;
+    left: 80px;
+    bottom: -10px;
+    height: 70px;
+    object-fit: contain;
+}
+.elab-flashcard-nav-controls {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.elab-flashcard-nav-btn {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    border: none;
+    border-radius: 24px;
+    padding: 10px 24px;
+    cursor: pointer;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s, opacity 0.2s;
+}
+.elab-flashcard-nav-btn.prev {
+    background: #F0E8FF;
+    color: #7E5BE2;
+    border: 2px solid #D5C2FF;
+}
+.elab-flashcard-nav-btn.next {
+    background: #10B981;
+    color: white;
+    box-shadow: 0 6px 16px rgba(16, 185, 129, 0.2);
+}
+.elab-flashcard-nav-btn:hover {
+    transform: translateY(-2px);
+    opacity: 0.95;
+}
+.elab-flashcard-counter-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #F8F6FF;
+    border: 2px solid #E5E0F2;
+    padding: 8px 18px;
+    border-radius: 16px;
+}
+.elab-counter-icon {
+    height: 24px;
+    object-fit: contain;
+}
+.elab-counter-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #4B5563;
+}
+
+/* --- Memory Block Custom Layout --- */
+.elab-memory-container-box {
+    border: 2.5px dashed #D5C2FF;
+    background-color: #F8F6FF;
+    border-radius: 20px;
+    padding: 24px;
+    margin-bottom: 0;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+}
+.elab-memory-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    width: 100%;
+    max-width: 480px;
+}
+.elab-memory-card-custom {
+    aspect-ratio: 3 / 4;
+    border-radius: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: 800;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 6px 12px rgba(126, 91, 226, 0.06);
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+    width: 100%;
+}
+.elab-memory-card-custom:hover {
+    transform: scale(1.03);
+}
+.elab-memory-card-custom.is-back {
+    background: #ffffff;
+    border: 2.5px dashed #9c82df;
+    color: #7e5be2;
+}
+.elab-memory-card-custom.is-back .elab-memory-card-q {
+    font-size: 36px;
+    font-weight: 900;
+    color: #9c82df;
+}
+.elab-memory-card-custom.is-front {
+    background: #ffffff;
+    border: 3px solid #7e5be2;
+    color: #2e1065;
+    padding: 8px;
+    text-align: center;
+    word-break: break-word;
+}
+.elab-memory-card-custom.is-front.color-0 {
+    border-color: #3b82f6;
+    background: #eff6ff;
+    color: #1e3a8a;
+}
+.elab-memory-card-custom.is-front.color-1 {
+    border-color: #f59e0b;
+    background: #fffbeb;
+    color: #78350f;
+}
+.elab-memory-card-custom.is-front.color-2 {
+    border-color: #ec4899;
+    background: #fdf2f8;
+    color: #831843;
+}
+.elab-memory-card-custom.is-front.color-3 {
+    border-color: #10b981;
+    background: #ecfdf5;
+    color: #064e3b;
+}
+.elab-memory-illustration-container {
+    flex: 0.75;
+    position: relative;
+    height: 310px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+.elab-memory-owl {
+    height: 180px;
+    object-fit: contain;
+    z-index: 2;
+}
+.elab-memory-thought {
+    height: 80px;
+    object-fit: contain;
+    position: absolute;
+    right: 0px;
+    top: 40px;
+    z-index: 1;
+}
+
+/* ==========================================================
+   Redesigned Card Block Templates (Screen 2)
+========================================================== */
+
+/* --- Custom Headings --- */
+.elab-custom-title-audio {
+    font-family: 'Poppins', 'Inter', sans-serif;
+    font-size: 26px !important;
+    font-weight: 800 !important;
+    margin: 0 !important;
+    text-transform: uppercase;
+}
+.elab-custom-title-seq {
+    font-family: 'Poppins', 'Inter', sans-serif;
+    font-size: 26px !important;
+    font-weight: 800 !important;
+    margin: 0 !important;
+    text-transform: uppercase;
+}
+.title-blue {
+    color: #1E6BFF;
+}
+.title-pink {
+    color: #ec4899;
+}
+
+/* --- Audio Block Custom Styling --- */
+.elab-audio-player-custom-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+}
+.elab-audio-play-btn-large {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    border: none;
+    background: transparent;
+    position: relative;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: transform 0.2s;
+    padding: 0;
+}
+.elab-audio-play-btn-large:hover {
+    transform: scale(1.05);
+}
+.elab-play-btn-bg {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+.elab-play-icon {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 24px;
+    line-height: 1;
+}
+.elab-audio-control-bar {
+    flex: 1;
+    height: 60px;
+    background: #F0F6FF;
+    border: 2px solid #C3DAFF;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    gap: 16px;
+    box-sizing: border-box;
+}
+.elab-audio-replay-btn {
+    background: #ffffff;
+    border: 1.5px solid #C3DAFF;
+    border-radius: 20px;
+    padding: 6px 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #1E6BFF;
+}
+.elab-replay-icon-img {
+    height: 16px;
+    object-fit: contain;
+}
+.elab-audio-slider-container {
+    flex: 1;
+    height: 10px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+.elab-audio-slider-track {
+    width: 100%;
+    height: 6px;
+    background: #E2ECFA;
+    border-radius: 3px;
+    position: relative;
+}
+.elab-audio-slider-fill {
+    height: 100%;
+    background: #1E6BFF;
+    border-radius: 3px;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.elab-audio-slider-handle {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #1E6BFF;
+    border: 2.5px solid #ffffff;
+    position: absolute;
+    top: -4px;
+    box-shadow: 0 2px 6px rgba(30,107,255,0.3);
+}
+.elab-audio-duration-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #1E468A;
+    flex-shrink: 0;
+}
+.elab-audio-illustration-container {
+    flex: 0.75;
+    position: relative;
+    height: 250px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+.elab-audio-boy-chibi {
+    height: 230px;
+    object-fit: contain;
+    z-index: 2;
+}
+.elab-audio-wave-bubble {
+    height: 70px;
+    object-fit: contain;
+    position: absolute;
+    right: 0px;
+    top: 20px;
+    z-index: 1;
+}
+
+/* --- Dictation Block Custom Styling --- */
+.elab-dictation-illustration-container {
+    flex: 0.75;
+    position: relative;
+    height: 250px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+.elab-dictation-girl-chibi {
+    height: 220px;
+    object-fit: contain;
+    z-index: 2;
+}
+.dictation-header-right {
+    margin-bottom: 16px;
+}
+.elab-dictation-play-banner {
+    width: 100%;
+    height: 64px;
+    background: #F0E8FF;
+    border: 2.5px solid #D5C2FF;
+    border-radius: 32px;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    gap: 12px;
+    box-sizing: border-box;
+}
+.elab-dictation-play-btn-circle {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    background: transparent;
+    position: relative;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: transform 0.2s;
+    padding: 0;
+}
+.elab-dictation-play-btn-circle:hover {
+    transform: scale(1.05);
+}
+.elab-dictation-play-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+.elab-dictation-play-icon {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 16px;
+    line-height: 1;
+}
+.elab-dictation-banner-text {
+    flex: 1;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #1e0b40;
+    text-align: left;
+}
+.elab-dictation-mic-icon {
+    height: 64px;
+    object-fit: contain;
+    margin-right: -12px;
+}
+.elab-dictation-input-container {
+    position: relative;
+    width: 100%;
+    margin-top: 8px;
+}
+.elab-dictation-input-field {
+    width: 100%;
+    height: 52px;
+    background: #ffffff;
+    border: 2px solid #E5E0F2;
+    border-radius: 20px;
+    padding: 0 44px 0 20px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: #374151;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+.elab-dictation-input-field:focus {
+    border-color: #7E5BE2;
+}
+.elab-dictation-input-pencil {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    pointer-events: none;
+}
+
+/* --- Sequence Block Custom Styling --- */
+.elab-seq-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+.elab-seq-option-card {
+    background: #ffffff;
+    border: 2px solid #F1F5F9;
+    border-radius: 20px;
+    padding: 12px 16px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    box-sizing: border-box;
+}
+.elab-seq-badge-container {
+    position: relative;
+    width: 54px;
+    height: 54px;
+    flex-shrink: 0;
+}
+.elab-seq-step-badge-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+.elab-seq-badge-sparkles {
+    position: absolute;
+    right: -8px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 12px;
+}
+.elab-seq-option-text {
+    flex: 1;
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #1E468A;
+    text-align: left;
+}
+.elab-seq-arrows-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #ffffff;
+    border: 1.5px solid #F1F5F9;
+    border-radius: 12px;
+    padding: 4px 8px;
+}
+.elab-seq-arrow-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    transition: transform 0.2s;
+}
+.elab-seq-arrow-btn:hover:not(:disabled) {
+    transform: scale(1.1);
+}
+.elab-seq-arrow-btn:disabled {
+    opacity: 0.3;
+    cursor: default;
+}
+.elab-seq-arrow-img {
+    height: 28px;
+    width: 28px;
+    object-fit: contain;
+}
+.elab-seq-arrow-divider {
+    color: #E2E8F0;
+    font-size: 16px;
+    user-select: none;
+}
+.elab-sequence-illustration-container {
+    flex: 0.75;
+    position: relative;
+    height: 250px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+.elab-seq-girl-chibi {
+    height: 230px;
+    object-fit: contain;
+    z-index: 2;
+}
+.elab-seq-wave-bubble {
+    height: 60px;
+    object-fit: contain;
+    position: absolute;
+    right: -10px;
+    top: 30px;
+    z-index: 1;
+}
+
+/* --- Image Card Custom Mockup & Overlay --- */
+.elab-image-block-custom-card {
+    position: relative !important;
+    padding: 0 !important;
+    min-height: 480px;
+    overflow: hidden;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.elab-image-card-decor-overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    z-index: 10;
+    pointer-events: none;
+}
+.elab-browser-mockup {
+    width: 82%;
+    height: 350px;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    background: #E55FA5;
+    position: relative;
+    z-index: 1;
+    margin-top: 10px;
+}
+.elab-browser-mockup-content-wrapper {
+    position: absolute;
+    left: 11.2%;
+    top: 27.3%;
+    width: 75.6%;
+    height: 62.1%;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: #E55FA5;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+.elab-browser-header {
+    background: #3F2B26;
+    padding: 6px 12px 0 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.elab-browser-tabs {
+    display: flex;
+    align-items: flex-end;
+    gap: 6px;
+    overflow: hidden;
+}
+.elab-browser-tab {
+    background: rgba(255, 255, 255, 0.15);
+    color: rgba(255, 255, 255, 0.7);
+    padding: 6px 14px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    font-size: 11px;
+    font-family: 'Poppins', sans-serif;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.elab-browser-tab.active {
+    background: #503730;
+    color: #ffffff;
+}
+.elab-browser-tab-plus {
+    color: rgba(255, 255, 255, 0.6);
+    padding: 6px;
+    font-size: 12px;
+    cursor: pointer;
+}
+.elab-browser-address-row {
+    background: #503730;
+    padding: 6px 10px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.elab-browser-nav-btn {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 14px;
+    cursor: pointer;
+    user-select: none;
+}
+.elab-browser-url-bar {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 14px;
+    height: 24px;
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    font-size: 11px;
+    color: #374151;
+    font-family: 'Poppins', sans-serif;
+}
+.elab-browser-url-text {
+    flex: 1;
+}
+.elab-browser-url-icons {
+    color: #9CA3AF;
+    font-size: 12px;
+}
+.elab-browser-content-area {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    overflow: hidden;
+    position: relative;
+}
+.elab-browser-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+/* --- Screen 7 Grammar Custom Cards --- */
+
+/* Base card structure overrides */
+.elab-sentence-fixer-card,
+.elab-words-connect-card,
+.elab-fact-check-card {
+    background: #FCFBF5 !important; /* Soft cream card background */
+    border: 2px solid #EAE6CD !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05) !important;
+    border-radius: 28px !important;
+    padding: 1.75rem 2.25rem !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    position: relative !important;
+    width: 100% !important;
+    min-height: 250px !important;
+    gap: 2rem !important;
+    margin-bottom: 2rem !important;
+    box-sizing: border-box !important;
+}
+
+/* Card content side */
+.elab-grammar-card-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    text-align: left;
+}
+
+.elab-grammar-card-content.right {
+    align-items: flex-start;
+}
+
+/* Illustration side */
+.elab-grammar-illustration {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.elab-grammar-illustration.left {
+    margin-left: -1rem;
+}
+
+.elab-boy-writing-img {
+    height: 200px;
+    object-fit: contain;
+}
+
+.elab-girl-puzzle-img {
+    height: 190px;
+    object-fit: contain;
+}
+
+.elab-boy-reading-img {
+    height: 195px;
+    object-fit: contain;
+}
+
+/* Header badge and title */
+.elab-grammar-header {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.elab-grammar-title-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.elab-grammar-badge {
+    height: 48px;
+    width: auto;
+    object-fit: contain;
+}
+
+.elab-grammar-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    padding: 6px 18px;
+    border-radius: 16px;
+    display: inline-block;
+}
+
+.elab-grammar-title.green {
+    background: #E8F5E9;
+    color: #2E7D32;
+    border: 1.5px solid #C8E6C9;
+}
+
+.elab-grammar-title.orange {
+    background: #FFE0B2;
+    color: #E65100;
+    border: 1.5px solid #FFCC80;
+}
+
+.elab-grammar-title.purple {
+    background: #EDE7F6;
+    color: #4A148C;
+    border: 1.5px solid #D1C4E9;
+}
+
+.elab-grammar-subtitle {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #5C5C5C;
+    margin: 0;
+}
+
+/* Card 1: Sentence fixer specific elements */
+.elab-incorrect-sentence-box {
+    background: #EAF7EA;
+    border: 1.5px solid #C2E7C2;
+    border-radius: 16px;
+    padding: 14px 20px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: #2E7D32;
+    max-width: 480px;
+    text-align: left;
+}
+
+.elab-grammar-input-container {
+    position: relative;
+    max-width: 480px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    border: 2px solid #E2E8F0;
+    border-radius: 20px;
+    padding: 0 16px;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+
+.elab-grammar-input-container:focus-within {
+    border-color: #2E7D32;
+}
+
+.elab-grammar-input-icon {
+    font-size: 20px;
+    margin-right: 12px;
+}
+
+.elab-grammar-input-field {
+    flex: 1;
+    border: none;
+    outline: none;
+    height: 52px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #374151;
+    background: transparent;
+}
+
+/* Card 2: Words Connect specific elements */
+.elab-drag-chips-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 6px;
+}
+
+.elab-drag-chip {
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #374151;
+    background: #FFFFFF;
+    border: 2px solid #E2E8F0;
+    border-radius: 16px;
+    padding: 8px 20px;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+    transition: all 0.2s;
+}
+
+.elab-drag-chip:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.elab-drag-chip.is-selected {
+    border-color: #E65100;
+    background: #FFF3E0;
+    color: #E65100;
+}
+
+.elab-drag-chip.is-placed {
+    opacity: 0.3;
+    cursor: default;
+    transform: none;
+    box-shadow: none;
+}
+
+.elab-drag-chip.is-static {
+    cursor: default;
+    border-color: #E2E8F0;
+    box-shadow: none;
+    padding: 6px 14px;
+    font-size: 14px;
+}
+
+.elab-drop-zones-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 14px;
+    width: 100%;
+}
+
+.elab-drop-zone-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    flex: 1;
+    min-width: 100px;
+}
+
+.elab-drop-zone-dest {
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #E65100;
+}
+
+.elab-drop-zone-target-box {
+    width: 100%;
+    height: 48px;
+    border: 2px dashed #FFCC80;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 243, 224, 0.5);
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: all 0.2s;
+}
+
+.elab-drop-zone-target-box:hover {
+    background: rgba(255, 243, 224, 0.8);
+    border-color: #E65100;
+}
+
+.elab-drop-zone-target-box.is-filled {
+    border-style: solid;
+    border-color: #FFCC80;
+    background: #FFFFFF;
+    cursor: default;
+}
+
+.elab-drop-zone-target-box.is-wrong {
+    border-color: #D32F2F;
+    background: #FFEBEE;
+    animation: elabShake 0.3s ease-in-out;
+}
+
+/* Card 3: Fact check specific elements */
+.elab-fact-check-statement {
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #4A148C;
+    margin: 6px 0;
+}
+
+.elab-fact-check-options-row {
+    display: flex;
+    gap: 16px;
+    width: 100%;
+    max-width: 380px;
+}
+
+.elab-tf-btn {
+    flex: 1;
+    height: 52px;
+    border-radius: 26px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    transition: all 0.2s;
+}
+
+.elab-tf-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+}
+
+.elab-tf-btn-icon {
+    height: 28px;
+    width: auto;
+    object-fit: contain;
+}
+
+.true-btn {
+    background: #E8F5E9;
+    color: #2E7D32;
+    border: 2px solid #A5D6A7;
+    box-shadow: 0 4px 12px rgba(46, 125, 50, 0.1);
+}
+
+.true-btn.is-selected {
+    background: #2E7D32;
+    color: #FFFFFF;
+    border-color: #2E7D32;
+    box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+}
+
+.false-btn {
+    background: #FFEBEE;
+    color: #C62828;
+    border: 2px solid #EF9A9A;
+    box-shadow: 0 4px 12px rgba(198, 40, 40, 0.1);
+}
+
+.false-btn.is-selected {
+    background: #C62828;
+    color: #FFFFFF;
+    border-color: #C62828;
+    box-shadow: 0 4px 15px rgba(198, 40, 40, 0.3);
+}
+
+@keyframes elabShake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-6px); }
+    40%, 80% { transform: translateX(6px); }
+}
+
+/* ── Custom Redesigned Speaking Cards (Screen 5) ── */
+.speaking-custom-card-content {
+    display: flex;
+    gap: 2.5rem;
+    align-items: center;
+    width: 100%;
+}
+
+.speaking-custom-interactive {
+    flex: 1.3;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    width: 100%;
+}
+
+.speaking-custom-illustration {
+    flex: 0.7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-height: 300px;
+    background: transparent;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    overflow: visible !important;
+}
+
+.speaking-custom-illustration img {
+    max-width: 100%;
+    max-height: 260px;
+    object-fit: contain;
+}
+
+/* Custom Circle Badges */
+.speaking-badge-circle {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+    border: 2px solid #EFE9FF;
+}
+
+.speaking-badge-circle.roleplay {
+    border-color: #E2D9FF;
+    background: #F9F8FF;
+}
+
+.speaking-badge-circle.voice {
+    border-color: #CCFBF1;
+    background: #F0FDFA;
+}
+
+.speaking-badge-circle.pronunciation {
+    border-color: #E2D9FF;
+    background: #F9F8FF;
+}
+
+.speaking-badge-circle.input {
+    border-color: #FFE4E6;
+    background: #FFFDFD;
+}
+
+.speaking-badge-img {
+    width: 78%;
+    height: 78%;
+    object-fit: contain;
+}
+
+/* Custom Badge Tags */
+.speaking-badge-tag {
+    padding: 0.6rem 1.85rem;
+    border-radius: 16px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+}
+
+.speaking-badge-tag.roleplay {
+    background: #EFE9FF;
+    color: #6D28D9;
+    border: 1.5px solid #DCD1FF;
+}
+
+.speaking-badge-tag.voice {
+    background: #E6F7F5;
+    color: #0F766E;
+    border: 1.5px solid #BCEFE7;
+}
+
+.speaking-badge-tag.pronunciation {
+    background: #EFE9FF;
+    color: #6D28D9;
+    border: 1.5px solid #DCD1FF;
+}
+
+.speaking-badge-tag.input {
+    background: #FFF1E2;
+    color: #EA580C;
+    border: 1.5px solid #FED7AA;
+}
+
+/* Card Header Container */
+.speaking-card-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+/* Custom Dividers */
+.speaking-divider-line {
+    width: 100%;
+    height: 1px;
+    background: #F1F5F9;
+    margin: 0.25rem 0;
+}
+
+.speaking-divider-dashed {
+    width: 100%;
+    position: relative;
+    height: 1px;
+    border-bottom: 2px dashed #E2E8F0;
+    margin: 0.5rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.speaking-divider-dashed.pronunciation {
+    border-bottom-color: #E9D5FF;
+}
+
+.speaking-divider-dashed.input {
+    border-bottom-color: #FED7AA;
+}
+
+.speaking-divider-dot {
+    position: absolute;
+    right: -2px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.speaking-divider-dot.pronunciation {
+    background: #C084FC;
+}
+
+.speaking-divider-dot.input {
+    background: #FB923C;
+}
+
+/* Quotes */
+.speaking-quotes-container {
+    font-size: 2.2rem;
+    font-weight: bold;
+    color: #1E3A8A;
+    font-family: Georgia, serif;
+    margin: 0.25rem 0;
+    line-height: 1;
+    letter-spacing: 0.15em;
+}
+
+/* Buttons */
+.speaking-custom-btn {
+    border-radius: 9999px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 800;
+    padding: 0.85rem 2.25rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
+    transition: all 0.2s ease;
+    border: none;
+    box-sizing: border-box;
+}
+
+.speaking-custom-btn img {
+    height: 20px;
+    width: auto;
+    object-fit: contain;
+}
+
+.speaking-custom-btn.roleplay {
+    background: #EFE9FF;
+    color: #6D28D9;
+    border: 2px solid #C084FC;
+    box-shadow: 0 4px 6px rgba(109, 40, 217, 0.05);
+}
+
+.speaking-custom-btn.roleplay:hover {
+    background: #E9D5FF;
+    transform: translateY(-1px);
+}
+
+.speaking-custom-btn.voice {
+    background: #E6F7F5;
+    color: #0F766E;
+    border: 2px solid #99F6E4;
+    box-shadow: 0 4px 6px rgba(15, 118, 110, 0.05);
+}
+
+.speaking-custom-btn.voice:hover {
+    background: #CCFBF1;
+    transform: translateY(-1px);
+}
+
+.speaking-custom-btn.pronunciation {
+    background: linear-gradient(90deg, #FF7614 0%, #FFA000 100%);
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(255, 118, 20, 0.3);
+    border: none;
+}
+
+.speaking-custom-btn.pronunciation:hover {
+    opacity: 0.95;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(255, 118, 20, 0.4);
+}
+
+.speaking-custom-btn.danger {
+    background: #FEE2E2 !important;
+    color: #DC2626 !important;
+    border: 2px solid #FCA5A5 !important;
+}
+
+.speaking-custom-btn.danger:hover {
+    background: #FCA5A5 !important;
+}
+
+/* Custom Textarea */
+.speaking-custom-textarea {
+    width: 100%;
+    min-height: 90px;
+    padding: 1.25rem 1.5rem;
+    border-radius: 16px;
+    border: 2px solid #E2E8F0;
+    font-family: inherit;
+    font-size: 1.15rem;
+    outline: none;
+    transition: all 0.2s ease;
+    resize: none;
+    box-sizing: border-box;
+    color: #334155;
+    background: #FFFDFD;
+}
+
+.speaking-custom-textarea:focus {
+    border-color: #FB923C;
+    background: #FFFDFB;
+    box-shadow: 0 0 0 4px rgba(251, 146, 60, 0.1);
+}
+
+.grammar-reset-btn:hover {
+    background: #e2e8f0;
+    color: #334155;
+}
+
+/* ── Screen 1 Custom Video Mockup ── */
+.custom-video-mockup-container {
+    position: relative;
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    overflow: visible;
+}
+
+.custom-video-mockup-bg {
+    width: 100%;
+    display: block;
+    height: auto;
+    pointer-events: none;
+}
+
+.custom-video-overlay-frame {
+    position: absolute;
+    left: 17%;
+    top: 29.8%;
+    width: 66.1%;
+    height: 57.5%;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #000000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.custom-video-element {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    outline: none;
+}
+
+.custom-video-banner {
+    bottom: 8px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 90% !important;
+    border-radius: 6px !important;
+    font-size: 0.8rem !important;
+    padding: 0.35rem 0.75rem !important;
+}
+
+/* Word Practicing */
+.speaking-practice-word {
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: #6D28D9;
+    font-family: 'Poppins', sans-serif;
+    margin: 0.25rem 0;
+}
+
+.wordsearch-custom-interactive {
+    flex: 1.15;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.wordsearch-custom-illustration {
+    flex: 0.85;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-height: 420px;
+    background: transparent;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    overflow: visible !important;
+}
+
+.wordsearch-custom-illustration img {
+    max-width: 100%;
+    max-height: 400px;
+    object-fit: contain;
+}
+
+.wordsearch-custom-card-content {
+    display: flex;
+    gap: 2.5rem;
+    align-items: center;
+    width: 100%;
+}
+
+
+
+/* Badge and Header */
+.wordsearch-badge {
+    width: 54px;
+    height: 54px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #67e8f9, #06b6d4);
+    color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    font-size: 1.35rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: lowercase;
+    flex-shrink: 0;
+}
+
+.wordsearch-header {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    width: 100%;
+}
+
+.wordsearch-header-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.wordsearch-header-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #1e293b;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.wordsearch-header-subtitle {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    color: #64748b;
+    margin: 2px 0 0 0;
+}
+
+/* Custom Grid */
+.wordsearch-grid-container {
+    display: grid;
+    gap: 12px;
+    width: 100%;
+}
+
+.wordsearch-grid-cell {
+    aspect-ratio: 1;
+    border-radius: 10px;
+    background: #ffffff;
+    border: 1.5px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1e293b;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.15s ease;
+    box-sizing: border-box;
+}
+
+.wordsearch-grid-cell:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+}
+
+.wordsearch-grid-cell.is-selecting {
+    background: #e0f2fe;
+    border-color: #7dd3fc;
+    color: #0369a1;
+}
+
+.wordsearch-grid-cell.is-matched {
+    background: #dcfce7;
+    border-color: #86efac;
+    color: #15803d;
+}
+
+/* Word Pills Row */
+.wordsearch-pills-row {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 12px;
+    margin-top: 0.5rem;
+}
+
+.wordsearch-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0.35rem 1.15rem 0.35rem 0.35rem;
+    border-radius: 9999px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+    border: 1.5px solid transparent;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    flex-shrink: 0;
+}
+
+.wordsearch-pill-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: contain;
+}
+
+.wordsearch-pill.is-found {
+    opacity: 0.5;
+    text-decoration: line-through;
+}
+
+/* ── Screen 6 Custom Redesigned Cards ── */
+.grammar-custom-card-content {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    width: 100%;
+}
+
+.grammar-custom-card-content.reverse {
+    flex-direction: row-reverse;
+}
+
+.grammar-custom-interactive {
+    flex: 1.25;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    width: 100%;
+}
+
+.grammar-custom-illustration {
+    flex: 0.75;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-height: 280px;
+    background: transparent;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    overflow: visible !important;
+}
+
+.grammar-custom-illustration img {
+    max-width: 100%;
+    max-height: 250px;
+    object-fit: contain;
+}
+
+/* Grammar Card Header & Badges */
+.grammar-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+}
+
+.grammar-badge {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.grammar-title-banner {
+    padding: 0.4rem 1.75rem;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    font-size: 1.2rem;
+    color: #ffffff;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.grammar-title-banner.writing {
+    background: linear-gradient(135deg, #1e88e5, #007aff);
+}
+
+.grammar-title-banner.fill-blank {
+    background: linear-gradient(135deg, #f57c00, #ff9800);
+}
+
+.grammar-title-banner.sentence-builder {
+    background: linear-gradient(135deg, #2e7d32, #4caf50);
+}
+
+.grammar-subtitle {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.05rem;
+    color: #475569;
+    margin: 0;
+    font-weight: 600;
+}
+
+.grammar-subtitle span {
+    font-weight: 800;
+}
+
+.grammar-subtitle span.blue {
+    color: #007aff;
+}
+
+.grammar-subtitle span.orange {
+    color: #ff9800;
+}
+
+.grammar-subtitle span.green {
+    color: #4caf50;
+}
+
+/* Custom Textarea & Inputs */
+.grammar-textarea-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.grammar-textarea {
+    width: 100%;
+    height: 110px;
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    border: 1.5px solid #cbd5e1;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    color: #334155;
+    background: #ffffff;
+    resize: none;
+    box-sizing: border-box;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.grammar-textarea:focus {
+    border-color: #007aff;
+    box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.1);
+}
+
+.grammar-word-counter-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.grammar-word-counter-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    background: #e0f2fe;
+    color: #007aff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 0.8rem;
+    border: 1.5px solid #bae6fd;
+}
+
+.grammar-word-counter-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.85rem;
+    color: #64748b;
+    font-weight: 600;
+}
+
+/* Fill Blank Custom Input */
+.grammar-input {
+    width: 100%;
+    padding: 0.75rem 1.25rem;
+    border-radius: 12px;
+    border: 1.5px solid #cbd5e1;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    color: #334155;
+    background: #ffffff;
+    outline: none;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+}
+
+.grammar-input:focus {
+    border-color: #ff9800;
+    box-shadow: 0 0 0 4px rgba(255, 152, 0, 0.1);
+}
+
+/* Sentence Builder Custom Dropzone */
+.grammar-dropzone {
+    width: 100%;
+    min-height: 54px;
+    padding: 0.6rem 1rem;
+    border-radius: 12px;
+    border: 1.5px dashed #a5d6a7;
+    background: #f1f8e9;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    box-sizing: border-box;
+}
+
+.grammar-dropzone-placeholder {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    font-style: italic;
+    color: #78909c;
+}
+
+/* Sentence Builder Word Chips */
+.grammar-chip-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 0.5rem;
+}
+
+.grammar-chip {
+    padding: 0.4rem 1.15rem;
+    border-radius: 9999px;
+    background: #ffffff;
+    border: 1.5px solid #c8e6c9;
+    color: #2e7d32;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    outline: none;
+}
+
+.grammar-chip:hover {
+    background: #e8f5e9;
+    border-color: #a5d6a7;
+}
+
+.grammar-chip:active {
+    transform: scale(0.95);
+}
+
+.grammar-result-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    color: #334155;
+    margin-top: 0.25rem;
+}
+
+.grammar-result-text strong {
+    color: #1e293b;
+}
+
+.grammar-reset-btn {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0.4rem 1rem;
+    border-radius: 8px;
+    background: #f1f5f9;
+    border: 1.5px solid #e2e8f0;
+    color: #475569;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.grammar-reset-btn:hover {
+    background: #e2e8f0;
+    color: #334155;
+}
+
+/* ── Screen 1 Custom Video Mockup ── */
+.custom-video-card-block {
+    position: relative;
+    padding: 2.25rem 2.5rem !important;
+    border-radius: 28px !important;
+    box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.08), 
+        0 1px 3px rgba(0, 0, 0, 0.02) !important;
+    border: 2px solid #e2e8f0 !important;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem !important;
+    overflow: visible !important;
+    background: #ffffff !important;
+    max-width: 900px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+/* Header styling */
+.custom-video-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.custom-video-card-header-left {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.custom-video-clapper-icon {
+    width: 64px;
+    height: auto;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.custom-video-title-area {
+    display: flex;
+    flex-direction: column;
+}
+
+.custom-video-title-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+}
+
+.custom-video-title-text {
+    font-family: 'Poppins', 'Outfit', sans-serif;
+    font-weight: 900;
+    font-size: 1.9rem;
+    color: #1E3A8A;
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 6px;
+    margin: 0;
+}
+
+/* Yellow brush stroke underline effect */
+.custom-video-title-text::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: #facc15;
+    border-radius: 3px;
+    transform: rotate(-0.5deg);
+}
+
+.custom-video-sparkles-icon {
+    width: 24px;
+    height: auto;
+    object-fit: contain;
+    margin-bottom: 4px;
+}
+
+.custom-video-subtitle {
+    font-family: 'Poppins', 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: 0.92rem;
+    color: #4b5563;
+    margin-top: 6px;
+    margin-bottom: 0;
+}
+
+.custom-video-new-cloud {
+    width: 78px;
+    height: auto;
+    object-fit: contain;
+    flex-shrink: 0;
+    margin-top: -8px;
+}
+
+/* Video display frame */
+.custom-video-overlay-frame-html {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 20px;
+    overflow: hidden;
+    background: #000000;
+    border: 3px solid #e2e8f0;
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+}
+
+.custom-video-element-html {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    outline: none;
+}
+
+.custom-video-banner-html {
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(4px);
+    color: #ffffff;
+    text-align: center;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    z-index: 8;
+    pointer-events: none;
+}
+
+/* Footer layout */
+.custom-video-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 16px;
+    z-index: 2;
+}
+
+/* Capsules styling */
+.custom-video-capsule {
+    display: flex;
+    align-items: center;
+    background: #EFF6FF;
+    border: 1.5px solid #DBEAFE;
+    border-radius: 50px;
+    padding: 8px 18px;
+    gap: 10px;
+    flex: 1;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    min-height: 52px;
+}
+
+.custom-video-capsule-icon {
+    width: 26px;
+    height: 26px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.custom-video-capsule-text {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Poppins', 'Outfit', sans-serif;
+    line-height: 1.1;
+    font-size: 0.72rem;
+    color: #1E3A8A;
+}
+
+.custom-video-capsule-label {
+    font-weight: 500;
+    opacity: 0.85;
+}
+
+.custom-video-capsule-value {
+    font-weight: 800;
+    font-size: 0.78rem;
+}
+
+/* Boy character overlay */
+.custom-video-boy-char {
+    position: absolute;
+    right: -24px;
+    bottom: -16px;
+    width: 240px;
+    height: auto;
+    object-fit: contain;
+    pointer-events: none;
+    z-index: 10;
+}
+
+

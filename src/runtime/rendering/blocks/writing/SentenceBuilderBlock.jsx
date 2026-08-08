@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import BlockCard from "../../../ui/components/BlockCard";
-import BlockHeader from "../../../ui/components/BlockHeader";
 import { useScreenCompletion } from "../../../screen/ScreenCompletionContext";
+
+import grammarBadgePuzzle from "../../../samples/assets/images/grammar_badge_puzzle.png";
+import grammarBoyPuzzle from "../../../samples/assets/images/grammar_boy_puzzle_new.png";
 
 function normalize(text) {
 
@@ -111,165 +113,97 @@ function SentenceBuilderBlock({ block }) {
 
         <BlockCard type="sentence">
 
-            <BlockHeader
+            <div className="grammar-custom-card-content">
+                <div className="grammar-custom-illustration">
+                    <img src={grammarBoyPuzzle} alt="Sentence Builder Illustration" />
+                </div>
 
-                type="sentence"
-
-                title="Sentence Builder"
-
-                subtitle={question}
-
-            />
-
-            <div className="elab-dropzone">
-
-                {
-
-                    selectedWords.length === 0 && (
-
-                        <span className="elab-plain-text" style={{ fontStyle: "italic" }}>
-
-                            Tap words below to build your sentence...
-
-                        </span>
-
-                    )
-
-                }
-
-                {
-
-                    selectedWords.map(
-
-                        (word, index) =>
-
-                            <button
-
-                                key={index}
-
-                                className="elab-chip"
-
-                                onClick={() =>
-
-                                    removeWord(word, index)
-
-                                }
-
-                            >
-
-                                {word}
-
-                            </button>
-
-                    )
-
-                }
-
-            </div>
-
-            <div className="elab-chip-row">
-
-                {
-
-                    availableWords.map(
-
-                        (word, index) =>
-
-                            <button
-
-                                key={index}
-
-                                className="elab-chip"
-
-                                onClick={() =>
-
-                                    addWord(word, index)
-
-                                }
-
-                            >
-
-                                {word}
-
-                            </button>
-
-                    )
-
-                }
-
-            </div>
-
-            {
-
-                answer.length > 0 && (
-
-                    <p className="elab-plain-text">
-
-                        <strong style={{ color: "var(--text-primary)" }}>Your Sentence: </strong>
-
-                        {answer}
-
-                    </p>
-
-                )
-
-            }
-
-            {
-
-                correct && (
-
-                    <div className="elab-feedback success">
-
-                        ✅ Correct!
-
+                <div className="grammar-custom-interactive">
+                    <div className="grammar-header">
+                        <img src={grammarBadgePuzzle} className="grammar-badge" alt="Puzzle Badge" />
+                        <div className="grammar-title-banner sentence-builder">SENTENCE BUILDER</div>
                     </div>
 
-                )
+                    <h4 className="grammar-subtitle">
+                        Reorder the words to make a <span className="green">correct sentence</span>.
+                    </h4>
 
-            }
+                    <div className="grammar-dropzone">
+                        {
+                            selectedWords.length === 0 && (
+                                <span className="grammar-dropzone-placeholder">
+                                    Tap words below to build your sentence...
+                                </span>
+                            )
+                        }
 
-            {
-
-                incorrect && (
-
-                    <div className="elab-feedback error">
-
-                        ❌ Not quite — tap "Reset" and try again.
-
+                        {
+                            selectedWords.map((word, index) => (
+                                <button
+                                    key={index}
+                                    className="grammar-chip"
+                                    onClick={() => removeWord(word, index)}
+                                >
+                                    {word}
+                                </button>
+                            ))
+                        }
                     </div>
 
-                )
+                    <div className="grammar-chip-row">
+                        {
+                            availableWords.map((word, index) => (
+                                <button
+                                    key={index}
+                                    className="grammar-chip"
+                                    onClick={() => addWord(word, index)}
+                                >
+                                    {word}
+                                </button>
+                            ))
+                        }
+                    </div>
 
-            }
+                    {
+                        answer.length > 0 && (
+                            <p className="grammar-result-text">
+                                <strong>Your Sentence: </strong>{answer}
+                            </p>
+                        )
+                    }
 
-            {
+                    {
+                        correct && (
+                            <div className="elab-feedback success" style={{ margin: "4px 0 0 0" }}>
+                                ✅ Correct!
+                            </div>
+                        )
+                    }
 
-                allWordsUsed && (
+                    {
+                        incorrect && (
+                            <div className="elab-feedback error" style={{ margin: "4px 0 0 0" }}>
+                                ❌ Not quite — tap "Reset" and try again.
+                            </div>
+                        )
+                    }
 
-                    <button
-
-                        type="button"
-
-                        className="elab-btn-icon secondary"
-
-                        onClick={() => {
-
-                            setAvailableWords(prev => [...prev, ...selectedWords]);
-
-                            setSelectedWords([]);
-
-                        }}
-
-                    >
-
-                        ↺ Reset
-
-                    </button>
-
-                )
-
-            }
+                    {
+                        allWordsUsed && (
+                            <button
+                                type="button"
+                                className="grammar-reset-btn"
+                                onClick={() => {
+                                    setAvailableWords(prev => [...prev, ...selectedWords]);
+                                    setSelectedWords([]);
+                                }}
+                            >
+                                ↺ Reset
+                            </button>
+                        )
+                    }
+                </div>
+            </div>
 
         </BlockCard>
 

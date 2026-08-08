@@ -1,8 +1,11 @@
 import { useState } from "react";
 import RecordingService from "../../services/recording/RecordingService";
 import BlockCard from "../../../ui/components/BlockCard";
-import BlockHeader from "../../../ui/components/BlockHeader";
 import { useScreenCompletion } from "../../../screen/ScreenCompletionContext";
+
+import masksBadge from "../../../samples/assets/images/speaking_masks_badge.png";
+import puppetShowImg from "../../../samples/assets/images/speaking_puppet_show.png";
+import micIcon from "../../../samples/assets/images/dictation_mic.png";
 
 function RolePlayBlock({ block }) {
 
@@ -56,17 +59,22 @@ function RolePlayBlock({ block }) {
 
         <BlockCard type="roleplay">
 
-            <div className="elab-block-two-column">
-                <div className="elab-block-interactive-side">
-                    <BlockHeader
-                        type="roleplay"
-                        title="ROLE PLAY"
-                        subtitle={character}
-                    />
+            <div className="speaking-custom-card-content">
+                <div className="speaking-custom-interactive">
+                    <div className="speaking-card-header">
+                        <div className="speaking-badge-circle roleplay">
+                            <img src={masksBadge} className="speaking-badge-img" alt="Role Play" />
+                        </div>
+                        <div className="speaking-badge-tag roleplay">
+                            ROLE PLAY
+                        </div>
+                    </div>
 
-                    <p className="elab-plain-text" style={{ fontSize: "17px", fontStyle: "italic" }}>
-                        "{dialogue}"
-                    </p>
+                    <div className="speaking-divider-line" />
+
+                    <div className="speaking-quotes-container">
+                        ” {dialogue || ""} ”
+                    </div>
 
                     {referenceAudio && (
                         <div className="elab-media-frame">
@@ -80,11 +88,11 @@ function RolePlayBlock({ block }) {
 
                     <div className="elab-chip-row">
                         {!recording ? (
-                            <button className="elab-btn-icon" onClick={startRecording}>
-                                🎤 Record My Reply
+                            <button className="speaking-custom-btn roleplay" onClick={startRecording}>
+                                <img src={micIcon} alt="Mic" /> Record My Reply
                             </button>
                         ) : (
-                            <button className="elab-btn-icon danger" onClick={stopRecording}>
+                            <button className="speaking-custom-btn danger" onClick={stopRecording}>
                                 ⏹ Stop Recording
                             </button>
                         )}
@@ -100,11 +108,10 @@ function RolePlayBlock({ block }) {
                     )}
                 </div>
 
-                <div className="elab-block-illustration-side">
+                <div className="speaking-custom-illustration">
                     <img 
-                        src="/assets/role and voice .jpeg" 
+                        src={puppetShowImg} 
                         alt="Role Play Illustration" 
-                        className="elab-block-illustration-image elab-crop-roleplay"
                     />
                 </div>
             </div>
@@ -116,3 +123,4 @@ function RolePlayBlock({ block }) {
 }
 
 export default RolePlayBlock;
+

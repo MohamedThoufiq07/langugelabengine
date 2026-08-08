@@ -2,8 +2,11 @@ import { useState } from "react";
 import RecordingService from "../../services/recording/RecordingService";
 import PronunciationService from "../../services/speech/PronunciationService";
 import BlockCard from "../../../ui/components/BlockCard";
-import BlockHeader from "../../../ui/components/BlockHeader";
 import { useScreenCompletion } from "../../../screen/ScreenCompletionContext";
+
+import recorderBadge from "../../../samples/assets/images/speaking_recorder_badge.png";
+import voiceRecorderImg from "../../../samples/assets/images/speaking_voice_recorder_illustration.png";
+import recordDot from "../../../samples/assets/images/speaking_record_dot.png";
 
 function VoiceRecorderBlock({ block }) {
 
@@ -108,18 +111,29 @@ function VoiceRecorderBlock({ block }) {
 
         <BlockCard type="voice">
 
-            <div className="elab-block-two-column">
-                <div className="elab-block-interactive-side">
-                    <BlockHeader
-                        type="voice"
-                        title="VOICE RECORDER"
-                        subtitle={prompt}
-                    />
+            <div className="speaking-custom-card-content">
+                <div className="speaking-custom-interactive">
+                    <div className="speaking-card-header">
+                        <div className="speaking-badge-circle voice">
+                            <img src={recorderBadge} className="speaking-badge-img" alt="Voice Recorder" />
+                        </div>
+                        <div className="speaking-badge-tag voice">
+                            VOICE RECORDER
+                        </div>
+                    </div>
+
+                    <p className="elab-block-subtitle" style={{ margin: "0.25rem 0", color: "#475569", fontWeight: 600 }}>
+                        {prompt || "Please record your response."}
+                    </p>
+
+                    <div className="speaking-divider-line" />
 
                     {recording && (
-                        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: "8px", margin: "0.25rem 0" }}>
                             <span className="elab-recording-dot" />
-                            <span className="elab-plain-text">Recording{paused ? " (paused)" : ""}...</span>
+                            <span className="elab-plain-text" style={{ fontWeight: 600, color: "#e11d48" }}>
+                                Recording{paused ? " (paused)" : ""}...
+                            </span>
                         </div>
                     )}
 
@@ -129,25 +143,25 @@ function VoiceRecorderBlock({ block }) {
 
                     <div className="elab-chip-row">
                         {!recording && (
-                            <button className="elab-btn-icon" onClick={startRecording}>
-                                🎤 Start Recording
+                            <button className="speaking-custom-btn voice" onClick={startRecording}>
+                                <img src={recordDot} alt="Start" style={{ borderRadius: "50%" }} /> Start Recording
                             </button>
                         )}
 
                         {recording && !paused && (
-                            <button className="elab-btn-icon secondary" onClick={pauseRecording}>
+                            <button className="speaking-custom-btn voice" onClick={pauseRecording}>
                                 ⏸ Pause
                             </button>
                         )}
 
                         {recording && paused && (
-                            <button className="elab-btn-icon secondary" onClick={resumeRecording}>
+                            <button className="speaking-custom-btn voice" onClick={resumeRecording}>
                                 ▶ Resume
                             </button>
                         )}
 
                         {recording && (
-                            <button className="elab-btn-icon danger" onClick={stopRecording}>
+                            <button className="speaking-custom-btn danger" onClick={stopRecording}>
                                 ⏹ Stop
                             </button>
                         )}
@@ -176,11 +190,10 @@ function VoiceRecorderBlock({ block }) {
                     )}
                 </div>
 
-                <div className="elab-block-illustration-side">
+                <div className="speaking-custom-illustration">
                     <img 
-                        src="/assets/role and voice .jpeg" 
+                        src={voiceRecorderImg} 
                         alt="Voice Recorder Illustration" 
-                        className="elab-block-illustration-image elab-crop-voice"
                     />
                 </div>
             </div>
@@ -192,3 +205,4 @@ function VoiceRecorderBlock({ block }) {
 }
 
 export default VoiceRecorderBlock;
+

@@ -60,25 +60,6 @@
                   "media_id": 28,
                   "media_type": "VIDEO"
                 }
-              },
-              {
-                "id": "block-1785923017038-hauskm865",
-                "type": "heading",
-                "styles": {
-                  "top": "0px",
-                  "left": "225px",
-                  "color": "#1F2937",
-                  "fontSize": "32px",
-                  "alignment": "Center",
-                  "minHeight": "80px",
-                  "blockWidth": "243px",
-                  "fontFamily": "Poppins",
-                  "fontWeight": "Bold"
-                },
-                "content": {
-                  "tag": "H2",
-                  "text": "videos  "
-                }
               }
             ],
             "media_id": 28,
@@ -405,26 +386,12 @@
                 },
                 "content": {
                   "words": [
-                    "DASHBOARD",
                     "STUDIO",
-                    "TEACHER"
+                    "TEACHER",
+                    "DASHBOARD"
                   ],
                   "gridSize": 8,
                   "question": "Find the hidden words in the grid."
-                }
-              },
-              {
-                "id": "block-1785923351582-7xwyobq35",
-                "type": "crossword",
-                "styles": {
-                  "top": "442px",
-                  "left": "36px",
-                  "minHeight": "205px",
-                  "blockWidth": "302px"
-                },
-                "content": {
-                  "words": [],
-                  "question": "Solve the crossword grid."
                 }
               }
             ],

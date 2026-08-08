@@ -1,13 +1,21 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import BlockCard from "../../../ui/components/BlockCard";
-import BlockHeader from "../../../ui/components/BlockHeader";
 import { ScreenCompletionContext } from "../../../screen/ScreenCompletionContext";
+
+import clapperIcon from "../../../samples/assets/images/video_custom_clapperboard.png";
+import sparklesIcon from "../../../samples/assets/images/video_custom_sparkles.png";
+import newCloudIcon from "../../../samples/assets/images/video_custom_new_cloud.png";
+import clockIcon from "../../../samples/assets/images/video_custom_clock_10.png";
+import gradCapIcon from "../../../samples/assets/images/video_custom_grad_cap_large.png";
+import bookIcon from "../../../samples/assets/images/video_custom_open_book.png";
+import boyCharIcon from "../../../samples/assets/images/video_custom_boy_reading.png";
 
 function VideoBlock({ block }) {
     const { reportAnswered } = useContext(ScreenCompletionContext) || {};
     const videoRef = useRef(null);
     const [completed, setCompleted] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
+    const [duration, setDuration] = useState("00:00");
     const maxTimeWatchedRef = useRef(0);
     const isSeekingRef = useRef(false);
 
@@ -88,12 +96,40 @@ function VideoBlock({ block }) {
         }
     };
 
+    const handleLoadedMetadata = () => {
+        const video = videoRef.current;
+        if (video) {
+            const secs = Math.floor(video.duration);
+            if (!isNaN(secs)) {
+                const mins = Math.floor(secs / 60);
+                const remainingSecs = secs % 60;
+                const formatted = `${String(mins).padStart(2, '0')}:${String(remainingSecs).padStart(2, '0')}`;
+                setDuration(formatted);
+            }
+        }
+    };
+
     return (
-        <BlockCard type="video">
-            <BlockHeader type="video" title="Video" />
+        <BlockCard type="video" className="custom-video-card-block">
+            {/* Header */}
+            <div className="custom-video-card-header">
+                <div className="custom-video-card-header-left">
+                    <img src={clapperIcon} className="custom-video-clapper-icon" alt="Video Lesson" />
+                    <div className="custom-video-title-area">
+                        <div className="custom-video-title-row">
+                            <h2 className="custom-video-title-text">VIDEO LESSON</h2>
+                            <img src={sparklesIcon} className="custom-video-sparkles-icon" alt="Sparkles" />
+                        </div>
+                        <p className="custom-video-subtitle">Watch the lesson carefully and learn something new.</p>
+                    </div>
+                </div>
+                <img src={newCloudIcon} className="custom-video-new-cloud" alt="New Tag" />
+            </div>
+
+            {/* Video Frame */}
             <div 
-                className="elab-media-frame" 
-                style={{ position: "relative", cursor: !completed && !isPlaying ? "pointer" : "default" }}
+                className="custom-video-overlay-frame-html" 
+                style={{ cursor: !completed && !isPlaying ? "pointer" : "default" }}
                 onClick={!completed && !isPlaying ? togglePlay : undefined}
             >
                 <video
@@ -107,11 +143,8 @@ function VideoBlock({ block }) {
                     onTimeUpdate={handleTimeUpdate}
                     onSeeking={handleSeeking}
                     onEnded={handleEnded}
-                    style={{
-                        width: "100%",
-                        borderRadius: "12px",
-                        outline: "none"
-                    }}
+                    onLoadedMetadata={handleLoadedMetadata}
+                    className="custom-video-element-html"
                 />
                 {!completed && !isPlaying && (
                     <div className="video-play-overlay">
@@ -123,11 +156,44 @@ function VideoBlock({ block }) {
                     </div>
                 )}
                 {!completed && (
-                    <div className="video-overlay-banner">
+                    <div className="custom-video-banner-html">
                         🔒 Watch completely to unlock next screen (seeking & pausing disabled)
                     </div>
                 )}
             </div>
+
+            {/* Footer */}
+            <div className="custom-video-card-footer">
+                {/* Capsule 1: Duration */}
+                <div className="custom-video-capsule">
+                    <img src={clockIcon} className="custom-video-capsule-icon" alt="Clock" />
+                    <div className="custom-video-capsule-text">
+                        <span className="custom-video-capsule-label">Duration</span>
+                        <span className="custom-video-capsule-value">{duration}</span>
+                    </div>
+                </div>
+
+                {/* Capsule 2: Learn at your own pace */}
+                <div className="custom-video-capsule">
+                    <img src={gradCapIcon} className="custom-video-capsule-icon" alt="Graduation Cap" />
+                    <div className="custom-video-capsule-text">
+                        <span className="custom-video-capsule-label">Learn at</span>
+                        <span className="custom-video-capsule-value">your own pace</span>
+                    </div>
+                </div>
+
+                {/* Capsule 3: Build your knowledge */}
+                <div className="custom-video-capsule">
+                    <img src={bookIcon} className="custom-video-capsule-icon" alt="Book" />
+                    <div className="custom-video-capsule-text">
+                        <span className="custom-video-capsule-label">Build your</span>
+                        <span className="custom-video-capsule-value">knowledge</span>
+                    </div>
+                </div>
+            </div>
+
+            {/* Anime boy reading overlap */}
+            <img src={boyCharIcon} className="custom-video-boy-char" alt="Boy Reading Book" />
         </BlockCard>
     );
 }

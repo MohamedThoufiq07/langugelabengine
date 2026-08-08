@@ -1,7 +1,9 @@
 import { useState } from "react";
 import BlockCard from "../../../ui/components/BlockCard";
-import BlockHeader from "../../../ui/components/BlockHeader";
 import { useScreenCompletion } from "../../../screen/ScreenCompletionContext";
+
+import grammarBadgeWriting from "../../../samples/assets/images/grammar_badge_writing.png";
+import grammarBoyWriting from "../../../samples/assets/images/grammar_boy_writing_new.png";
 
 function WritingBlock({ block }) {
 
@@ -40,49 +42,40 @@ function WritingBlock({ block }) {
 
         <BlockCard type="writing_prompt">
 
-            <BlockHeader
+            <div className="grammar-custom-card-content">
+                <div className="grammar-custom-illustration">
+                    <img src={grammarBoyWriting} alt="Writing Illustration" />
+                </div>
 
-                type="writing_prompt"
+                <div className="grammar-custom-interactive">
+                    <div className="grammar-header">
+                        <img src={grammarBadgeWriting} className="grammar-badge" alt="Writing Badge" />
+                        <div className="grammar-title-banner writing">WRITING</div>
+                    </div>
 
-                title="Writing"
+                    <h4 className="grammar-subtitle">
+                        Write about your <span className="blue">favorite hobby</span>.
+                    </h4>
 
-                subtitle={prompt}
+                    <div className="grammar-textarea-container">
+                        <textarea
+                            className="grammar-textarea"
+                            value={answer}
+                            onChange={handleChange}
+                            placeholder={placeholder || "Start writing here..."}
+                        />
 
-            />
-
-            <textarea
-
-                className="elab-input"
-
-                rows={6}
-
-                value={answer}
-
-                onChange={handleChange}
-
-                placeholder={placeholder || "Write your answer here..."}
-
-                style={{ resize: "vertical", fontFamily: "inherit" }}
-
-            />
-
-            {minWords > 0 && (
-
-                <p
-
-                    style={{
-                        fontSize: "13px",
-                        color: "#6B7280",
-                        marginTop: "8px"
-                    }}
-
-                >
-
-                    {wordCount(answer)} / {minWords} words
-
-                </p>
-
-            )}
+                        {minWords > 0 && (
+                            <div className="grammar-word-counter-row">
+                                <div className="grammar-word-counter-icon">Aa</div>
+                                <span className="grammar-word-counter-text">
+                                    {wordCount(answer)} / {minWords} words
+                                </span>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </div>
 
         </BlockCard>
 
