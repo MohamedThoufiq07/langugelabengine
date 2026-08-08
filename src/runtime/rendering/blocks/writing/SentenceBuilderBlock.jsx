@@ -125,7 +125,7 @@ function SentenceBuilderBlock({ block }) {
                     </div>
 
                     <h4 className="grammar-subtitle">
-                        Reorder the words to make a <span className="green">correct sentence</span>.
+                        {question || "Reorder the words to make a correct sentence."}
                     </h4>
 
                     <div className="grammar-dropzone">

@@ -54,7 +54,7 @@ function WritingBlock({ block }) {
                     </div>
 
                     <h4 className="grammar-subtitle">
-                        Write about your <span className="blue">favorite hobby</span>.
+                        {prompt || question || "Write about your favorite hobby."}
                     </h4>
 
                     <div className="grammar-textarea-container">

@@ -72,9 +72,12 @@ function AudioBlock({ block }) {
                     {/* Custom Player Controls */}
                     <div className="elab-audio-player-custom-row">
                         {/* Circular Play Button */}
-                        <button className="elab-audio-play-btn-large" onClick={togglePlay}>
-                            <img src={audioPlayBlueUrl} className="elab-play-btn-bg" alt="Play Button" />
-                            <span className="elab-play-icon">{isPlaying ? "⏸" : "▶"}</span>
+                        <button className="elab-audio-play-btn-large" onClick={togglePlay} aria-label={isPlaying ? "Pause" : "Play"}>
+                            {isPlaying ? (
+                                <div className="elab-audio-pause-btn-custom" />
+                            ) : (
+                                <img src={audioPlayBlueUrl} className="elab-play-btn-bg" alt="Play Button" />
+                            )}
                         </button>
 
                         {/* Control Bar */}

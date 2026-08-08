@@ -13,9 +13,9 @@
  * ============================================================
  */
 
-import PackageValidator from "./PackageValidator";
-import ManifestReader from "./ManifestReader";
-import PackageExtractor from "./PackageExtractor";
+import PackageValidator from "./PackageValidator.js";
+import ManifestReader from "./ManifestReader.js";
+import PackageExtractor from "./PackageExtractor.js";
 class PackageLoader {
 
     constructor() {
@@ -40,22 +40,17 @@ this.extractor =
 
         console.log(packagePath);
 
-        const extraction =
-    await this.extractor.extract(packagePath);
+        const extractionPath = await this.extractor.extract(packagePath);
 
-await this.validator.validate(
-    extraction.extractPath
-);
+        const manifest = await this.manifestReader.read(extractionPath);
 
-const manifest =
-    await this.manifestReader.read(
-        extraction.extractPath
-);
+        const isValid = await this.validator.validate(manifest);
+        if (!isValid) {
+            console.warn("[PackageLoader] Package validation failed:", this.validator.getErrors());
+        }
 
         return {
-
             manifest
-
         };
 
     }

@@ -61,9 +61,12 @@ function DictationBlock({ block }) {
 
                     {/* Play Banner Row */}
                     <div className="elab-dictation-play-banner">
-                        <button className="elab-dictation-play-btn-circle" onClick={togglePlay}>
-                            <img src={dictationPlayPurpleUrl} className="elab-dictation-play-img" alt="Play" />
-                            <span className="elab-dictation-play-icon">{isPlaying ? "⏸" : "▶"}</span>
+                        <button className="elab-dictation-play-btn-circle" onClick={togglePlay} aria-label={isPlaying ? "Pause" : "Play"}>
+                            {isPlaying ? (
+                                <div className="elab-dictation-pause-btn-custom" />
+                            ) : (
+                                <img src={dictationPlayPurpleUrl} className="elab-dictation-play-img" alt="Play" />
+                            )}
                         </button>
                         <span className="elab-dictation-banner-text">
                             {playbackError ? "Audio unavailable" : "Play the clip, then type what you hear"}

@@ -5,22 +5,17 @@ function ImageBlock({ block }) {
     const { url, caption } = block.content;
 
     return (
-        <BlockCard type="image" className="elab-image-block-custom-card">
-            {/* Absolute positioned stickers overlay */}
-            <img src={imageCardOverlayUrl} className="elab-image-card-decor-overlay" alt="Decorations" />
-
-            {/* Browser Mockup Content wrapper - aligned perfectly behind overlay opening */}
-            <div className="elab-browser-mockup-content-wrapper">
+        <BlockCard type="image">
+            <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
                 <img
                     src={url}
-                    className="elab-browser-image"
-                    alt={caption || "Browser Content"}
+                    alt={caption || "Content Image"}
+                    style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain", borderRadius: "8px" }}
                 />
+                {caption && (
+                    <p style={{ marginTop: "8px", fontSize: "14px", color: "#64748b", textAlign: "center" }}>{caption}</p>
+                )}
             </div>
-
-            {caption &&
-                <p className="elab-caption">{caption}</p>
-            }
         </BlockCard>
     );
 }

@@ -1,10 +1,10 @@
 {
-  "title": "big house",
-  "grade": "Grade 6",
+  "title": "The Lost Picnic",
+  "grade": "Grade 5",
   "subject": "General",
   "language": "English",
   "difficulty": "INTERMEDIATE",
-  "duration": 40,
-  "thumbnail": "assets/images/7c026637389144a7b56883a28ec571a9.png",
-  "version": "4"
+  "duration": 30,
+  "thumbnail": "assets/images/880c1808d5d3433c86b01d2dbd4315fc.jpeg",
+  "version": "1.0.0"
 }

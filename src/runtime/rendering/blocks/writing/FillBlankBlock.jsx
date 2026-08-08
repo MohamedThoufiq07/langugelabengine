@@ -46,7 +46,7 @@ function FillBlankBlock({ block }) {
                     </div>
 
                     <h4 className="grammar-subtitle">
-                        Complete the <span className="orange">sentence</span>.
+                        {question || "Complete the sentence."}
                     </h4>
 
                     {displaySentence && (

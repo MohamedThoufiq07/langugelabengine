@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Local Cache and Large Video assets
+src/runtime/cache/
+src/runtime/samples/assets/video/
+

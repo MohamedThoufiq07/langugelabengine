@@ -1,46 +1,46 @@
 {
-  "package_name": "big-house",
-  "experience_id": 117,
-  "experience_title": "big house",
-  "version": "4",
+  "package_name": "the-lost-picnic",
+  "experience_id": 118,
+  "experience_title": "The Lost Picnic",
+  "version": "1.0.0",
   "build_number": 1,
-  "created_at": "2026-08-05T09:56:11.433550+00:00",
+  "created_at": "2026-08-08T04:45:31.568372+00:00",
   "published_by": "superadmin",
   "runtime_version": "1.0.0",
   "files": [
     {
       "path": "experience.json",
-      "size": 23411,
-      "checksum": "b1130a03c10155b002750c1f9fdaeb1237747244f2405b031f7eb54238cb94f8"
+      "size": 27141,
+      "checksum": "15d99682e6da70ce5c777bf3915d0fd14aac3a95b224982964d940629f5464ac"
     },
     {
       "path": "metadata.json",
-      "size": 234,
-      "checksum": "843ae512add6e906cdbf7f792ba8ac0d724c8e4a568a24a3b5a5af0de29b89b1"
+      "size": 245,
+      "checksum": "1908be8593324c3548819e70d11079cc0961d8e1f8c82b784da72d288029763b"
     },
     {
-      "path": "assets/video/98924c68302f49fab2a6d2afe57eb099.mp4",
-      "size": 775047,
-      "checksum": "00e48619f3e026be2eea37e1fee0febda97a422a13e24d323a362c716bc9a231"
+      "path": "assets/images/0a119570d00e4523a0a4ccca12b5427c.png",
+      "size": 1941480,
+      "checksum": "71396a120cca6b8f3827fcbf0edd2e9c6fcf934cc7513c7243420866a89193ac"
     },
     {
-      "path": "assets/images/3d3e99e4925d4d2b90637f0b5088523f.jpeg",
-      "size": 7931,
-      "checksum": "9f8e5cc6f31ebbab772e1a8a0f4d44a8f7b4da0a06e20a55d9357b69fe5ae390"
+      "path": "assets/video/b878dcae5bdf48f3ba2179f8670ae86e.mp4",
+      "size": 134725045,
+      "checksum": "f054adf44c0e0ec2f16436a42b299055e80bb5f4eb66c72ea797565f85dc18ee"
     },
     {
-      "path": "assets/audio/5b6bbaf8b9ce42de997d08e6a02ce2d3.mp3",
-      "size": 9101696,
-      "checksum": "e08c14a120c5f55b3cb3526997d4bb4f2bf0244cc0636e2adc35a7958be04b1a"
+      "path": "assets/images/abdad3f8e2824dc186cbbe693019da48.png",
+      "size": 7403432,
+      "checksum": "ed9f269783146dd7987c7270e673c75bc430b76bbca9f348c94180ac227185d8"
     },
     {
-      "path": "assets/images/56c220b2bf1b4f33835544864ce95415.png",
-      "size": 20166,
-      "checksum": "986c13574561292c785b54e2b0d4419f8d352f0e8696b36e4f1480e775b6d168"
+      "path": "assets/images/5ce3283c12704eb7a492ed6e09992ad7.png",
+      "size": 2537989,
+      "checksum": "b10a215d2d52cdcd14da7b93707a8b7e4bcf46f304bfd2240e528dda337e7642"
     }
   ],
   "checksums": {
-    "experience_json": "b1130a03c10155b002750c1f9fdaeb1237747244f2405b031f7eb54238cb94f8",
-    "metadata_json": "843ae512add6e906cdbf7f792ba8ac0d724c8e4a568a24a3b5a5af0de29b89b1"
+    "experience_json": "15d99682e6da70ce5c777bf3915d0fd14aac3a95b224982964d940629f5464ac",
+    "metadata_json": "1908be8593324c3548819e70d11079cc0961d8e1f8c82b784da72d288029763b"
   }
 }

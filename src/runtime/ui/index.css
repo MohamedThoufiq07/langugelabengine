@@ -3148,6 +3148,27 @@ ol{
     font-size: 24px;
     line-height: 1;
 }
+.elab-audio-pause-btn-custom {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #4d8dfa 0%, #1a56db 100%);
+    border: 3.5px solid #ffffff;
+    box-shadow: 0 4px 10px rgba(29, 86, 219, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+.elab-audio-pause-btn-custom::before,
+.elab-audio-pause-btn-custom::after {
+    content: "";
+    width: 6px;
+    height: 22px;
+    background-color: white;
+    border-radius: 2px;
+    margin: 0 3px;
+}
 .elab-audio-control-bar {
     flex: 1;
     height: 60px;
@@ -3296,6 +3317,27 @@ ol{
     color: white;
     font-size: 16px;
     line-height: 1;
+}
+.elab-dictation-pause-btn-custom {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%);
+    border: 2px solid #ffffff;
+    box-shadow: 0 3px 8px rgba(124, 58, 237, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+.elab-dictation-pause-btn-custom::before,
+.elab-dictation-pause-btn-custom::after {
+    content: "";
+    width: 4px;
+    height: 14px;
+    background-color: white;
+    border-radius: 1px;
+    margin: 0 2px;
 }
 .elab-dictation-banner-text {
     flex: 1;

@@ -110,90 +110,21 @@ function VideoBlock({ block }) {
     };
 
     return (
-        <BlockCard type="video" className="custom-video-card-block">
-            {/* Header */}
-            <div className="custom-video-card-header">
-                <div className="custom-video-card-header-left">
-                    <img src={clapperIcon} className="custom-video-clapper-icon" alt="Video Lesson" />
-                    <div className="custom-video-title-area">
-                        <div className="custom-video-title-row">
-                            <h2 className="custom-video-title-text">VIDEO LESSON</h2>
-                            <img src={sparklesIcon} className="custom-video-sparkles-icon" alt="Sparkles" />
-                        </div>
-                        <p className="custom-video-subtitle">Watch the lesson carefully and learn something new.</p>
-                    </div>
-                </div>
-                <img src={newCloudIcon} className="custom-video-new-cloud" alt="New Tag" />
-            </div>
-
-            {/* Video Frame */}
-            <div 
-                className="custom-video-overlay-frame-html" 
-                style={{ cursor: !completed && !isPlaying ? "pointer" : "default" }}
-                onClick={!completed && !isPlaying ? togglePlay : undefined}
-            >
+        <BlockCard type="video">
+            <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
                 <video
                     ref={videoRef}
-                    controls={completed} // Only show standard controls if already watched completely
-                    controlsList="nodownload nofullscreen noremoteplayback"
-                    disablePictureInPicture
+                    controls
+                    controlsList="nodownload"
                     src={block.content.url}
                     onPlay={handlePlay}
                     onPause={handlePause}
                     onTimeUpdate={handleTimeUpdate}
                     onSeeking={handleSeeking}
                     onEnded={handleEnded}
-                    onLoadedMetadata={handleLoadedMetadata}
-                    className="custom-video-element-html"
+                    style={{ width: "100%", borderRadius: "8px" }}
                 />
-                {!completed && !isPlaying && (
-                    <div className="video-play-overlay">
-                        <button className="video-play-btn" aria-label="Play video">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M8 5v14l11-7z" />
-                            </svg>
-                        </button>
-                    </div>
-                )}
-                {!completed && (
-                    <div className="custom-video-banner-html">
-                        🔒 Watch completely to unlock next screen (seeking & pausing disabled)
-                    </div>
-                )}
             </div>
-
-            {/* Footer */}
-            <div className="custom-video-card-footer">
-                {/* Capsule 1: Duration */}
-                <div className="custom-video-capsule">
-                    <img src={clockIcon} className="custom-video-capsule-icon" alt="Clock" />
-                    <div className="custom-video-capsule-text">
-                        <span className="custom-video-capsule-label">Duration</span>
-                        <span className="custom-video-capsule-value">{duration}</span>
-                    </div>
-                </div>
-
-                {/* Capsule 2: Learn at your own pace */}
-                <div className="custom-video-capsule">
-                    <img src={gradCapIcon} className="custom-video-capsule-icon" alt="Graduation Cap" />
-                    <div className="custom-video-capsule-text">
-                        <span className="custom-video-capsule-label">Learn at</span>
-                        <span className="custom-video-capsule-value">your own pace</span>
-                    </div>
-                </div>
-
-                {/* Capsule 3: Build your knowledge */}
-                <div className="custom-video-capsule">
-                    <img src={bookIcon} className="custom-video-capsule-icon" alt="Book" />
-                    <div className="custom-video-capsule-text">
-                        <span className="custom-video-capsule-label">Build your</span>
-                        <span className="custom-video-capsule-value">knowledge</span>
-                    </div>
-                </div>
-            </div>
-
-            {/* Anime boy reading overlap */}
-            <img src={boyCharIcon} className="custom-video-boy-char" alt="Boy Reading Book" />
         </BlockCard>
     );
 }
