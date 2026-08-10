@@ -104,9 +104,14 @@ function RuntimePlayer({
 
     // Override navigation hooks to keep within current activity
     const handleNext = useCallback(() => {
+        if (!runtime.canNavigateNext()) return;
+
         const currentScreenIdx = runtime.getCurrentScreenIndex();
         if (currentActivity && currentScreenIdx < currentActivity.screens.length - 1) {
             runtime.engineState.setCurrentScreen(currentScreenIdx + 1);
+            runtime.screenLifecycle.reset();
+            runtime.screenLifecycle.load();
+            runtime.screenLifecycle.start();
             refreshScreen();
         } else {
             // Completed current activity module
@@ -118,6 +123,9 @@ function RuntimePlayer({
         const currentScreenIdx = runtime.getCurrentScreenIndex();
         if (currentScreenIdx > 0) {
             runtime.engineState.setCurrentScreen(currentScreenIdx - 1);
+            runtime.screenLifecycle.reset();
+            runtime.screenLifecycle.load();
+            runtime.screenLifecycle.start();
             refreshScreen();
         }
     }, [runtime, refreshScreen]);
@@ -128,6 +136,8 @@ function RuntimePlayer({
 
     if (selectedActivityIndex === null) {
         const activities = experience?.activities || [];
+        const completedActivities = runtime.engineState.getProgress().completedActivities || [];
+
         return (
             <div style={{
                 position: "absolute",
@@ -143,178 +153,289 @@ function RuntimePlayer({
                 flexDirection: "column",
                 alignItems: "center",
                 justifyContent: "flex-start",
-                padding: "3rem 2rem 6rem 2rem",
+                padding: "5rem 2rem 2rem 2rem",
                 boxSizing: "border-box",
-                overflowY: "scroll",
-                fontFamily: "Inter, sans-serif"
+                overflow: "hidden",
+                fontFamily: "'Poppins', 'Inter', sans-serif"
             }}>
                 <div style={{
                     width: "100%",
-                    maxWidth: "960px",
                     textAlign: "center",
-                    marginBottom: "2.5rem"
+                    marginBottom: "2rem"
                 }}>
                     <h1 style={{
-                        fontSize: "2.5rem",
+                        fontSize: "2.2rem",
                         fontWeight: 800,
-                        color: "#0f172a",
-                        marginBottom: "0.5rem"
+                        color: "#ffffff",
+                        marginBottom: "0.25rem",
+                        textShadow: "0 2px 8px rgba(0, 0, 0, 0.4)"
                     }}>
-                        {experience?.title || "Welcome to your English Lesson"}
+                        Explore, Practice & Level Up Your Skills
                     </h1>
-                    <p style={{ fontSize: "1.1rem", color: "#64748b" }}>
-                        Select a module below to start learning.
-                    </p>
                 </div>
 
                 <div style={{
-                    display: "grid",
-                    gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-                    gap: "1.5rem",
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: "0.75rem",
                     width: "100%",
-                    maxWidth: "960px"
+                    maxWidth: "1280px",
+                    boxSizing: "border-box"
                 }}>
                     {activities.map((act, index) => {
                         const skills = act.skills || [];
                         const skillName = skills[0] || "general";
+                        const isFirst = index === 0;
+                        const isUnlocked = isFirst || completedActivities.includes(index - 1);
 
-                        // Map skills to beautiful colored backgrounds/icons to match the screenshot
-                        const themeMap = {
-                            listening: { bg: "#eef2ff", text: "#1e40af", pillBg: "#dbeafe", icon: "🎧", accent: "#3b82f6" },
-                            speaking: { bg: "#faf5ff", text: "#6b21a8", pillBg: "#f3e8ff", icon: "🗣️", accent: "#a855f7" },
-                            reading: { bg: "#f0fdf4", text: "#166534", pillBg: "#dcfce7", icon: "📖", accent: "#22c55e" },
-                            writing: { bg: "#fff7ed", text: "#c2410c", pillBg: "#ffedd5", icon: "✏️", accent: "#f97316" },
-                            grammar: { bg: "#fdf2f8", text: "#9d174d", pillBg: "#fce7f3", icon: "🧠", accent: "#ec4899" },
-                            phonetics: { bg: "#f0fdfa", text: "#0f766e", pillBg: "#ccfbf1", icon: "🎙️", accent: "#14b8a6" }
+                        // Card illustrations from public folder
+                        const illustrationMap = {
+                            listening: "/listening card.png",
+                            speaking: "/speaker.png",
+                            reading: "/reading.png",
+                            writing: "/writing.png",
+                            grammar: "/reading.png" // fallback using reading but with custom styling or filter if needed
                         };
-                        const config = themeMap[skillName.toLowerCase()] || { bg: "#f8fafc", text: "#334155", pillBg: "#e2e8f0", icon: "⭐", accent: "#64748b" };
+                        const illustration = illustrationMap[skillName.toLowerCase()] || "/reading.png";
+
+                        // Styled active accents
+                        const activeAccents = {
+                            listening: { glow: "rgba(59, 130, 246, 0.8)", border: "#3b82f6", subtitle: "Listen. Understand. Improve.", cardBg: "linear-gradient(135deg, #e0f2fe 0%, #dbeafe 100%)" },
+                            speaking: { glow: "rgba(168, 85, 247, 0.8)", border: "#a855f7", subtitle: "Speak. Express. Connect.", cardBg: "linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%)" },
+                            reading: { glow: "rgba(34, 197, 94, 0.8)", border: "#22c55e", subtitle: "Read. Comprehend. Succeed.", cardBg: "linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%)" },
+                            writing: { glow: "rgba(249, 115, 22, 0.8)", border: "#f97316", subtitle: "Write. Compose. Create.", cardBg: "linear-gradient(135deg, #ffedd5 0%, #fed7aa 100%)" },
+                            grammar: { glow: "rgba(236, 72, 153, 0.8)", border: "#ec4899", subtitle: "Learn. Practice. Perfect.", cardBg: "linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%)" }
+                        };
+                        const accent = activeAccents[skillName.toLowerCase()] || { glow: "rgba(100, 116, 139, 0.8)", border: "#64748b", subtitle: "Learn & Grow.", cardBg: "#ffffff" };
 
                         return (
-                            <button
-                                key={act.id || index}
-                                onClick={() => {
-                                    runtime.engineState.setCurrentActivity(index);
-                                    runtime.engineState.setCurrentScreen(0);
-                                    refreshScreen();
-                                    setSelectedActivityIndex(index);
-                                }}
-                                style={{
-                                    background: "#ffffff",
-                                    border: "1px solid #e2e8f0",
-                                    borderRadius: "24px",
-                                    padding: "8.5rem 1.5rem 1.5rem 1.5rem",
-                                    aspectRatio: "320 / 235",
-                                    width: "100%",
-                                    maxWidth: "320px",
-                                    height: "235px",
-                                    cursor: "pointer",
-                                    textAlign: "left",
-                                    boxShadow: "0 10px 25px -5px rgb(0 0 0 / 0.05), 0 8px 10px -6px rgb(0 0 0 / 0.05)",
-                                    transition: "all 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    justifyContent: "flex-start",
-                                    position: "relative",
-                                    overflow: "hidden"
-                                }}
-                                onMouseEnter={(e) => {
-                                    e.currentTarget.style.transform = "translateY(-6px)";
-                                    e.currentTarget.style.boxShadow = "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 10px 10px -5px rgb(0 0 0 / 0.04)";
-                                    e.currentTarget.style.borderColor = config.accent;
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.currentTarget.style.transform = "translateY(0)";
-                                    e.currentTarget.style.boxShadow = "0 10px 25px -5px rgb(0 0 0 / 0.05), 0 8px 10px -6px rgb(0 0 0 / 0.05)";
-                                    e.currentTarget.style.borderColor = "#e2e8f0";
-                                }}
-                            >
-                                {/* Background Illustrations to match the user's screenshots */}
-                                {skillName.toLowerCase() === "listening" && (
+                            <div key={act.id || index} style={{ display: "flex", alignItems: "center" }}>
+                                <button
+                                    disabled={!isUnlocked}
+                                    onClick={() => {
+                                        if (isUnlocked) {
+                                            runtime.engineState.setCurrentActivity(index);
+                                            runtime.engineState.setCurrentScreen(0);
+                                            refreshScreen();
+                                            setSelectedActivityIndex(index);
+                                        }
+                                    }}
+                                    style={{
+                                        background: accent.cardBg,
+                                        border: isUnlocked ? `3px solid ${accent.border}` : "3px solid transparent",
+                                        borderRadius: "20px",
+                                        width: "240px",
+                                        height: "176px",
+                                        cursor: isUnlocked ? "pointer" : "default",
+                                        boxShadow: isUnlocked
+                                            ? `0 0 20px ${accent.glow}, 0 6px 20px rgba(0, 0, 0, 0.15)`
+                                            : "0 6px 16px rgba(0, 0, 0, 0.08)",
+                                        transition: "all 0.3s ease",
+                                        position: "relative",
+                                        overflow: "hidden",
+                                        opacity: isUnlocked ? 1 : 0.8,
+                                        transform: isUnlocked ? "scale(1.02)" : "scale(0.95)",
+                                        padding: 0
+                                    }}
+                                >
+                                    {/* Cover Background Illustration (Always Colorful) */}
                                     <div style={{
                                         position: "absolute",
                                         top: 0,
                                         left: 0,
                                         right: 0,
                                         bottom: 0,
-                                        backgroundImage: "url('/listening card.png')",
+                                        backgroundImage: `url('${illustration}')`,
                                         backgroundSize: "100% 100%",
                                         backgroundPosition: "center",
                                         backgroundRepeat: "no-repeat",
-                                        zIndex: 1,
-                                        opacity: 0.95
+                                        opacity: isUnlocked ? 1 : 0.65,
+                                        transition: "all 0.3s ease",
+                                        zIndex: 1
                                     }} />
-                                )}
 
-                                {skillName.toLowerCase() === "speaking" && (
+                                    {/* Content Overlay (placed on top of background) */}
                                     <div style={{
-                                        position: "absolute",
-                                        top: 0,
-                                        left: 0,
-                                        right: 0,
-                                        bottom: 0,
-                                        backgroundImage: "url('/speaker.png')",
-                                        backgroundSize: "100% 100%",
-                                        backgroundPosition: "center",
-                                        backgroundRepeat: "no-repeat",
-                                        zIndex: 1,
-                                        opacity: 0.95
-                                    }} />
-                                )}
-
-                                {skillName.toLowerCase() === "reading" && (
-                                    <div style={{
-                                        position: "absolute",
-                                        top: 0,
-                                        left: 0,
-                                        right: 0,
-                                        bottom: 0,
-                                        backgroundImage: "url('/reading.png')",
-                                        backgroundSize: "100% 100%",
-                                        backgroundPosition: "center",
-                                        backgroundRepeat: "no-repeat",
-                                        zIndex: 1,
-                                        opacity: 0.95
-                                    }} />
-                                )}
-
-                                {skillName.toLowerCase() === "writing" && (
-                                    <div style={{
-                                        position: "absolute",
-                                        top: 0,
-                                        left: 0,
-                                        right: 0,
-                                        bottom: 0,
-                                        backgroundImage: "url('/writing.png')",
-                                        backgroundSize: "100% 100%",
-                                        backgroundPosition: "center",
-                                        backgroundRepeat: "no-repeat",
-                                        zIndex: 1,
-                                        opacity: 0.95
-                                    }} />
-                                )}
-
-                                {/* Group top elements to stack together at the top of the card */}
-                                <div style={{ display: "flex", flexDirection: "column", position: "relative", zIndex: 2, marginBottom: "0" }}>
-                                    <h3 style={{
-                                        fontSize: "1.45rem",
-                                        fontWeight: 800,
-                                        color: "#0f172a",
-                                        margin: "0 0 0.15rem 0"
+                                        position: "relative",
+                                        zIndex: 2,
+                                        height: "100%",
+                                        width: "100%",
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        alignItems: "center",
+                                        justifyContent: "space-between",
+                                        padding: "0.75rem 1rem",
+                                        boxSizing: "border-box",
+                                        textAlign: "center"
                                     }}>
-                                        {act.title || "Module"}
-                                    </h3>
-                                    <p style={{
-                                        fontSize: "0.9rem",
-                                        color: "#64748b",
-                                        margin: "0",
-                                        lineHeight: 1.4,
-                                        maxWidth: "60%"
+                                         {/* Card Header Title (Right Aligned to avoid overlapping top-left illustration icons) */}
+                                         <h3 style={{
+                                             fontSize: "1.25rem",
+                                             fontWeight: 800,
+                                             color: isUnlocked ? "#1e293b" : "#475569",
+                                             margin: "0",
+                                             textTransform: "capitalize",
+                                             textShadow: "0 1px 2px rgba(255,255,255,0.9)",
+                                             alignSelf: "flex-end",
+                                             textAlign: "right",
+                                             width: "100%",
+                                             paddingRight: "0.25rem"
+                                         }}>
+                                             {act.title || skillName}
+                                         </h3>
+
+                                        {/* Spacer to align content around the center illustration */}
+                                        <div style={{ flex: 1 }} />
+
+                                        {/* Dynamic content area depending on lock state */}
+                                        {isUnlocked ? (
+                                            completedActivities.includes(index) ? (
+                                                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "100%", gap: "0.25rem" }}>
+                                                    <style>{`
+                                                        @keyframes pulseTick {
+                                                            0% { transform: scale(1); box-shadow: 0 0 8px rgba(34, 197, 94, 0.5); }
+                                                            50% { transform: scale(1.1); box-shadow: 0 0 16px rgba(34, 197, 94, 0.8); }
+                                                            100% { transform: scale(1); box-shadow: 0 0 8px rgba(34, 197, 94, 0.5); }
+                                                        }
+                                                    `}</style>
+                                                    <p style={{
+                                                        fontSize: "0.75rem",
+                                                        color: "#15803d",
+                                                        margin: "0",
+                                                        fontWeight: 800,
+                                                        lineHeight: 1.2,
+                                                        textShadow: "0 1px 2px rgba(255,255,255,0.9)"
+                                                    }}>
+                                                        Completed
+                                                    </p>
+                                                    <div style={{
+                                                        background: "linear-gradient(135deg, #22c55e 0%, #15803d 100%)",
+                                                        color: "#ffffff",
+                                                        width: "28px",
+                                                        height: "28px",
+                                                        borderRadius: "50%",
+                                                        display: "flex",
+                                                        alignItems: "center",
+                                                        justifyContent: "center",
+                                                        fontSize: "0.9rem",
+                                                        fontWeight: "bold",
+                                                        boxShadow: "0 0 8px rgba(34, 197, 94, 0.5)",
+                                                        animation: "pulseTick 2s infinite ease-in-out"
+                                                    }}>
+                                                        ✓
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "100%", gap: "0.4rem" }}>
+                                                    <p style={{
+                                                        fontSize: "0.72rem",
+                                                        color: "#334155",
+                                                        margin: "0",
+                                                        fontWeight: 700,
+                                                        lineHeight: 1.2,
+                                                        textShadow: "0 1px 2px rgba(255,255,255,0.9)"
+                                                    }}>
+                                                        {accent.subtitle}
+                                                    </p>
+                                                    <div style={{
+                                                        background: `linear-gradient(135deg, ${accent.border} 0%, #1e40af 100%)`,
+                                                        color: "#ffffff",
+                                                        padding: "6px 14px",
+                                                        borderRadius: "15px",
+                                                        fontWeight: 700,
+                                                        fontSize: "0.75rem",
+                                                        boxShadow: "0 3px 6px rgba(0,0,0,0.12)",
+                                                        display: "flex",
+                                                        alignItems: "center",
+                                                        gap: "4px"
+                                                    }}>
+                                                        Start Now <span style={{ fontSize: "0.85rem" }}>➔</span>
+                                                    </div>
+                                                </div>
+                                            )
+                                        ) : (
+                                            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "100%", gap: "0.3rem" }}>
+                                                <div style={{
+                                                    width: "30px",
+                                                    height: "30px",
+                                                    borderRadius: "50%",
+                                                    background: "rgba(255, 255, 255, 0.9)",
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    justifyContent: "center",
+                                                    boxShadow: "0 2px 6px rgba(0,0,0,0.12)"
+                                                }}>
+                                                    <span style={{ fontSize: "0.9rem" }}>🔒</span>
+                                                </div>
+                                                <p style={{
+                                                    fontSize: "0.68rem",
+                                                    color: "#475569",
+                                                    margin: "0",
+                                                    fontWeight: 700,
+                                                    lineHeight: 1.2,
+                                                    maxWidth: "95%",
+                                                    textShadow: "0 1px 2px rgba(255,255,255,0.9)"
+                                                }}>
+                                                    Complete {activities[index - 1]?.title || "previous"} to Unlock
+                                                </p>
+                                            </div>
+                                        )}
+                                    </div>
+                                </button>
+                                {/* Horizontal Arrow Connector with flowing flow-line animation */}
+                                {index < activities.length - 1 && (
+                                    <div style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        width: "36px",
+                                        position: "relative",
+                                        height: "24px"
                                     }}>
-                                        {act.description || "Start practicing now"}
-                                    </p>
-                                </div>
-                                 {/* Screen button container has been removed */}
-                            </button>
+                                        <style>{`
+                                            @keyframes arrowFlowLine {
+                                                0% {
+                                                    transform: translateX(-8px);
+                                                    opacity: 0.15;
+                                                }
+                                                50% {
+                                                    opacity: 1;
+                                                    text-shadow: 0 0 10px currentColor;
+                                                }
+                                                100% {
+                                                    transform: translateX(8px);
+                                                    opacity: 0.15;
+                                                }
+                                            }
+                                        `}</style>
+                                        {/* Background base gray arrow */}
+                                        <span style={{
+                                            fontSize: "1.6rem",
+                                            fontWeight: 900,
+                                            color: "rgba(255, 255, 255, 0.4)",
+                                            position: "absolute",
+                                            userSelect: "none"
+                                        }}>
+                                            ➔
+                                        </span>
+                                        {/* Glowing flowing arrow if this card is completed */}
+                                        {completedActivities.includes(index) && (
+                                            <span style={{
+                                                fontSize: "1.6rem",
+                                                fontWeight: 900,
+                                                color: accent.border,
+                                                position: "absolute",
+                                                animation: "arrowFlowLine 1.6s infinite linear",
+                                                userSelect: "none"
+                                            }}>
+                                                ➔
+                                            </span>
+                                        )}
+                                    </div>
+                                )}
+                            </div>
                         );
                     })}
                 </div>
