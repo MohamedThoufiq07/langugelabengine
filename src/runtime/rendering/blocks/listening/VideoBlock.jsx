@@ -1,5 +1,6 @@
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import BlockCard from "../../../ui/components/BlockCard";
+import BlockHeader from "../../../ui/components/BlockHeader";
 import { ScreenCompletionContext } from "../../../screen/ScreenCompletionContext";
 
 function VideoBlock({ block }) {
@@ -102,7 +103,11 @@ function VideoBlock({ block }) {
 
     return (
         <BlockCard type="video">
-            <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <BlockHeader
+                type="video"
+                title="Video"
+            />
+            <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center", marginTop: "0.25rem" }}>
                 <video
                     ref={videoRef}
                     controls

@@ -1,12 +1,16 @@
 import BlockCard from "../../../ui/components/BlockCard";
-import imageCardOverlayUrl from "../../../samples/assets/images/image_card_overlay.png";
+import BlockHeader from "../../../ui/components/BlockHeader";
 
 function ImageBlock({ block }) {
     const { url, caption } = block.content;
 
     return (
         <BlockCard type="image">
-            <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <BlockHeader
+                type="image"
+                title="Image"
+            />
+            <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center", marginTop: "0.25rem" }}>
                 <img
                     src={url}
                     alt={caption || "Content Image"}

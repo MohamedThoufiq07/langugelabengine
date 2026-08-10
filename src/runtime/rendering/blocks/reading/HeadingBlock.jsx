@@ -14,23 +14,15 @@ function HeadingBlock({ block }) {
 
     return (
 
-        <BlockCard type="heading">
+        <div className="elab-heading-block-transparent" style={{ width: "100%", margin: "0.5rem 0", padding: "0.25rem 0" }}>
 
-            <BlockHeader
-
-                type="heading"
-
-                title="Heading"
-
-            />
-
-            <Tag style={{ margin: 0 }}>
+            <Tag style={{ margin: 0, fontWeight: "bold", background: "transparent", color: "inherit", border: "none", boxShadow: "none" }}>
 
                 {text}
 
             </Tag>
 
-        </BlockCard>
+        </div>
 
     );
 
