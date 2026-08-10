@@ -112,7 +112,7 @@ function VideoBlock({ block }) {
                     ref={videoRef}
                     controls
                     controlsList="nodownload"
-                    src={block.content.url}
+                    src={block.content.url || null}
                     onPlay={handlePlay}
                     onPause={handlePause}
                     onTimeUpdate={handleTimeUpdate}

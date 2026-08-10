@@ -111,7 +111,7 @@ function AudioBlock({ block }) {
 
             <audio
                 ref={audioRef}
-                src={block.content.url}
+                src={block.content.url || null}
                 onTimeUpdate={e => setCurrentTime(e.target.currentTime)}
                 onLoadedMetadata={e => setDuration(e.target.duration)}
                 onEnded={() => setIsPlaying(false)}

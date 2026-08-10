@@ -7,7 +7,7 @@ import grammarGirlReading from "../../../samples/assets/images/grammar_girl_read
 
 function FillBlankBlock({ block }) {
 
-    const { sentence, text } = block.content;
+    const { sentence, text, question } = block.content;
 
     const [answer, setAnswer] = useState("");
 

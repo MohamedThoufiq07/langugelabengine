@@ -12,7 +12,7 @@ function ImageBlock({ block }) {
             />
             <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center", marginTop: "0.25rem" }}>
                 <img
-                    src={url}
+                    src={url || null}
                     alt={caption || "Content Image"}
                     style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain", borderRadius: "8px" }}
                 />
