@@ -34,12 +34,6 @@ this.extractor =
      */
     async load(packagePath) {
 
-        console.log("");
-
-        console.log("========== PACKAGE ==========");
-
-        console.log(packagePath);
-
         const extractionPath = await this.extractor.extract(packagePath);
 
         const manifest = await this.manifestReader.read(extractionPath);

@@ -13,8 +13,6 @@ class PackageValidator {
   validate(manifest) {
     this.reset();
 
-    console.log("[PackageValidator] Validating package...");
-
     if (!manifest) {
       this.errors.push("Manifest not found.");
       return false;

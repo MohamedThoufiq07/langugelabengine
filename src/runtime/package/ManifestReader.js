@@ -10,10 +10,6 @@ class ManifestReader {
    * @returns {Promise<Object>}
    */
   async read(extractPath) {
-    console.log(
-      "[ManifestReader] Reading manifest from:",
-      extractPath
-    );
 
     // Check if we are running in Node/Electron environment
     if (typeof process !== "undefined" && process.versions && process.versions.node) {

@@ -35,14 +35,14 @@ function RuntimeShell({
     const [isBlocked, setIsBlocked] = useState(false);
 
     // Helper to pause all videos and audios on page
-    const pauseAllMedia = () => {
+    const pauseAllMedia = useCallback(() => {
         const mediaElements = document.querySelectorAll("video, audio");
         mediaElements.forEach((el) => {
             try {
                 el.pause();
             } catch (err) {}
         });
-    };
+    }, []);
 
     // ── Tab Switch / Focus Detection ──
     useEffect(() => {
@@ -71,7 +71,7 @@ function RuntimeShell({
             document.removeEventListener("visibilitychange", handleTabSwitch);
             window.removeEventListener("blur", handleTabSwitch);
         };
-    }, [warningCount, isBlocked]);
+    }, [warningCount, isBlocked, pauseAllMedia]);
 
     // ── Content Protection ──
     useEffect(() => {
@@ -115,18 +115,18 @@ function RuntimeShell({
         };
     }, []);
 
-    const handleRestartLesson = () => {
+    const handleRestartLesson = useCallback(() => {
         // Reset local proctoring state and refresh session/screen
         setWarningCount(0);
         setIsBlocked(false);
         setShowWarningModal(false);
         window.location.reload();
-    };
+    }, []);
 
-    const handleResumeLesson = () => {
+    const handleResumeLesson = useCallback(() => {
         setWarningCount(1);
         setShowWarningModal(false);
-    };
+    }, []);
 
     return (
         <div

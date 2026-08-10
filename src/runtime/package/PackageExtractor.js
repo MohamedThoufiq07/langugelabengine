@@ -10,10 +10,6 @@ class PackageExtractor {
    * @returns {Promise<string>}
    */
   async extract(packagePath) {
-    console.log(
-      "[PackageExtractor] Extracting package:",
-      packagePath
-    );
 
     // Check if we are running in Node/Electron environment
     if (typeof process !== "undefined" && process.versions && process.versions.node) {
@@ -33,7 +29,6 @@ class PackageExtractor {
             fs.mkdirSync(targetDir, { recursive: true });
           }
 
-          console.log("[PackageExtractor] Extracting to:", targetDir);
           zip.extractAllTo(targetDir, true);
           this.extractPath = targetDir;
           return this.extractPath;

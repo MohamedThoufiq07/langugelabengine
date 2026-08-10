@@ -191,10 +191,6 @@ this.eventBus.emit(
     canNavigateNext() {
 
         return this.screenLifecycle.isCompleted();
-        console.log(
-    "Navigator state:",
-    this.screenLifecycle.getState()
-);
 
     }
     /* ======================================================

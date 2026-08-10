@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import LayoutEngine from "./LayoutEngine";
 import { ScreenCompletionContext } from "../screen/ScreenCompletionContext";
 
@@ -75,7 +75,7 @@ function ScreenRenderer({
 
     }, [answeredIds, requiredIds, onComplete]);
 
-    function reportAnswered(blockId) {
+    const reportAnswered = useCallback((blockId) => {
 
         setAnsweredIds(prev => {
 
@@ -89,9 +89,7 @@ function ScreenRenderer({
 
         });
 
-    }
-
-    const remaining = requiredIds.filter(id => !answeredIds.has(id)).length;
+    }, []);
 
     return (
 

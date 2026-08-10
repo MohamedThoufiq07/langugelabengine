@@ -44,10 +44,12 @@ class Logger {
 
         this.logs.push(entry);
 
-        console.log(
-            `[${level}] ${message}`,
-            data ?? ""
-        );
+        if (import.meta.env.DEV) {
+            console.log(
+                `[${level}] ${message}`,
+                data ?? ""
+            );
+        }
     }
 
     /**

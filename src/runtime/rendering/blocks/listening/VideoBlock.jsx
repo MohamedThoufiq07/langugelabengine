@@ -1,14 +1,6 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import BlockCard from "../../../ui/components/BlockCard";
 import { ScreenCompletionContext } from "../../../screen/ScreenCompletionContext";
-
-import clapperIcon from "../../../samples/assets/images/video_custom_clapperboard.png";
-import sparklesIcon from "../../../samples/assets/images/video_custom_sparkles.png";
-import newCloudIcon from "../../../samples/assets/images/video_custom_new_cloud.png";
-import clockIcon from "../../../samples/assets/images/video_custom_clock_10.png";
-import gradCapIcon from "../../../samples/assets/images/video_custom_grad_cap_large.png";
-import bookIcon from "../../../samples/assets/images/video_custom_open_book.png";
-import boyCharIcon from "../../../samples/assets/images/video_custom_boy_reading.png";
 
 function VideoBlock({ block }) {
     const { reportAnswered } = useContext(ScreenCompletionContext) || {};
@@ -32,13 +24,12 @@ function VideoBlock({ block }) {
         }
     }, [block.id, reportAnswered, storageKey]);
 
-    const handlePlay = () => {
+    const handlePlay = useCallback(() => {
         setIsPlaying(true);
-    };
+    }, []);
 
-    const handlePause = (e) => {
+    const handlePause = useCallback(() => {
         if (!completed) {
-            // Prevent manual pause by forcing play again
             const video = videoRef.current;
             if (video) {
                 video.play().catch(() => {});
@@ -46,57 +37,57 @@ function VideoBlock({ block }) {
         } else {
             setIsPlaying(false);
         }
-    };
+    }, [completed]);
 
-    const handleTimeUpdate = () => {
+    const handleTimeUpdate = useCallback(() => {
         const video = videoRef.current;
         if (!video) return;
 
         if (completed) return;
 
-        // If user is trying to skip forward (seeking ahead of maxTimeWatched + buffer)
         if (video.currentTime > maxTimeWatchedRef.current + 1.5) {
             isSeekingRef.current = true;
             video.currentTime = maxTimeWatchedRef.current;
             isSeekingRef.current = false;
         } else if (!isSeekingRef.current) {
-            // Keep track of maximum progress watched
             maxTimeWatchedRef.current = Math.max(maxTimeWatchedRef.current, video.currentTime);
         }
-    };
+    }, [completed]);
 
-    const handleSeeking = () => {
+    const handleSeeking = useCallback(() => {
         const video = videoRef.current;
         if (!video || completed) return;
 
         if (video.currentTime > maxTimeWatchedRef.current) {
             video.currentTime = maxTimeWatchedRef.current;
         }
-    };
+    }, [completed]);
 
-    const handleEnded = () => {
+    const handleEnded = useCallback(() => {
         setCompleted(true);
         setIsPlaying(false);
         sessionStorage.setItem(storageKey, "true");
         if (reportAnswered) {
             reportAnswered(block.id);
         }
-    };
+    }, [storageKey, reportAnswered, block.id]);
 
-    const togglePlay = () => {
+    const togglePlay = useCallback(() => {
         const video = videoRef.current;
         if (!video) return;
 
         if (video.paused) {
             video.play().catch((err) => {
-                console.error("Video play failed:", err);
+                if (import.meta.env.DEV) {
+                    console.error("Video play failed:", err);
+                }
             });
         } else if (completed) {
             video.pause();
         }
-    };
+    }, [completed]);
 
-    const handleLoadedMetadata = () => {
+    const handleLoadedMetadata = useCallback(() => {
         const video = videoRef.current;
         if (video) {
             const secs = Math.floor(video.duration);
@@ -107,7 +98,7 @@ function VideoBlock({ block }) {
                 setDuration(formatted);
             }
         }
-    };
+    }, []);
 
     return (
         <BlockCard type="video">
