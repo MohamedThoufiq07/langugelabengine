@@ -26,7 +26,7 @@ function getTranscriber(onProgress) {
 
     if (!transcriberPromise) {
 
-        transcriberPromise = import("@xenova/transformers").then(
+        transcriberPromise = import(/* @vite-ignore */ "https://esm.sh/@xenova/transformers@2.17.2").then(
             ({ pipeline, env }) => {
 
                 // Only ever load the model from the HF CDN / IndexedDB
