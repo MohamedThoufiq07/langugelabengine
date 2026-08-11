@@ -13,7 +13,7 @@ import experience from "./runtime/samples/experience.json";
 // add another sample asset, just drop it in the right assets/ subfolder
 // and reference that filename from experience.json).
 const assetModules = import.meta.glob(
-    "./runtime/samples/assets/**/*",
+    "./assets/**/*",
     { eager: true, query: "?url", import: "default" }
 );
 

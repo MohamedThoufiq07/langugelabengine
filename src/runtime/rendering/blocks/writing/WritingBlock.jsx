@@ -2,8 +2,8 @@ import { useState } from "react";
 import BlockCard from "../../../ui/components/BlockCard";
 import { useScreenCompletion } from "../../../screen/ScreenCompletionContext";
 
-import grammarBadgeWriting from "../../../samples/assets/images/grammar_badge_writing.png";
-import grammarBoyWriting from "../../../samples/assets/images/grammar_boy_writing_new.png";
+import grammarBadgeWriting from "../../../../assets/images/grammar_badge_writing.png";
+import grammarBoyWriting from "../../../../assets/images/grammar_boy_writing_new.png";
 
 function WritingBlock({ block }) {
 

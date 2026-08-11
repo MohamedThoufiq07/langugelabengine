@@ -1,13 +1,14 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import BlockCard from "../../../ui/components/BlockCard";
 import { useScreenCompletion } from "../../../screen/ScreenCompletionContext";
 
-import grammarBadgePencil from "../../../samples/assets/images/grammar_badge_pencil.png";
-import grammarGirlReading from "../../../samples/assets/images/grammar_girl_reading_new.png";
+import grammarBadgePencil from "../../../../assets/images/grammar_badge_pencil.png";
+import grammarGirlReading from "../../../../assets/images/grammar_girl_reading_new.png";
 
 function FillBlankBlock({ block }) {
     const { sentence, text, question } = block.content;
     const completion = useScreenCompletion();
+    const savedAnswer = completion?.getSavedAnswer?.(block.id);
 
     const rawSentence = sentence || text || block.content.items?.[0]?.text || "";
 
@@ -32,11 +33,22 @@ function FillBlankBlock({ block }) {
         return result;
     }, [rawSentence]);
 
-    const [answers, setAnswers] = useState({});
+    const [answers, setAnswers] = useState(savedAnswer || {});
+
+    useEffect(() => {
+        if (savedAnswer) {
+            const blanksCount = parts.filter(p => p.type === "blank").length;
+            const enteredCount = Object.values(savedAnswer).filter(val => val.trim().length > 0).length;
+            if (enteredCount === blanksCount) {
+                completion?.reportAnswered(block.id);
+            }
+        }
+    }, [savedAnswer, parts]);
 
     function handleInlineChange(blankIndex, value) {
         const newAnswers = { ...answers, [blankIndex]: value };
         setAnswers(newAnswers);
+        completion?.saveAnswer?.(block.id, newAnswers);
 
         // Check if all blanks have some text entered to report answered
         const blanksCount = parts.filter(p => p.type === "blank").length;

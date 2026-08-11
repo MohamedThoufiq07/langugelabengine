@@ -3,18 +3,18 @@ import BlockCard from "../../../ui/components/BlockCard";
 import { useScreenCompletion } from "../../../screen/ScreenCompletionContext";
 
 // Import cutouts
-import badgeSeqUrl from "../../../samples/assets/images/badge_seq.png";
-import seqGirlUrl from "../../../samples/assets/images/seq_girl.png";
-import seqWaveUrl from "../../../samples/assets/images/seq_wave.png";
-import seqStep1BadgeUrl from "../../../samples/assets/images/seq_step1_badge.png";
-import seqStep2BadgeUrl from "../../../samples/assets/images/seq_step2_badge.png";
-import seqStep3BadgeUrl from "../../../samples/assets/images/seq_step3_badge.png";
+import badgeSeqUrl from "../../../../assets/images/badge_seq.png";
+import seqGirlUrl from "../../../../assets/images/seq_girl.png";
+import seqWaveUrl from "../../../../assets/images/seq_wave.png";
+import seqStep1BadgeUrl from "../../../../assets/images/seq_step1_badge.png";
+import seqStep2BadgeUrl from "../../../../assets/images/seq_step2_badge.png";
+import seqStep3BadgeUrl from "../../../../assets/images/seq_step3_badge.png";
 
 // Import arrows
-import arrowBlueUpUrl from "../../../samples/assets/images/arrow_blue_up.png";
-import arrowPinkUpUrl from "../../../samples/assets/images/arrow_pink_up.png";
-import arrowBlueDownUrl from "../../../samples/assets/images/arrow_blue_down.png";
-import arrowGreenDownUrl from "../../../samples/assets/images/arrow_green_down.png";
+import arrowBlueUpUrl from "../../../../assets/images/arrow_blue_up.png";
+import arrowPinkUpUrl from "../../../../assets/images/arrow_pink_up.png";
+import arrowBlueDownUrl from "../../../../assets/images/arrow_blue_down.png";
+import arrowGreenDownUrl from "../../../../assets/images/arrow_green_down.png";
 
 function shuffle(arr) {
     const a = [...arr];

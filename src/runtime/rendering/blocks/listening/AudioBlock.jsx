@@ -2,11 +2,11 @@ import { useRef, useState } from "react";
 import BlockCard from "../../../ui/components/BlockCard";
 
 // Import cutouts
-import badgeAudioUrl from "../../../samples/assets/images/badge_audio.png";
-import audioBoyUrl from "../../../samples/assets/images/audio_boy.png";
-import audioWaveUrl from "../../../samples/assets/images/audio_wave.png";
-import audioPlayBlueUrl from "../../../samples/assets/images/audio_play_blue.png";
-import audioReplayUrl from "../../../samples/assets/images/audio_replay.png";
+import badgeAudioUrl from "../../../../assets/images/badge_audio.png";
+import audioBoyUrl from "../../../../assets/images/audio_boy.png";
+import audioWaveUrl from "../../../../assets/images/audio_wave.png";
+import audioPlayBlueUrl from "../../../../assets/images/audio_play_blue.png";
+import audioReplayUrl from "../../../../assets/images/audio_replay.png";
 
 function formatTime(seconds) {
     if (!Number.isFinite(seconds)) return "00:00";

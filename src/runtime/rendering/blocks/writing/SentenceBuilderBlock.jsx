@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import BlockCard from "../../../ui/components/BlockCard";
 import { useScreenCompletion } from "../../../screen/ScreenCompletionContext";
 
-import grammarBadgePuzzle from "../../../samples/assets/images/grammar_badge_puzzle.png";
-import grammarBoyPuzzle from "../../../samples/assets/images/grammar_boy_puzzle_new.png";
+import grammarBadgePuzzle from "../../../../assets/images/grammar_badge_puzzle.png";
+import grammarBoyPuzzle from "../../../../assets/images/grammar_boy_puzzle_new.png";
 
 function normalize(text) {
 
@@ -173,7 +173,7 @@ function SentenceBuilderBlock({ block }) {
                     }
 
                     {
-                        correct && (
+                        correct && !window.__isAssessment && (
                             <div className="elab-feedback success" style={{ margin: "4px 0 0 0" }}>
                                 ✅ Correct!
                             </div>
@@ -181,7 +181,7 @@ function SentenceBuilderBlock({ block }) {
                     }
 
                     {
-                        incorrect && (
+                        incorrect && !window.__isAssessment && (
                             <div className="elab-feedback error" style={{ margin: "4px 0 0 0" }}>
                                 ❌ Not quite — tap "Reset" and try again.
                             </div>

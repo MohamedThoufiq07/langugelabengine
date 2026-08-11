@@ -2,14 +2,14 @@ import { useState } from "react";
 import BlockCard from "../../../ui/components/BlockCard";
 
 // Import cutouts
-import badgeFlashcardUrl from "../../../samples/assets/images/badge_flashcard.png";
-import flashcardBoyUrl from "../../../samples/assets/images/flashcard_boy.png";
-import flashcardCardsStackUrl from "../../../samples/assets/images/flashcard_cards_stack.png";
-import flashcardAbcBubbleUrl from "../../../samples/assets/images/flashcard_abc_bubble.png";
-import flashcardBooksBlocksUrl from "../../../samples/assets/images/flashcard_books_blocks.png";
-import flashcardPencilUrl from "../../../samples/assets/images/flashcard_pencil.png";
-import flashcardOpenBookUrl from "../../../samples/assets/images/flashcard_open_book.png";
-import flashcardBalloonUrl from "../../../samples/assets/images/flashcard_balloon.png";
+import badgeFlashcardUrl from "../../../../assets/images/badge_flashcard.png";
+import flashcardBoyUrl from "../../../../assets/images/flashcard_boy.png";
+import flashcardCardsStackUrl from "../../../../assets/images/flashcard_cards_stack.png";
+import flashcardAbcBubbleUrl from "../../../../assets/images/flashcard_abc_bubble.png";
+import flashcardBooksBlocksUrl from "../../../../assets/images/flashcard_books_blocks.png";
+import flashcardPencilUrl from "../../../../assets/images/flashcard_pencil.png";
+import flashcardOpenBookUrl from "../../../../assets/images/flashcard_open_book.png";
+import flashcardBalloonUrl from "../../../../assets/images/flashcard_balloon.png";
 
 function FlashcardBlock({ block }) {
     const { cards = [] } = block.content;

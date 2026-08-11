@@ -3,9 +3,9 @@ import BlockCard from "../../../ui/components/BlockCard";
 import { useScreenCompletion } from "../../../screen/ScreenCompletionContext";
 
 // Import cutouts
-import badgeMemoryUrl from "../../../samples/assets/images/badge_memory.png";
-import memoryOwlUrl from "../../../samples/assets/images/memory_owl.png";
-import memoryThoughtUrl from "../../../samples/assets/images/memory_thought.png";
+import badgeMemoryUrl from "../../../../assets/images/badge_memory.png";
+import memoryOwlUrl from "../../../../assets/images/memory_owl.png";
+import memoryThoughtUrl from "../../../../assets/images/memory_thought.png";
 
 function MemoryBlock({ block }) {
     const { pairs = [] } = block.content;

@@ -91,9 +91,20 @@ function ScreenRenderer({
 
     }, []);
 
+    const saveAnswer = useCallback((blockId, answer) => {
+        if (!window.__assessmentAnswers) {
+            window.__assessmentAnswers = {};
+        }
+        window.__assessmentAnswers[blockId] = answer;
+    }, []);
+
+    const getSavedAnswer = useCallback((blockId) => {
+        return window.__assessmentAnswers?.[blockId] !== undefined ? window.__assessmentAnswers[blockId] : null;
+    }, []);
+
     return (
 
-        <ScreenCompletionContext.Provider value={{ reportAnswered }}>
+        <ScreenCompletionContext.Provider value={{ reportAnswered, saveAnswer, getSavedAnswer }}>
 
             <LayoutEngine
                 screen={screen}

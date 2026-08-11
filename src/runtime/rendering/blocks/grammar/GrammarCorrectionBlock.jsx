@@ -2,8 +2,8 @@ import { useState } from "react";
 import BlockCard from "../../../ui/components/BlockCard";
 import { useScreenCompletion } from "../../../screen/ScreenCompletionContext";
 
-import badgeSentenceFixerUrl from "../../../samples/assets/images/badge_sentence_fixer.png";
-import boyWritingUrl from "../../../samples/assets/images/grammar_boy_writing.png";
+import badgeSentenceFixerUrl from "../../../../assets/images/badge_sentence_fixer.png";
+import boyWritingUrl from "../../../../assets/images/grammar_boy_writing.png";
 
 function GrammarCorrectionBlock({ block }) {
     const { incorrectSentence } = block.content;

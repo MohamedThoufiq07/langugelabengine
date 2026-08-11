@@ -2,8 +2,8 @@ import { useState } from "react";
 import BlockCard from "../../../ui/components/BlockCard";
 import { useScreenCompletion } from "../../../screen/ScreenCompletionContext";
 
-import shortAnswerBadge from "../../../samples/assets/images/speaking_short_answer_badge.png";
-import girlWritingImg from "../../../samples/assets/images/speaking_girl_writing.png";
+import shortAnswerBadge from "../../../../assets/images/speaking_short_answer_badge.png";
+import girlWritingImg from "../../../../assets/images/speaking_girl_writing.png";
 
 function InputBlock({ block }) {
 

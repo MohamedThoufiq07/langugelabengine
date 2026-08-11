@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import BlockCard from "../../../ui/components/BlockCard";
 import BlockHeader from "../../../ui/components/BlockHeader";
 import { useScreenCompletion } from "../../../screen/ScreenCompletionContext";
@@ -9,21 +9,30 @@ function QuizBlock({ block }) {
 
     const { question, options, correctAnswerIndex } = block.content;
 
-    const [selected, setSelected] = useState(null);
+    const completion = useScreenCompletion();
+    const savedAnswer = completion?.getSavedAnswer?.(block.id);
+
+    const [selected, setSelected] = useState(savedAnswer !== null ? savedAnswer : null);
 
     const [confetti, setConfetti] = useState([]);
 
-    const completion = useScreenCompletion();
+    // Pre-report answered state if there is a saved answer loaded on mount
+    useEffect(() => {
+        if (savedAnswer !== null) {
+            completion?.reportAnswered(block.id);
+        }
+    }, [savedAnswer]);
 
     function handleSelect(index) {
 
-        if (selected !== null) return;
+        if (selected !== null && !window.__isAssessment) return;
 
         setSelected(index);
+        completion?.saveAnswer?.(block.id, index);
 
         completion?.reportAnswered(block.id);
 
-        if (index === correctAnswerIndex) {
+        if (!window.__isAssessment && index === correctAnswerIndex) {
 
             const pieces = Array.from({ length: 6 }).map((_, i) => ({
                 id: `${Date.now()}-${i}`,
@@ -39,6 +48,8 @@ function QuizBlock({ block }) {
         }
 
     }
+
+    const isAssessment = window.__isAssessment;
 
     return (
 
@@ -71,15 +82,15 @@ function QuizBlock({ block }) {
                     {options.map((option, index) => {
 
                         const isSelected = selected === index;
-                        const isCorrect = selected !== null && index === correctAnswerIndex;
-                        const isIncorrect = isSelected && index !== correctAnswerIndex;
+                        const isCorrect = !isAssessment && selected !== null && index === correctAnswerIndex;
+                        const isIncorrect = !isAssessment && isSelected && index !== correctAnswerIndex;
 
                         return (
 
                             <button
                                 key={index}
                                 onClick={() => handleSelect(index)}
-                                disabled={selected !== null}
+                                disabled={!isAssessment && selected !== null}
                                 className={`elab-option ${isSelected ? "is-selected" : ""} ${isCorrect ? "is-correct" : ""} ${isIncorrect ? "is-incorrect" : ""}`}
                             >
                                 <span className="elab-option-badge">

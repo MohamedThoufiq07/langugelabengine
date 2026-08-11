@@ -3,10 +3,10 @@ import BlockCard from "../../../ui/components/BlockCard";
 import { useScreenCompletion } from "../../../screen/ScreenCompletionContext";
 
 // Import cutouts
-import badgeDictationUrl from "../../../samples/assets/images/badge_dictation.png";
-import dictationGirlUrl from "../../../samples/assets/images/dictation_girl.png";
-import dictationMicUrl from "../../../samples/assets/images/dictation_mic.png";
-import dictationPlayPurpleUrl from "../../../samples/assets/images/dictation_play_purple.png";
+import badgeDictationUrl from "../../../../assets/images/badge_dictation.png";
+import dictationGirlUrl from "../../../../assets/images/dictation_girl.png";
+import dictationMicUrl from "../../../../assets/images/dictation_mic.png";
+import dictationPlayPurpleUrl from "../../../../assets/images/dictation_play_purple.png";
 
 function DictationBlock({ block }) {
     const { url, question } = block.content;

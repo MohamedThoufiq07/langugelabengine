@@ -2,11 +2,11 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import BlockCard from "../../../ui/components/BlockCard";
 import { useScreenCompletion } from "../../../screen/ScreenCompletionContext";
 
-import iconDashboard from "../../../samples/assets/images/icon_dashboard.png";
-import iconStudio from "../../../samples/assets/images/icon_studio.png";
-import iconTeacher from "../../../samples/assets/images/icon_teacher.png";
-import iconLibrary from "../../../samples/assets/images/icon_library.png";
-import boyMagnifyingImg from "../../../samples/assets/images/reading_boy_magnifying.png";
+import iconDashboard from "../../../../assets/images/icon_dashboard.png";
+import iconStudio from "../../../../assets/images/icon_studio.png";
+import iconTeacher from "../../../../assets/images/icon_teacher.png";
+import iconLibrary from "../../../../assets/images/icon_library.png";
+import boyMagnifyingImg from "../../../../assets/images/reading_boy_magnifying.png";
 
 const DIRECTIONS = [
 

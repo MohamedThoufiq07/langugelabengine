@@ -4,9 +4,9 @@ import PronunciationService from "../../services/speech/PronunciationService";
 import BlockCard from "../../../ui/components/BlockCard";
 import { useScreenCompletion } from "../../../screen/ScreenCompletionContext";
 
-import pronunciationBadge from "../../../samples/assets/images/speaking_pronunciation_badge.png";
-import boyMicImg from "../../../samples/assets/images/speaking_boy_microphone.png";
-import orangeButtonBg from "../../../samples/assets/images/speaking_orange_button_bg.png";
+import pronunciationBadge from "../../../../assets/images/speaking_pronunciation_badge.png";
+import boyMicImg from "../../../../assets/images/speaking_boy_microphone.png";
+import orangeButtonBg from "../../../../assets/images/speaking_orange_button_bg.png";
 
 const VERDICT_META = {
 

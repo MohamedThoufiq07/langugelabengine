@@ -3,9 +3,9 @@ import RecordingService from "../../services/recording/RecordingService";
 import BlockCard from "../../../ui/components/BlockCard";
 import { useScreenCompletion } from "../../../screen/ScreenCompletionContext";
 
-import masksBadge from "../../../samples/assets/images/speaking_masks_badge.png";
-import puppetShowImg from "../../../samples/assets/images/speaking_puppet_show.png";
-import micIcon from "../../../samples/assets/images/dictation_mic.png";
+import masksBadge from "../../../../assets/images/speaking_masks_badge.png";
+import puppetShowImg from "../../../../assets/images/speaking_puppet_show.png";
+import micIcon from "../../../../assets/images/dictation_mic.png";
 
 function RolePlayBlock({ block }) {
 

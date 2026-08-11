@@ -3,11 +3,11 @@ import BlockCard from "../../../ui/components/BlockCard";
 import { useScreenCompletion } from "../../../screen/ScreenCompletionContext";
 
 // Import cutouts
-import badgeReadingUrl from "../../../samples/assets/images/badge_reading.png";
-import readingGirlUrl from "../../../samples/assets/images/reading_girl.png";
-import readingBalloonUrl from "../../../samples/assets/images/reading_balloon.png";
-import readingThoughtUrl from "../../../samples/assets/images/reading_thought.png";
-import readingBooksUrl from "../../../samples/assets/images/reading_books.png";
+import badgeReadingUrl from "../../../../assets/images/badge_reading.png";
+import readingGirlUrl from "../../../../assets/images/reading_girl.png";
+import readingBalloonUrl from "../../../../assets/images/reading_balloon.png";
+import readingThoughtUrl from "../../../../assets/images/reading_thought.png";
+import readingBooksUrl from "../../../../assets/images/reading_books.png";
 
 function ReadingBlock({ block }) {
     const { title, passage, question } = block.content;

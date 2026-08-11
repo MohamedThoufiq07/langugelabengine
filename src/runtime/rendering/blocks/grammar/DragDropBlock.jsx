@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import BlockCard from "../../../ui/components/BlockCard";
 import { useScreenCompletion } from "../../../screen/ScreenCompletionContext";
 
-import badgeWordsConnectUrl from "../../../samples/assets/images/badge_words_connect.png";
-import girlPuzzleUrl from "../../../samples/assets/images/grammar_girl_puzzle.png";
+import badgeWordsConnectUrl from "../../../../assets/images/badge_words_connect.png";
+import girlPuzzleUrl from "../../../../assets/images/grammar_girl_puzzle.png";
 
 function DragDropBlock({ block }) {
     const { draggableItems = [], dropZones = [], pairs = [], question } = block.content;
@@ -17,17 +17,32 @@ function DragDropBlock({ block }) {
         finalZones = pairs.map(p => p.target);
     }
 
+    const savedAnswer = completion?.getSavedAnswer?.(block.id);
+
     const [selectedItem, setSelectedItem] = useState(null);
-    const [placed, setPlaced] = useState({});
+    const [placed, setPlaced] = useState(savedAnswer || {});
     const [wrongZone, setWrongZone] = useState(null);
 
     const placedItemIndices = new Set(Object.values(placed));
     const total = Math.min(finalDraggable.length, finalZones.length);
     const allPlaced = total > 0 && placedItemIndices.size === total;
 
+    const isAssessment = window.__isAssessment;
+
     useEffect(() => {
         if (allPlaced) completion?.reportAnswered(block.id);
     }, [allPlaced]);
+
+    useEffect(() => {
+        if (savedAnswer) {
+            const placedItemIndices = new Set(Object.values(savedAnswer));
+            const total = Math.min(finalDraggable.length, finalZones.length);
+            const allPlaced = total > 0 && placedItemIndices.size === total;
+            if (allPlaced) {
+                completion?.reportAnswered(block.id);
+            }
+        }
+    }, [savedAnswer, finalDraggable, finalZones]);
 
     function chooseItem(index) {
         if (placedItemIndices.has(index)) return;
@@ -35,10 +50,23 @@ function DragDropBlock({ block }) {
     }
 
     function chooseZone(zoneIndex) {
-        if (selectedItem === null || placed[zoneIndex] !== undefined) return;
+        if (placed[zoneIndex] !== undefined) {
+            setPlaced(prev => {
+                const next = { ...prev };
+                delete next[zoneIndex];
+                completion?.saveAnswer?.(block.id, next);
+                return next;
+            });
+            return;
+        }
+        if (selectedItem === null) return;
 
-        if (selectedItem === zoneIndex) {
-            setPlaced(prev => ({ ...prev, [zoneIndex]: selectedItem }));
+        if (isAssessment || selectedItem === zoneIndex) {
+            setPlaced(prev => {
+                const next = { ...prev, [zoneIndex]: selectedItem };
+                completion?.saveAnswer?.(block.id, next);
+                return next;
+            });
             setSelectedItem(null);
         } else {
             setWrongZone(zoneIndex);
@@ -99,8 +127,12 @@ function DragDropBlock({ block }) {
                                     if (draggedIndexStr !== "") {
                                         const draggedIndex = parseInt(draggedIndexStr, 10);
                                         if (placed[zoneIndex] === undefined) {
-                                            if (draggedIndex === zoneIndex) {
-                                                setPlaced(prev => ({ ...prev, [zoneIndex]: draggedIndex }));
+                                            if (isAssessment || draggedIndex === zoneIndex) {
+                                                setPlaced(prev => {
+                                                    const next = { ...prev, [zoneIndex]: draggedIndex };
+                                                    completion?.saveAnswer?.(block.id, next);
+                                                    return next;
+                                                });
                                                 setSelectedItem(null);
                                             } else {
                                                 setWrongZone(zoneIndex);
@@ -114,7 +146,13 @@ function DragDropBlock({ block }) {
                                 <div className="elab-drop-zone-dest">{zone}</div>
                                 <div className={`elab-drop-zone-target-box ${filled ? "is-filled" : ""} ${wrongZone === zoneIndex ? "is-wrong" : ""}`}>
                                     {filled ? (
-                                        <span className="elab-drag-chip is-static">{finalDraggable[itemIndex]}</span>
+                                        <span 
+                                            className="elab-drag-chip" 
+                                            style={{ cursor: "pointer" }}
+                                            title="Click to remove"
+                                        >
+                                            {finalDraggable[itemIndex]}
+                                        </span>
                                     ) : (
                                         <span className="elab-drop-here-text">Drop here</span>
                                     )}
@@ -124,7 +162,7 @@ function DragDropBlock({ block }) {
                     })}
                 </div>
 
-                {allPlaced && (
+                {allPlaced && !isAssessment && (
                     <div className="elab-feedback success">✅ Great job!</div>
                 )}
             </div>
