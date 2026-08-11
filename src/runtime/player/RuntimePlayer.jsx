@@ -95,14 +95,35 @@ function RuntimePlayer({
         window.location.reload();
     }, [runtime]);
 
-    // Reset selected activity if experience changes
-    useEffect(() => {
-        setSelectedActivityIndex(null);
+    const isAssessment = useMemo(() => {
+        const check = experience?.experienceType === 'ASSESSMENT' || 
+               experience?.experience_type === 'ASSESSMENT' || 
+               experience?.activities?.some(act => act.activityType === 'ASSESSMENT' || act.activity_type === 'ASSESSMENT');
+        window.__isAssessment = check;
+        return check;
     }, [experience]);
 
+    // Reset selected activity if experience changes, or auto-select if assessment
+    useEffect(() => {
+        if (isAssessment) {
+            if (experience?.activities?.length > 0) {
+                runtime.engineState.setCurrentActivity(0);
+                runtime.engineState.setCurrentScreen(0);
+                refreshScreen();
+                setSelectedActivityIndex(0);
+            }
+        } else {
+            setSelectedActivityIndex(null);
+        }
+    }, [experience, isAssessment, runtime, refreshScreen]);
+
     const handleExitToMenu = useCallback(() => {
-        setSelectedActivityIndex(null);
-    }, []);
+        if (isAssessment) {
+            if (onExit) onExit();
+        } else {
+            setSelectedActivityIndex(null);
+        }
+    }, [isAssessment, onExit]);
 
     // Get current activity screens
     const currentActivity = useMemo(() => {
@@ -129,9 +150,11 @@ function RuntimePlayer({
             // Completed current activity module
             setJustFinishedActivityIndex(selectedActivityIndex);
             setShowCongrats(true);
-            setSelectedActivityIndex(null);
+            if (!isAssessment) {
+                setSelectedActivityIndex(null);
+            }
         }
-    }, [runtime, refreshScreen, currentActivity, selectedActivityIndex]);
+    }, [runtime, refreshScreen, currentActivity, selectedActivityIndex, isAssessment]);
 
     const handlePrevious = useCallback(() => {
         const currentScreenIdx = runtime.getCurrentScreenIndex();

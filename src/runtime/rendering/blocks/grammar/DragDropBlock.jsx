@@ -69,8 +69,14 @@ function DragDropBlock({ block }) {
                         <button
                             key={index}
                             onClick={() => chooseItem(index)}
+                            draggable="true"
+                            onDragStart={(e) => {
+                                setSelectedItem(index);
+                                e.dataTransfer.setData("text/plain", index);
+                            }}
                             disabled={placedItemIndices.has(index)}
                             className={`elab-drag-chip ${selectedItem === index ? "is-selected" : ""} ${placedItemIndices.has(index) ? "is-placed" : ""}`}
+                            style={{ cursor: "grab" }}
                         >
                             {item}
                         </button>
@@ -86,6 +92,23 @@ function DragDropBlock({ block }) {
                             <div
                                 key={zoneIndex}
                                 onClick={() => chooseZone(zoneIndex)}
+                                onDragOver={(e) => e.preventDefault()}
+                                onDrop={(e) => {
+                                    e.preventDefault();
+                                    const draggedIndexStr = e.dataTransfer.getData("text/plain");
+                                    if (draggedIndexStr !== "") {
+                                        const draggedIndex = parseInt(draggedIndexStr, 10);
+                                        if (placed[zoneIndex] === undefined) {
+                                            if (draggedIndex === zoneIndex) {
+                                                setPlaced(prev => ({ ...prev, [zoneIndex]: draggedIndex }));
+                                                setSelectedItem(null);
+                                            } else {
+                                                setWrongZone(zoneIndex);
+                                                setTimeout(() => setWrongZone(null), 400);
+                                            }
+                                        }
+                                    }
+                                }}
                                 className="elab-drop-zone-box"
                             >
                                 <div className="elab-drop-zone-dest">{zone}</div>
