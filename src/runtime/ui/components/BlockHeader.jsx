@@ -7,7 +7,7 @@ const ICONS = {
     audio: "🔊",
     voice: "🎤",
     dialogue: "💬",
-    quiz: "❓",
+    quiz: <span style={{ color: "#e91e63", fontWeight: "800", fontSize: "32px", fontFamily: "inherit" }}>?</span>,
     true_false: "⚖️",
     fill_blank: "✏️",
     input: "✍️",

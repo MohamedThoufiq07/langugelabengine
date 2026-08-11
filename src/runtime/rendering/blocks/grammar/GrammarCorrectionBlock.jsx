@@ -1,5 +1,6 @@
 import { useState } from "react";
 import BlockCard from "../../../ui/components/BlockCard";
+import BlockHeader from "../../../ui/components/BlockHeader";
 import { useScreenCompletion } from "../../../screen/ScreenCompletionContext";
 
 import badgeSentenceFixerUrl from "../../../../assets/images/badge_sentence_fixer.png";
@@ -21,14 +22,11 @@ function GrammarCorrectionBlock({ block }) {
     return (
         <BlockCard type="grammar_correction" className="elab-sentence-fixer-card">
             <div className="elab-grammar-card-content">
-                {/* Header */}
-                <div className="elab-grammar-header">
-                    <div className="elab-grammar-title-row">
-                        <img src={badgeSentenceFixerUrl} className="elab-grammar-badge" alt="Badge" />
-                        <span className="elab-grammar-title green">SENTENCE FIXER</span>
-                    </div>
-                    <p className="elab-grammar-subtitle">Rewrite the sentence correctly.</p>
-                </div>
+                <BlockHeader
+                    type="quiz"
+                    title="SENTENCE FIXER"
+                    subtitle="Rewrite the sentence correctly."
+                />
                 
                 {/* Incorrect Sentence Box */}
                 <div className="elab-incorrect-sentence-box">

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import BlockCard from "../../../ui/components/BlockCard";
+import BlockHeader from "../../../ui/components/BlockHeader";
 import { useScreenCompletion } from "../../../screen/ScreenCompletionContext";
 
 import badgeWordsConnectUrl from "../../../../assets/images/badge_words_connect.png";
@@ -50,15 +51,6 @@ function DragDropBlock({ block }) {
     }
 
     function chooseZone(zoneIndex) {
-        if (placed[zoneIndex] !== undefined) {
-            setPlaced(prev => {
-                const next = { ...prev };
-                delete next[zoneIndex];
-                completion?.saveAnswer?.(block.id, next);
-                return next;
-            });
-            return;
-        }
         if (selectedItem === null) return;
 
         if (isAssessment || selectedItem === zoneIndex) {
@@ -82,14 +74,11 @@ function DragDropBlock({ block }) {
             </div>
 
             <div className="elab-grammar-card-content">
-                {/* Header */}
-                <div className="elab-grammar-header">
-                    <div className="elab-grammar-title-row">
-                        <img src={badgeWordsConnectUrl} className="elab-grammar-badge" alt="Badge" />
-                        <span className="elab-grammar-title orange">WORDS CONNECT</span>
-                    </div>
-                    <p className="elab-grammar-subtitle">{question || "Drag the correct words to their destinations."}</p>
-                </div>
+                <BlockHeader
+                    type="quiz"
+                    title="WORDS CONNECT"
+                    subtitle={question || "Drag the correct words to their destinations."}
+                />
                 
                 {/* Draggable items (chips) */}
                 <div className="elab-drag-chips-row">

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import BlockCard from "../../../ui/components/BlockCard";
+import BlockHeader from "../../../ui/components/BlockHeader";
 import { useScreenCompletion } from "../../../screen/ScreenCompletionContext";
 
 import badgeFactCheckUrl from "../../../../assets/images/badge_fact_check.png";
@@ -32,16 +33,11 @@ function TrueFalseBlock({ block }) {
     return (
         <BlockCard type="true_false" className="elab-fact-check-card">
             <div className="elab-grammar-card-content">
-                {/* Header */}
-                <div className="elab-grammar-header">
-                    <div className="elab-grammar-title-row">
-                        <img src={badgeFactCheckUrl} className="elab-grammar-badge" alt="Badge" />
-                        <span className="elab-grammar-title purple">FACT CHECK</span>
-                    </div>
-                </div>
-                
-                {/* Statement */}
-                <p className="elab-fact-check-statement">{question}</p>
+                <BlockHeader
+                    type="quiz"
+                    title="FACT CHECK"
+                    subtitle={question}
+                />
                 
                 {/* True/False Buttons Row */}
                 <div className="elab-fact-check-options-row">

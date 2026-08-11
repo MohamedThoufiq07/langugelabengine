@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 import "../RuntimeShell.css";
 import "../backdrop/SceneBackdrop.css";
 import SceneBackdrop from "../backdrop/SceneBackdrop";
@@ -31,6 +31,35 @@ function RuntimeShell({
     const currentActivity = experience?.activities?.[currentActivityIndex];
     const isAssessment = experience?.experienceType === "ASSESSMENT" || experience?.experience_type === "ASSESSMENT" || currentActivity?.activityType === "ASSESSMENT" || currentActivity?.activity_type === "ASSESSMENT";
 
+    const [timeLeft, setTimeLeft] = useState(() => {
+        const durationMinutes = experience?.estimatedDuration || experience?.estimated_duration || 15;
+        return durationMinutes * 60;
+    });
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setTimeLeft(prev => {
+                if (prev <= 1) {
+                    clearInterval(timer);
+                    return 0;
+                }
+                return prev - 1;
+            });
+        }, 1000);
+
+        return () => clearInterval(timer);
+    }, [experience]);
+
+    const formattedTime = useMemo(() => {
+        const h = Math.floor(timeLeft / 3600);
+        const m = Math.floor((timeLeft % 3600) / 60);
+        const s = timeLeft % 60;
+        const pad = (num) => String(num).padStart(2, "0");
+        return h > 0 ? `${pad(h)}:${pad(m)}:${pad(s)}` : `${pad(m)}:${pad(s)}`;
+    }, [timeLeft]);
+
+    const isTimeLow = timeLeft < 60; // 1 minute
+
     const dynamicBackdropStyle = isAssessment ? {
         backgroundImage: "url('/Assesment bg.png')",
         backgroundSize: "100% 100%",
@@ -47,6 +76,27 @@ function RuntimeShell({
             >
                 <main className="scene-backdrop" style={dynamicBackdropStyle}>
                     <SceneBackdrop runtime={runtime} />
+
+                    {/* Countdown Timer at top right */}
+                    <div className={`elab-assessment-timer ${isTimeLow ? "time-low" : ""}`}>
+                        <svg 
+                            width="20" 
+                            height="20" 
+                            viewBox="0 0 24 24" 
+                            fill="none" 
+                            stroke="currentColor" 
+                            strokeWidth="2.5" 
+                            strokeLinecap="round" 
+                            strokeLinejoin="round"
+                            className="timer-svg-icon"
+                        >
+                            <circle cx="12" cy="12" r="10" />
+                            <polyline points="12 6 12 12 16 14" />
+                        </svg>
+                        <span className="timer-text">
+                            {timeLeft === 0 ? "Time's Up!" : formattedTime}
+                        </span>
+                    </div>
                     
                     {/* Scrollable content area */}
                     <div className="scene-content-area">
