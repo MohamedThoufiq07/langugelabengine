@@ -4,7 +4,7 @@ import RuntimeEngine from "./runtime/engine/RuntimeEngine";
 import RuntimePlayer from "./runtime/player/RuntimePlayer";
 import LoadingScreen from "./runtime/player/LoadingScreen";
 
-import experience from "./runtime/samples/experience.json";
+import experience from "./runtime/samples/The_Lost_Picnic_v1.0.0.elab/experience.json";
 
 // The sample experience's media URLs point at the live CMS backend
 // (localhost:8000), which isn't running in this standalone demo. Every file
@@ -13,7 +13,7 @@ import experience from "./runtime/samples/experience.json";
 // add another sample asset, just drop it in the right assets/ subfolder
 // and reference that filename from experience.json).
 const assetModules = import.meta.glob(
-    "./assets/**/*",
+    ["./assets/**/*", "./runtime/samples/**/assets/**/*"],
     { eager: true, query: "?url", import: "default" }
 );
 
@@ -27,31 +27,34 @@ function useLocalSampleAssets(rawExperience) {
 
         const clone = structuredClone(rawExperience);
 
-        for (const activity of clone.activities || []) {
+        function resolveAssetReferences(value) {
 
-            for (const screen of activity.screens || []) {
+            if (Array.isArray(value)) {
 
-                for (const element of screen.content?.elements || []) {
-
-                    const url = element.content?.url;
-
-                    if (!url) continue;
-
-                    const filename = url.split("/").pop();
-
-                    if (LOCAL_SAMPLE_ASSETS[filename]) {
-
-                        element.content.url = LOCAL_SAMPLE_ASSETS[filename];
-
-                    }
-
-                }
+                return value.map(resolveAssetReferences);
 
             }
 
+            if (!value || typeof value !== "object") {
+
+                if (typeof value !== "string") return value;
+
+                const filename = value.split("/").pop();
+
+                return LOCAL_SAMPLE_ASSETS[filename] || value;
+
+            }
+
+            return Object.fromEntries(
+                Object.entries(value).map(([key, child]) => [
+                    key,
+                    resolveAssetReferences(child)
+                ])
+            );
+
         }
 
-        return clone;
+        return resolveAssetReferences(clone);
 
     }, [rawExperience]);
 

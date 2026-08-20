@@ -5,7 +5,7 @@ import SceneBackdrop from "../backdrop/SceneBackdrop";
 import ProctoringGuard from "../proctoring/ProctoringGuard";
 
 const BACKDROP_STYLE = {
-    backgroundImage: "url('/bg.png')",
+    backgroundImage: "url('/bg1.png')",
     backgroundSize: "100% 100%",
     backgroundPosition: "center center",
     backgroundRepeat: "no-repeat",
@@ -26,6 +26,11 @@ function RuntimeShell({
     const isLastScreen =
         progress.currentActivity === progress.totalActivities &&
         progress.currentScreen === progress.totalScreens;
+
+    const isExperienceType = useMemo(() => {
+        const type = (experience?.experienceType || experience?.experience_type || experience?.lessonType || experience?.lesson_type || "").toLowerCase();
+        return type === "experience" || type === "lesson";
+    }, [experience]);
 
     const currentActivityIndex = runtime.engineState.getCurrentActivityIndex();
     const currentActivity = experience?.activities?.[currentActivityIndex];
@@ -67,51 +72,51 @@ function RuntimeShell({
         backgroundRepeat: "no-repeat",
     } : BACKDROP_STYLE;
 
+    const currentExperienceTypeString = (experience?.experienceType || experience?.experience_type || experience?.lessonType || experience?.lesson_type || "").toLowerCase();
+
     return (
         <ProctoringGuard runtime={runtime}>
             <div
                 className="runtime-shell"
                 data-grade-band={gradeBand}
+                data-experience-type={currentExperienceTypeString}
                 style={theme}
             >
                 <main className="scene-backdrop" style={dynamicBackdropStyle}>
                     <SceneBackdrop runtime={runtime} />
 
                     {/* Countdown Timer at top right */}
-                    <div className={`elab-assessment-timer ${isTimeLow ? "time-low" : ""}`}>
-                        <svg 
-                            width="20" 
-                            height="20" 
-                            viewBox="0 0 24 24" 
-                            fill="none" 
-                            stroke="currentColor" 
-                            strokeWidth="2.5" 
-                            strokeLinecap="round" 
-                            strokeLinejoin="round"
-                            className="timer-svg-icon"
-                        >
-                            <circle cx="12" cy="12" r="10" />
-                            <polyline points="12 6 12 12 16 14" />
-                        </svg>
-                        <span className="timer-text">
-                            {timeLeft === 0 ? "Time's Up!" : formattedTime}
-                        </span>
-                    </div>
+                    {!isExperienceType && (
+                        <div className={`elab-assessment-timer ${isTimeLow ? "time-low" : ""}`}>
+                            <svg 
+                                width="20" 
+                                height="20" 
+                                viewBox="0 0 24 24" 
+                                fill="none" 
+                                stroke="currentColor" 
+                                strokeWidth="2.5" 
+                                strokeLinecap="round" 
+                                strokeLinejoin="round"
+                                className="timer-svg-icon"
+                            >
+                                <circle cx="12" cy="12" r="10" />
+                                <polyline points="12 6 12 12 16 14" />
+                            </svg>
+                            <span className="timer-text">
+                                {timeLeft === 0 ? "Time's Up!" : formattedTime}
+                            </span>
+                        </div>
+                    )}
                     
                     {/* Scrollable content area */}
                     <div className="scene-content-area">
                         {children}
                     </div>
 
-                    {/* ── Title text on the bg board — bottom-left ── */}
+                    {/* ── Screen indicator — bottom-left ── */}
                     {!isAssessment && (
                         <div className="board-text-widget">
-                            <span className="board-title-text">
-                                {experience?.title || "English Activity"}
-                            </span>
-                            <span className="board-screen-text">
-                                Screen {progress.currentScreen} / {progress.totalScreens}
-                            </span>
+                            <span className="board-screen-text" aria-label={`Screen ${progress.currentScreen} of ${progress.totalScreens}`} />
                         </div>
                     )}
 
@@ -125,8 +130,17 @@ function RuntimeShell({
                             aria-label="Previous"
                             title="Previous"
                         >
-                            <span className="game-btn-icon">◀</span>
-                            <span className="game-btn-label">Prev</span>
+                            <img 
+                                src="/arrrow.png" 
+                                style={{ 
+                                    width: "80px", 
+                                    height: "auto", 
+                                    transform: "scaleX(-1)", 
+                                    opacity: progress.currentScreen <= 1 ? 0.5 : 1,
+                                    transition: "all 0.2s ease"
+                                }} 
+                                alt="Previous" 
+                            />
                         </button>
 
                         {/* Exit — red clearly visible */}
@@ -160,8 +174,16 @@ function RuntimeShell({
                                 aria-label="Next"
                                 title="Next"
                             >
-                                <span className="game-btn-label">Next</span>
-                                <span className="game-btn-icon">▶</span>
+                                <img 
+                                    src="/arrrow.png" 
+                                    style={{ 
+                                        width: "80px", 
+                                        height: "auto", 
+                                        opacity: !canGoNext ? 0.5 : 1,
+                                        transition: "all 0.2s ease"
+                                    }} 
+                                    alt="Next" 
+                                />
                             </button>
                         )}
                     </div>

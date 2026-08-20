@@ -10,11 +10,15 @@ function WritingBlock({ block }) {
     const {
         prompt,
         placeholder,
-        minWords = 0
+        minWords = 0,
+        sentenceStarters = [],
+        sentenceStarterMode = false
 
     } = block.content;
 
     const [answer, setAnswer] = useState("");
+    const [selectedStarter, setSelectedStarter] = useState("");
+    const [usingSentenceStarter, setUsingSentenceStarter] = useState(sentenceStarterMode);
 
     const completion = useScreenCompletion();
 
@@ -38,6 +42,11 @@ function WritingBlock({ block }) {
 
     }
 
+    function applySentenceStarter(starter) {
+        setSelectedStarter(starter);
+        setAnswer(starter + " ");
+    }
+
     return (
 
         <BlockCard type="writing_prompt">
@@ -56,6 +65,37 @@ function WritingBlock({ block }) {
                     <h4 className="grammar-subtitle">
                         {prompt || question || "Write about your favorite hobby."}
                     </h4>
+
+                    {sentenceStarters && sentenceStarters.length > 0 && (
+                        <div className="sentence-starter-section">
+                            <label className="starter-mode-toggle">
+                                <input 
+                                    type="checkbox" 
+                                    checked={usingSentenceStarter}
+                                    onChange={(e) => setUsingSentenceStarter(e.target.checked)}
+                                    className="toggle-input"
+                                />
+                                <span className="toggle-text">Use Sentence Starters</span>
+                            </label>
+
+                            {usingSentenceStarter && (
+                                <div className="sentence-starters-list">
+                                    <p className="starters-label">Pick a sentence starter:</p>
+                                    <div className="starters-grid">
+                                        {sentenceStarters.map((starter, idx) => (
+                                            <button
+                                                key={idx}
+                                                onClick={() => applySentenceStarter(starter)}
+                                                className={`starter-btn ${selectedStarter === starter ? "is-selected" : ""}`}
+                                            >
+                                                {starter}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    )}
 
                     <div className="grammar-textarea-container">
                         <textarea

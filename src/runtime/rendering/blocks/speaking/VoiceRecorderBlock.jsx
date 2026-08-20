@@ -10,12 +10,16 @@ import recordDot from "../../../../assets/images/speaking_record_dot.png";
 
 function VoiceRecorderBlock({ block }) {
 
-    const { prompt } = block.content;
+    const { 
+        prompt,
+        audio = null,
+        audioFirst = false
+    } = block.content;
 
     const [recording, setRecording] = useState(false);
     const [paused, setPaused] = useState(false);
 
-    const [audio, setAudio] = useState(null);
+    const [userAudio, setUserAudio] = useState(null);
 
     const [duration, setDuration] = useState(0);
 
@@ -24,6 +28,9 @@ function VoiceRecorderBlock({ block }) {
     const [analyzing, setAnalyzing] = useState(false);
 
     const [heardText, setHeardText] = useState(null);
+    
+    const [audioPlayed, setAudioPlayed] = useState(false);
+    const [useAudioMode, setUseAudioMode] = useState(audioFirst);
 
     const completion = useScreenCompletion();
 
@@ -55,7 +62,7 @@ function VoiceRecorderBlock({ block }) {
 
             await RecordingService.stopRecording();
 
-        setAudio(result.url);
+        setUserAudio(result.url);
 
         setDuration(result.duration);
 
@@ -128,6 +135,35 @@ function VoiceRecorderBlock({ block }) {
 
                     <div className="speaking-divider-line" />
 
+                    {audio && (
+                        <div className="voice-audio-section">
+                            <div className="elab-media-frame">
+                                <audio 
+                                    src={audio} 
+                                    controls 
+                                    className="elab-media-player"
+                                    onPlay={() => setAudioPlayed(true)}
+                                />
+                            </div>
+                            {useAudioMode && (
+                                <div className="audio-first-toggle">
+                                    <label className="toggle-label">
+                                        <input 
+                                            type="checkbox" 
+                                            checked={useAudioMode}
+                                            onChange={(e) => setUseAudioMode(e.target.checked)}
+                                            className="toggle-input"
+                                        />
+                                        <span className="toggle-text">Audio-First Mode</span>
+                                    </label>
+                                    {!audioPlayed && (
+                                        <small className="audio-reminder">Listen first before recording</small>
+                                    )}
+                                </div>
+                            )}
+                        </div>
+                    )}
+
                     {recording && (
                         <div style={{ display: "flex", alignItems: "center", gap: "8px", margin: "0.25rem 0" }}>
                             <span className="elab-recording-dot" />
@@ -167,9 +203,9 @@ function VoiceRecorderBlock({ block }) {
                         )}
                     </div>
 
-                    {audio && (
+                    {userAudio && (
                         <div className="elab-media-frame">
-                            <audio controls src={audio} />
+                            <audio controls src={userAudio} />
                             <p className="elab-caption" style={{ padding: "10px 14px" }}>
                                 Duration: {Math.round(duration / 1000)} sec
                             </p>

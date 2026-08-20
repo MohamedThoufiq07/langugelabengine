@@ -2,10 +2,24 @@ import { useMemo } from "react";
 import ElementRenderer from "./ElementRenderer";
 import ScreenStepBar from "./ScreenStepBar";
 
-function LayoutEngine({ screen, activityScreens = [], currentScreenIndex = 0 }) {
+function LayoutEngine({ screen, activityScreens = [], currentScreenIndex = 0, isExperienceType }) {
 
-    const { elements } = screen.content;
-    const list = elements || [];
+    const rawElements = screen?.content?.elements || [];
+    const list = useMemo(() => {
+        return rawElements.slice().sort((a, b) => {
+            const getTop = (el) => {
+                if (el.order !== undefined && el.order !== null) return Number(el.order);
+                if (el.sequence !== undefined && el.sequence !== null) return Number(el.sequence);
+                if (el.position !== undefined && el.position !== null) return Number(el.position);
+                if (el.styles && el.styles.top !== undefined) {
+                    const parsed = parseFloat(String(el.styles.top).replace("px", ""));
+                    if (!isNaN(parsed)) return parsed;
+                }
+                return 0;
+            };
+            return getTop(a) - getTop(b);
+        });
+    }, [rawElements]);
 
     const noOuterCard = useMemo(() => {
         const titleLower = screen.title?.toLowerCase();
@@ -27,10 +41,12 @@ function LayoutEngine({ screen, activityScreens = [], currentScreenIndex = 0 }) 
         <div className="layout-engine-container">
 
             {/* ── Horizontal step progress bar at the top ── */}
-            <ScreenStepBar
-                screens={activityScreens}
-                currentIndex={currentScreenIndex}
-            />
+            {!isExperienceType && (
+                <ScreenStepBar
+                    screens={activityScreens}
+                    currentIndex={currentScreenIndex}
+                />
+            )}
 
             {/* ── Blocks stacked cleanly, no step numbers ── */}
             <div className={`scene-backdrop-content ${noOuterCard ? "no-card" : ""}`}>

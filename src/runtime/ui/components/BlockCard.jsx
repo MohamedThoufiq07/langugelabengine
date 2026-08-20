@@ -1,29 +1,25 @@
 import "../../components/BlockCard.css";
 
 function BlockCard({
-
     children,
-
     className = "",
-
-    type
-
+    type,
+    style
 }) {
+    const combinedStyle = {
+        ...(type ? { "--block-accent": `var(--c-${type}, var(--primary))` } : {}),
+        ...style
+    };
 
     return (
-
         <section
             className={`elab-block-card ${className}`}
             data-type={type}
-            style={type ? { "--block-accent": `var(--c-${type}, var(--primary))` } : undefined}
+            style={combinedStyle}
         >
-
             {children}
-
         </section>
-
     );
-
 }
 
 export default BlockCard;

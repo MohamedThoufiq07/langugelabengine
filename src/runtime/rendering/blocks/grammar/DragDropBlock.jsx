@@ -2,12 +2,25 @@ import { useEffect, useState } from "react";
 import BlockCard from "../../../ui/components/BlockCard";
 import BlockHeader from "../../../ui/components/BlockHeader";
 import { useScreenCompletion } from "../../../screen/ScreenCompletionContext";
+import HintLadderComponent from "../../services/HintLadder";
 
 import badgeWordsConnectUrl from "../../../../assets/images/badge_words_connect.png";
 import girlPuzzleUrl from "../../../../assets/images/grammar_girl_puzzle.png";
 
 function DragDropBlock({ block }) {
-    const { draggableItems = [], dropZones = [], pairs = [], question } = block.content;
+    const { 
+        draggableItems = [], 
+        dropZones = [], 
+        pairs = [], 
+        question,
+        hints = {
+            replay: "Look at the items and zones again carefully",
+            visualClue: "Focus on the relationship between words and their destinations",
+            sentenceStarter: "Think: 'This word belongs with...'",
+            modelAnswer: "Match words based on grammar, meaning, or context"
+        }
+    } = block.content;
+    
     const completion = useScreenCompletion();
 
     // Map pairs format to local items if defined
@@ -23,6 +36,9 @@ function DragDropBlock({ block }) {
     const [selectedItem, setSelectedItem] = useState(null);
     const [placed, setPlaced] = useState(savedAnswer || {});
     const [wrongZone, setWrongZone] = useState(null);
+    const [currentAttempt, setCurrentAttempt] = useState(0);
+    const [showHint, setShowHint] = useState(false);
+    const [currentHint, setCurrentHint] = useState(null);
 
     const placedItemIndices = new Set(Object.values(placed));
     const total = Math.min(finalDraggable.length, finalZones.length);
@@ -50,6 +66,18 @@ function DragDropBlock({ block }) {
         setSelectedItem(index === selectedItem ? null : index);
     }
 
+    function handleWrongZone() {
+        if (!isAssessment && currentAttempt < 4) {
+            setCurrentAttempt(prev => prev + 1);
+            setShowHint(true);
+        }
+    }
+
+    function handleRequestHint(hint) {
+        setCurrentHint(hint);
+        setShowHint(true);
+    }
+
     function chooseZone(zoneIndex) {
         if (selectedItem === null) return;
 
@@ -62,6 +90,7 @@ function DragDropBlock({ block }) {
             setSelectedItem(null);
         } else {
             setWrongZone(zoneIndex);
+            handleWrongZone();
             setTimeout(() => setWrongZone(null), 400);
         }
     }
@@ -79,6 +108,32 @@ function DragDropBlock({ block }) {
                     title="WORDS CONNECT"
                     subtitle={question || "Drag the correct words to their destinations."}
                 />
+
+                {!isAssessment && currentAttempt > 0 && (
+                    <HintLadderComponent
+                        currentAttempt={currentAttempt}
+                        onRequestHint={handleRequestHint}
+                        canUseHint={currentAttempt < 4}
+                        hints={hints}
+                    />
+                )}
+
+                {currentHint && showHint && (
+                    <div className="hint-display">
+                        <div className="hint-header">
+                            <span className="hint-title">💡 {currentHint.label}</span>
+                            <button 
+                                className="hint-close"
+                                onClick={() => setShowHint(false)}
+                            >
+                                ✕
+                            </button>
+                        </div>
+                        <div className="hint-body">
+                            {currentHint.content}
+                        </div>
+                    </div>
+                )}
                 
                 {/* Draggable items (chips) */}
                 <div className="elab-drag-chips-row">

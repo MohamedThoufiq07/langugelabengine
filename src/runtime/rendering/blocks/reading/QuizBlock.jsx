@@ -7,7 +7,13 @@ const CONFETTI_EMOJI = ["🎉", "⭐", "✨"];
 
 function QuizBlock({ block }) {
 
-    const { question, options, correctAnswerIndex } = block.content;
+    const { 
+        question, 
+        options, 
+        correctAnswerIndex,
+        audio,
+        audioFirst = false
+    } = block.content;
 
     const completion = useScreenCompletion();
     const savedAnswer = completion?.getSavedAnswer?.(block.id);
@@ -15,6 +21,8 @@ function QuizBlock({ block }) {
     const [selected, setSelected] = useState(savedAnswer !== null ? savedAnswer : null);
 
     const [confetti, setConfetti] = useState([]);
+    const [audioPlayed, setAudioPlayed] = useState(false);
+    const [useAudioMode, setUseAudioMode] = useState(audioFirst);
 
     // Pre-report answered state if there is a saved answer loaded on mount
     useEffect(() => {
@@ -28,7 +36,10 @@ function QuizBlock({ block }) {
         if (selected !== null && !window.__isAssessment) return;
 
         setSelected(index);
-        completion?.saveAnswer?.(block.id, index);
+        completion?.saveAnswer?.(block.id, { 
+            selectedIndex: index,
+            audioFirst: useAudioMode
+        });
 
         completion?.reportAnswered(block.id);
 
@@ -76,6 +87,35 @@ function QuizBlock({ block }) {
                         {p.emoji}
                     </span>
                 ))}
+
+                {audio && (
+                    <div className="quiz-audio-section">
+                        <div className="elab-media-frame">
+                            <audio 
+                                src={audio} 
+                                controls 
+                                className="elab-media-player"
+                                onPlay={() => setAudioPlayed(true)}
+                            />
+                        </div>
+                        {useAudioMode && (
+                            <div className="audio-first-toggle">
+                                <label className="toggle-label">
+                                    <input 
+                                        type="checkbox" 
+                                        checked={useAudioMode}
+                                        onChange={(e) => setUseAudioMode(e.target.checked)}
+                                        className="toggle-input"
+                                    />
+                                    <span className="toggle-text">Audio-First Mode</span>
+                                </label>
+                                {!audioPlayed && (
+                                    <small className="audio-reminder">Listen first before answering</small>
+                                )}
+                            </div>
+                        )}
+                    </div>
+                )}
 
                 <div className="elab-chip-row" style={{ flexDirection: "column" }}>
 

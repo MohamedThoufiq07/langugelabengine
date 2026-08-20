@@ -11,6 +11,13 @@ try {
 
         for (const zipFile of zipFiles) {
             const zipPath = path.join(samplesDir, zipFile);
+            const targetManifest = path.join(samplesDir, 'manifest.json');
+
+            if (fs.existsSync(targetManifest)) {
+                console.log(`[Auto-Extract] Skipping ${zipFile}: already extracted to ${samplesDir}.`);
+                continue;
+            }
+
             console.log(`[Auto-Extract] Extracting ${zipFile} into ${samplesDir}...`);
             const zip = new AdmZip(zipPath);
             zip.extractAllTo(samplesDir, true);

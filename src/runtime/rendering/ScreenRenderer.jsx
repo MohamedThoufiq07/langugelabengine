@@ -18,7 +18,12 @@ const GATING_TYPES = new Set([
     "writing_prompt",
     "dictation",
     "grammar_correction",
-    "video"
+    "video",
+    "you_ask",
+    "hotspot_explorer",
+    "functional_reading",
+    "audio_mystery",
+    "roleplay_simulation"
 
 ]);
 
@@ -27,7 +32,8 @@ function ScreenRenderer({
     screen,
     onComplete,
     activityScreens,
-    currentScreenIndex
+    currentScreenIndex,
+    isExperienceType
 
 }) {
 
@@ -110,6 +116,7 @@ function ScreenRenderer({
                 screen={screen}
                 activityScreens={activityScreens}
                 currentScreenIndex={currentScreenIndex}
+                isExperienceType={isExperienceType}
             />
 
         </ScreenCompletionContext.Provider>

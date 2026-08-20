@@ -18,14 +18,7 @@ function SceneBackdrop({ runtime }) {
             className="elab-scene-backdrop" 
             aria-hidden="true"
             style={bgStyle}
-        >
-            {!isAssessment && (
-                <>
-                    <div className="elab-scene-blob elab-scene-blob-a"></div>
-                    <div className="elab-scene-blob elab-scene-blob-b"></div>
-                </>
-            )}
-        </div>
+        />
     );
 }
 

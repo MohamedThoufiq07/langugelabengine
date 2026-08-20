@@ -3,6 +3,7 @@ import AudioBlock from "./blocks/listening/AudioBlock";
 import VideoBlock from "./blocks/listening/VideoBlock";
 import SequenceBlock from "./blocks/listening/SequenceBlock";
 import DictationBlock from "./blocks/listening/DictationBlock";
+import AudioMysteryBlock from "./blocks/listening/AudioMysteryBlock";
 
 // Speaking
 import DialogueBlock from "./blocks/speaking/DialogueBlock";
@@ -10,6 +11,8 @@ import InputBlock from "./blocks/speaking/InputBlock";
 import VoiceRecorderBlock from "./blocks/speaking/VoiceRecorderBlock";
 import PronunciationBlock from "./blocks/speaking/PronunciationBlock";
 import RolePlayBlock from "./blocks/speaking/RolePlayBlock";
+import YouAskBlock from "./blocks/speaking/YouAskBlock";
+import RoleplaySimulationBlock from "./blocks/speaking/RoleplaySimulationBlock";
 
 // Reading
 import TextBlock from "./blocks/reading/TextBlock";
@@ -22,6 +25,8 @@ import MemoryBlock from "./blocks/reading/MemoryBlock";
 import CrosswordBlock from "./blocks/reading/CrosswordBlock";
 import WordSearchBlock from "./blocks/reading/WordSearchBlock";
 import ReadingBlock from "./blocks/reading/ReadingBlock";
+import HotspotExplorerBlock from "./blocks/reading/HotspotExplorerBlock";
+import FunctionalReadingBlock from "./blocks/reading/FunctionalReadingBlock";
 
 // Writing
 import FillBlankBlock from "./blocks/writing/FillBlankBlock";
@@ -42,6 +47,7 @@ const registry = {
     video: VideoBlock,
     sequence: SequenceBlock,
     dictation: DictationBlock,
+    audio_mystery: AudioMysteryBlock,
 
     // Speaking
     dialogue: DialogueBlock,
@@ -49,6 +55,8 @@ const registry = {
     voice_recorder: VoiceRecorderBlock,
     pronunciation: PronunciationBlock,
     role_play: RolePlayBlock,
+    you_ask: YouAskBlock,
+    roleplay_simulation: RoleplaySimulationBlock,
 
     // Reading
     text: TextBlock,
@@ -62,6 +70,8 @@ const registry = {
     crossword: CrosswordBlock,
     word_search: WordSearchBlock,
     reading_passage: ReadingBlock,
+    hotspot_explorer: HotspotExplorerBlock,
+    functional_reading: FunctionalReadingBlock,
 
     // Writing
     fill_blank: FillBlankBlock,

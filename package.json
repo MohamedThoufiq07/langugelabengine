@@ -4,8 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "node extract-zip.js && vite",
-    "build": "node extract-zip.js && vite build",
+    "predev": "node extract-zip.js",
+    "dev": "vite",
+    "prebuild": "node extract-zip.js",
+    "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },

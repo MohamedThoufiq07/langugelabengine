@@ -26,4 +26,7 @@ dist-ssr
 # Local Cache and Large Video assets
 src/runtime/cache/
 src/runtime/samples/assets/video/
+**/*.mp4
+**/*.zip
+**/*.mp3
 

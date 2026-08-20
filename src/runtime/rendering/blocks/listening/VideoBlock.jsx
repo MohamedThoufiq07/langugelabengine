@@ -101,8 +101,15 @@ function VideoBlock({ block }) {
         }
     }, []);
 
+    const jsonStyles = block.styles || {};
+    const cardStyle = {
+        width: jsonStyles.blockWidth ? jsonStyles.blockWidth : "933px",
+        minHeight: jsonStyles.minHeight ? jsonStyles.minHeight : "auto",
+        margin: "0 auto"
+    };
+
     return (
-        <BlockCard type="video">
+        <BlockCard type="video" style={cardStyle}>
             <BlockHeader
                 type="video"
                 title="Video"

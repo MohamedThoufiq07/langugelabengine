@@ -1,6 +1,7 @@
 class PackageExtractor {
   constructor() {
     this.extractPath = "";
+    this.extractedPackages = new Map();
   }
 
   /**
@@ -19,18 +20,21 @@ class PackageExtractor {
         const { default: AdmZip } = await import("adm-zip");
 
         if (fs.existsSync(packagePath)) {
-          const zip = new AdmZip(packagePath);
-          // Resolve extract path: e.g., in the same directory as the package
           const parsedPath = path.parse(packagePath);
-          const targetDir = path.join(parsedPath.dir, parsedPath.name);
+          const targetDir = parsedPath.dir;
+          const targetManifest = path.join(targetDir, "manifest.json");
 
-          // Create target directory if it doesn't exist
-          if (!fs.existsSync(targetDir)) {
-            fs.mkdirSync(targetDir, { recursive: true });
+          if (this.extractedPackages.has(packagePath) || fs.existsSync(targetManifest)) {
+            this.extractPath = targetDir;
+            this.extractedPackages.set(packagePath, targetDir);
+            return this.extractPath;
           }
 
+          const zip = new AdmZip(packagePath);
           zip.extractAllTo(targetDir, true);
+
           this.extractPath = targetDir;
+          this.extractedPackages.set(packagePath, targetDir);
           return this.extractPath;
         } else {
           console.warn("[PackageExtractor] Package file not found:", packagePath);
@@ -57,6 +61,7 @@ class PackageExtractor {
    */
   reset() {
     this.extractPath = "";
+    this.extractedPackages.clear();
   }
 }
 

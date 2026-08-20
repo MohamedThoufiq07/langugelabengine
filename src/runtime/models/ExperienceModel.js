@@ -22,6 +22,8 @@ class ExperienceModel {
 
         this.grade = "";
 
+        this.experienceType = "";
+
         this.activities = [];
 
         this.totalActivities = 0;

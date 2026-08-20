@@ -36,15 +36,12 @@
 .scene-backdrop-content {
   width: 100%;
   max-width: 900px;
-  background: rgba(255, 255, 255, 0.78);
-  backdrop-filter: blur(18px) saturate(180%);
-  -webkit-backdrop-filter: blur(18px) saturate(180%);
-  border-radius: 28px;
-  border: 2px solid rgba(255, 255, 255, 0.85);
-  box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.10),
-    0 1px 0 rgba(255, 255, 255, 0.9) inset;
-  padding: 2rem 2.25rem 2.25rem;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: none;
+  box-shadow: none;
+  padding: 0;
   box-sizing: border-box;
 }
 
@@ -69,17 +66,13 @@
 /* ── Board Text Overlay — sits on the bg board (bottom-left) ── */
 .board-text-widget {
   position: absolute;
-  bottom: 80px; /* Moved up to center vertically on the signboard */
-  left: 20px;
-  width: 250px;
+  bottom: 24px;
+  left: 24px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  text-align: center;
   pointer-events: none;
-  z-index: 1;
+  z-index: 100;
 }
 
 
@@ -102,19 +95,14 @@
 }
 
 .board-screen-text {
-  font-family: 'Poppins', 'Inter', sans-serif;
-  font-size: 12px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #ffffff;
-  background: linear-gradient(135deg, #7b461e 0%, #5c3010 100%);
-  padding: 5px 16px;
-  border-radius: 20px;
-  border: 1.5px solid #ffebcd;
-  box-shadow: 
-    0 4px 8px rgba(0, 0, 0, 0.15),
-    inset 0 1px 0 rgba(255,255,255,0.2);
+  width: 140px;
+  height: 56px;
+  background: url('/screen show.png') no-repeat;
+  background-size: 100% 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15));
 }
 
 /* ══════════════════════════════════════
@@ -186,19 +174,18 @@
   line-height: 1;
 }
 
-/* ── Previous — Golden Yellow ── */
+/* ── Previous ── */
 .game-btn-prev {
-  background: linear-gradient(145deg, #ffe04b, #f7b500);
-  color: #5a3a00;
-  box-shadow:
-    0 4px 0 #c98a00,
-    0 6px 18px rgba(247,181,0,0.45);
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  padding: 0 !important;
+}
+.game-btn-prev::after {
+  display: none !important;
 }
 .game-btn-prev:hover:not(:disabled) {
-  box-shadow:
-    0 6px 0 #c98a00,
-    0 10px 24px rgba(247,181,0,0.55);
-  filter: brightness(1.05);
+  box-shadow: none !important;
 }
 
 /* ── Exit — Vivid Red ── */
@@ -216,19 +203,18 @@
   filter: brightness(1.08);
 }
 
-/* ── Next — Bright Green ── */
+/* ── Next ── */
 .game-btn-next {
-  background: linear-gradient(145deg, #56e04b, #1db954);
-  color: #0a3a0a;
-  box-shadow:
-    0 4px 0 #0e7c2c,
-    0 6px 18px rgba(29,185,84,0.45);
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  padding: 0 !important;
+}
+.game-btn-next::after {
+  display: none !important;
 }
 .game-btn-next:hover:not(:disabled) {
-  box-shadow:
-    0 6px 0 #0e7c2c,
-    0 10px 24px rgba(29,185,84,0.55);
-  filter: brightness(1.06);
+  box-shadow: none !important;
 }
 
 /* ── Finish — Purple/Gold ── */
