@@ -408,130 +408,31 @@ function RuntimePlayer({
 
                 {/* Congratulatory pop popper overlay modal when any single activity is completed */}
                 {justFinishedActivityIndex !== null && showCongrats && (
-                    <div style={{
-                        position: "fixed",
-                        inset: 0,
-                        backgroundColor: "rgba(15, 23, 42, 0.75)",
-                        backdropFilter: "blur(12px)",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        zIndex: 99999,
-                        fontFamily: "'Poppins', 'Inter', sans-serif"
-                    }}>
-                        <div style={{
-                            background: "linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%)",
-                            padding: "3rem 2rem",
-                            borderRadius: "32px",
-                            maxWidth: "440px",
-                            width: "90%",
-                            textAlign: "center",
-                            boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)",
-                            border: "3px solid #22c55e",
-                            position: "relative",
-                            overflow: "hidden",
-                            animation: "congratsPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)"
-                        }}>
-                            <style>{`
-                                @keyframes congratsPop {
-                                    0% { transform: scale(0.85); opacity: 0; }
-                                    100% { transform: scale(1); opacity: 1; }
-                                }
-                                @keyframes popperWiggle {
-                                    0%, 100% { transform: rotate(0deg) scale(1); }
-                                    50% { transform: rotate(8deg) scale(1.15); }
-                                }
-                                @keyframes confettiParticle {
-                                    0% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 1; }
-                                    100% { transform: translate(var(--tx), var(--ty)) scale(0.4) rotate(var(--tr)); opacity: 0; }
-                                }
-                            `}</style>
-
-                            {/* Render Confetti Particles */}
-                            {Array.from({ length: 50 }).map((_, i) => {
-                                const angle = Math.random() * Math.PI * 2;
-                                const dist = 60 + Math.random() * 180;
-                                const tx = Math.cos(angle) * dist;
-                                const ty = Math.sin(angle) * dist - (20 + Math.random() * 50);
-                                const tr = Math.random() * 360;
-                                const delay = Math.random() * 0.4;
-                                const colors = ["#ff4757", "#2ed573", "#1e90ff", "#ffa502", "#a29bfe", "#ff6b81", "#ffffff"];
-                                const color = colors[Math.floor(Math.random() * colors.length)];
-                                const size = 6 + Math.random() * 8;
-                                return (
-                                    <div
-                                        key={i}
-                                        style={{
-                                            position: "absolute",
-                                            top: "50%",
-                                            left: "50%",
-                                            width: `${size}px`,
-                                            height: `${size}px`,
-                                            borderRadius: Math.random() > 0.5 ? "50%" : "0%",
-                                            background: color,
-                                            pointerEvents: "none",
-                                            zIndex: 1,
-                                            animation: `confettiParticle 1.6s ${delay}s infinite linear`,
-                                            "--tx": `${tx}px`,
-                                            "--ty": `${ty}px`,
-                                            "--tr": `${tr}deg`
-                                        }}
-                                    />
-                                );
-                            })}
-
-                            <div style={{ position: "relative", zIndex: 2 }}>
-                                <div style={{
-                                    fontSize: "4.5rem",
-                                    marginBottom: "1rem",
-                                    animation: "popperWiggle 1.5s infinite ease-in-out",
-                                    display: "inline-block"
-                                }}>
-                                    🎉
-                                </div>
-                                <h2 style={{
-                                    fontSize: "2.1rem",
-                                    fontWeight: 900,
-                                    color: "#15803d",
-                                    margin: "0 0 0.5rem 0",
-                                    lineHeight: 1.2
-                                }}>
-                                    Good Job!
-                                </h2>
-                                <p style={{
-                                    fontSize: "1.1rem",
-                                    color: "#334155",
-                                    fontWeight: 700,
-                                    margin: "0 0 2rem 0",
-                                    lineHeight: 1.4
-                                }}>
-                                    You've successfully completed the {activities[justFinishedActivityIndex]?.title || "activity"} module! 🥳
-                                </p>
-                                <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem", alignItems: "center" }}>
-                                    <button
-                                        onClick={() => {
-                                            setShowCongrats(false);
-                                            setJustFinishedActivityIndex(null);
-                                        }}
-                                        style={{
-                                            background: "linear-gradient(135deg, #22c55e 0%, #15803d 100%)",
-                                            color: "#ffffff",
-                                            border: "none",
-                                            padding: "12px 28px",
-                                            borderRadius: "999px",
-                                            fontSize: "1rem",
-                                            fontWeight: 800,
-                                            cursor: "pointer",
-                                            boxShadow: "0 8px 16px -4px rgba(34, 197, 94, 0.4)",
-                                            transition: "all 0.2s ease"
-                                        }}
-                                        onMouseEnter={(e) => e.currentTarget.style.transform = "translateY(-2px)"}
-                                        onMouseLeave={(e) => e.currentTarget.style.transform = "translateY(0)"}
-                                    >
-                                        Continue Learning ➔
-                                    </button>
-                                </div>
-                            </div>
+                    <div className="activity-complete-overlay">
+                        <div className="activity-complete-board" role="dialog" aria-modal="true" aria-labelledby="activity-complete-title">
+                            <div className="activity-complete-confetti" aria-hidden="true">• ✦ •</div>
+                            <img
+                                className="activity-complete-medal"
+                                src="/star.png"
+                                alt=""
+                                aria-hidden="true"
+                            />
+                            <h2 id="activity-complete-title">Well Done!</h2>
+                            <p>
+                                You've successfully completed the
+                                <strong>{activities[justFinishedActivityIndex]?.title || "activity"}</strong>
+                                module!
+                            </p>
+                            <div className="activity-complete-star" aria-hidden="true">★</div>
+                            <button
+                                className="activity-complete-button"
+                                onClick={() => {
+                                    setShowCongrats(false);
+                                    setJustFinishedActivityIndex(null);
+                                }}
+                            >
+                                Continue Learning <span aria-hidden="true">→</span>
+                            </button>
                         </div>
                     </div>
                 )}

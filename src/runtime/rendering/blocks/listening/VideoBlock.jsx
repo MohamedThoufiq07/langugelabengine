@@ -109,12 +109,12 @@ function VideoBlock({ block }) {
     };
 
     return (
-        <BlockCard type="video" style={cardStyle}>
+        <BlockCard type="video" className="elab-media-card" style={cardStyle}>
             <BlockHeader
                 type="video"
                 title="Video"
             />
-            <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center", marginTop: "0.25rem" }}>
+            <div className="elab-media-card-content">
                 <video
                     ref={videoRef}
                     controls
@@ -125,7 +125,7 @@ function VideoBlock({ block }) {
                     onTimeUpdate={handleTimeUpdate}
                     onSeeking={handleSeeking}
                     onEnded={handleEnded}
-                    style={{ width: "100%", borderRadius: "8px" }}
+                    className="elab-media-card-element"
                 />
             </div>
         </BlockCard>

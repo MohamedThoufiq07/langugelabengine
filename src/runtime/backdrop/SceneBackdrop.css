@@ -34,7 +34,7 @@
 
 /* ── Centered glass-morphism stage card ── */
 .scene-backdrop-content {
-  width: 100%;
+  width: 105%;
   max-width: 900px;
   background: transparent;
   backdrop-filter: none;

@@ -2,9 +2,6 @@ import { useRef, useState } from "react";
 import BlockCard from "../../../ui/components/BlockCard";
 import { useScreenCompletion } from "../../../screen/ScreenCompletionContext";
 
-// Import cutouts
-import badgeDictationUrl from "../../../../assets/images/badge_dictation.png";
-import dictationGirlUrl from "../../../../assets/images/dictation_girl.png";
 import dictationMicUrl from "../../../../assets/images/dictation_mic.png";
 import dictationPlayPurpleUrl from "../../../../assets/images/dictation_play_purple.png";
 
@@ -41,21 +38,20 @@ function DictationBlock({ block }) {
     }
 
     return (
-        <BlockCard type="dictation">
+        <BlockCard type="dictation" className="elab-dictation-card">
             <div className="elab-block-two-column dictation-custom">
                 {/* Left Side Illustration */}
                 <div className="elab-dictation-illustration-container">
-                    <img src={dictationGirlUrl} className="elab-dictation-girl-chibi" alt="Girl writing" />
+                    <img src="/dictation left side girl.png" className="elab-dictation-girl-chibi" alt="Girl writing" />
                 </div>
 
                 {/* Right Side / Interactive Side */}
                 <div className="elab-block-interactive-side">
                     {/* Header */}
                     <div className="elab-custom-header dictation-header-right">
-                        <img src={badgeDictationUrl} className="elab-header-badge-img" alt="Badge" />
                         <div className="elab-header-content">
                             <h3 className="elab-custom-title-purple">Dictation</h3>
-                            <p className="elab-custom-subtitle">{question || "Some things new"}</p>
+                            <p className="elab-custom-subtitle">{question || "Listen and type what you hear."}</p>
                         </div>
                     </div>
 

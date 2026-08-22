@@ -6156,3 +6156,983 @@ ol {
     padding-right: 1.5rem !important;
     padding-bottom: 2.25rem !important; /* Push away from the bottom wooden border */
 }
+
+/* Keep every block within the usable parchment area of the illustrated board. */
+.elab-block-row,
+.elab-block-card {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.elab-block-card .elab-block-header,
+.elab-block-card .elab-custom-header {
+    margin-top: 0 !important;
+}
+
+/* Media cards must fit between the board heading and the floating navigation. */
+.elab-block-card.elab-media-card {
+    gap: 8px;
+    padding: clamp(3.5rem, 8vh, 4.5rem) clamp(3rem, 7vw, 5.5rem)
+        clamp(4rem, 9vh, 5.5rem) !important;
+}
+
+.elab-media-card .elab-block-header {
+    flex: 0 0 auto;
+    padding: 0 1.5rem 4px !important;
+    margin-bottom: 4px !important;
+}
+
+/* Keep the video label clear of the illustrated board's top wooden edge. */
+.elab-block-card.elab-media-card[data-type="video"] > .elab-block-header {
+    margin-top: 1.5rem !important;
+}
+
+.elab-block-card.elab-media-card > .elab-media-card-content {
+    width: 100%;
+    min-height: 0;
+    padding: 0 1.5rem !important;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.elab-block-card.elab-media-card .elab-media-card-element {
+    display: block;
+    width: 100% !important;
+    height: auto !important;
+    max-height: min(42dvh, 430px) !important;
+    object-fit: contain !important;
+    border-radius: 8px !important;
+}
+
+/* Let videos preserve their native aspect ratio at full card width. A height
+   cap makes the browser letterbox the picture inside a wide video control. */
+.elab-block-card.elab-media-card[data-type="video"] .elab-media-card-element {
+    max-height: none !important;
+    aspect-ratio: auto;
+}
+
+.elab-media-card-caption {
+    margin: 8px 0 0;
+    font-size: 14px;
+    line-height: 1.35;
+    color: #64748b;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .elab-block-card.elab-media-card {
+        padding: 3.25rem 3.5rem 4rem !important;
+    }
+
+    .elab-media-card .elab-block-header,
+    .elab-block-card.elab-media-card > .elab-media-card-content {
+        padding-left: 0.75rem !important;
+        padding-right: 0.75rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .elab-block-card.elab-media-card {
+        padding: 2.5rem 2.25rem 3.25rem !important;
+    }
+
+    .elab-block-card.elab-media-card[data-type="image"] .elab-media-card-element {
+        max-height: 38dvh !important;
+    }
+}
+
+/* Quiz options: compact parchment rows with clear answer-state outlines. */
+.custom-quiz-card .quiz-options-container {
+    gap: 7px;
+}
+
+.custom-quiz-card .quiz-custom-option {
+    min-height: 42px;
+    gap: 10px;
+    padding: 6px 10px !important;
+    background: rgba(201, 132, 39, 0.13) !important;
+    border: 1.5px solid transparent !important;
+    border-radius: 10px !important;
+    box-shadow: none !important;
+    color: #7a351a !important;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    line-height: 1.25;
+}
+
+.custom-quiz-card .quiz-custom-option:hover:not(:disabled) {
+    background: rgba(255, 246, 202, 0.28) !important;
+    border-color: #d28a34 !important;
+    box-shadow: none !important;
+    transform: none;
+}
+
+.custom-quiz-card .quiz-option-badge {
+    width: 28px;
+    height: 28px;
+    flex: 0 0 28px;
+    border: 1.5px solid #d99035;
+    background: rgba(255, 244, 195, 0.28);
+    color: #a15320;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.custom-quiz-card .quiz-option-text {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    text-align: left;
+}
+
+.custom-quiz-card .quiz-custom-option.is-correct {
+    background: rgba(126, 220, 108, 0.1) !important;
+    border-color: #39c85a !important;
+    color: #6f3218 !important;
+}
+
+.custom-quiz-card .quiz-custom-option.is-correct .quiz-option-badge {
+    background: #50bf78 !important;
+    border-color: #50bf78 !important;
+    color: #fff !important;
+}
+
+.custom-quiz-card .quiz-custom-option.is-incorrect {
+    background: rgba(255, 96, 70, 0.08) !important;
+    border-color: #ff493d !important;
+    color: #6f3218 !important;
+}
+
+.custom-quiz-card .quiz-custom-option.is-incorrect .quiz-option-badge {
+    background: #ff4c4c !important;
+    border-color: #ff4c4c !important;
+    color: #fff !important;
+}
+
+.custom-quiz-card .quiz-custom-option.is-selected:not(.is-correct):not(.is-incorrect) {
+    background: rgba(255, 220, 118, 0.16) !important;
+    border-color: #e39a36 !important;
+    color: #6f3218 !important;
+}
+
+.custom-quiz-card .quiz-custom-option.is-selected:not(.is-correct):not(.is-incorrect) .quiz-option-badge {
+    background: #e39a36 !important;
+    border-color: #e39a36 !important;
+    color: #fff !important;
+}
+
+/* ==========================================================
+   Custom Quiz Card Layout (Two Column)
+   ========================================================== */
+
+.custom-quiz-card {
+    padding: 3rem 4rem 3.5rem 4rem !important;
+}
+
+.quiz-main-layout {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    align-items: stretch;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.quiz-left-column {
+    flex: 1.1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.quiz-right-column {
+    flex: 0.9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+.quiz-illustration {
+    width: 100%;
+    max-width: 440px;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));
+    margin-top: 30px;
+}
+
+.quiz-custom-header {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+    margin-bottom: 20px !important;
+    text-align: left !important;
+}
+
+.quiz-header-top-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+}
+
+.quiz-header-icon {
+    width: 76px;
+    height: 76px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.quiz-custom-badge {
+    background: url('/purple board.png') no-repeat center center;
+    background-size: 100% 100%;
+    color: white !important;
+    padding: 6px 18px 8px 18px !important;
+    font-weight: 800 !important;
+    font-size: 15px !important;
+    letter-spacing: 0.5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none !important;
+    box-shadow: none !important;
+    min-width: 96px;
+    height: 38px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.quiz-question-text {
+    font-size: 20px !important;
+    font-weight: 800 !important;
+    color: #5c3818 !important; /* Match wooden board theme */
+    margin: 0 !important;
+    line-height: 1.4 !important;
+    font-family: inherit;
+}
+
+.quiz-options-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+
+.quiz-custom-option {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: #fbf4e9 !important; /* Cream/tan background */
+    border: 2px solid #e5d6be !important; /* Solid light brown border */
+    border-radius: 16px !important;
+    padding: 12px 18px !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    color: #5c3818 !important;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    text-align: left;
+    width: 100%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.quiz-custom-option:hover:not(:disabled) {
+    background: rgba(251, 244, 229, 0.95) !important;
+    border-color: #c49c5e !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(92, 56, 24, 0.08);
+}
+
+.quiz-custom-option:active:not(:disabled) {
+    transform: scale(0.98);
+}
+
+.quiz-option-badge {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid #dfd1be;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 800;
+    color: #9d8c76;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+
+/* Correct state */
+.quiz-custom-option.is-correct {
+    background: #ecfdf5 !important;
+    border-color: #10b981 !important;
+    color: #065f46 !important;
+}
+
+.quiz-custom-option.is-correct .quiz-option-badge {
+    background: #10b981 !important;
+    border-color: #10b981 !important;
+    color: #ffffff !important;
+}
+
+/* Incorrect state */
+.quiz-custom-option.is-incorrect {
+    background: rgba(254, 226, 226, 0.8) !important;
+    border-color: #ef4444 !important;
+    color: #b91c1c !important;
+}
+
+.quiz-custom-option.is-incorrect .quiz-option-badge {
+    background: #ef4444 !important;
+    border-color: #ef4444 !important;
+    color: #ffffff !important;
+}
+
+/* Selected state (for assessment/pending review) */
+.quiz-custom-option.is-selected:not(.is-correct):not(.is-incorrect) {
+    background: rgba(219, 234, 254, 0.8) !important;
+    border-color: #3b82f6 !important;
+    color: #1d4ed8 !important;
+}
+
+.quiz-custom-option.is-selected:not(.is-correct):not(.is-incorrect) .quiz-option-badge {
+    background: #3b82f6 !important;
+    border-color: #3b82f6 !important;
+    color: #ffffff !important;
+}
+
+.quiz-custom-option:disabled {
+    cursor: not-allowed;
+}
+
+/* Responsive adjustment for tablet/mobile */
+@media (max-width: 900px) {
+    .quiz-main-layout {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .quiz-right-column {
+        order: -1; /* Display illustration above on small screens */
+        flex: none;
+        width: 100%;
+        max-width: 250px;
+        margin: 0 auto;
+    }
+    
+    .quiz-left-column {
+        flex: none;
+        width: 100%;
+    }
+}
+
+/* ==========================================================
+   Sequence Block Custom Styling (Arrange in Order)
+   ========================================================== */
+
+.sequence-custom {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    align-items: stretch;
+    width: 100%;
+}
+
+.sequence-custom .elab-block-interactive-side {
+    flex: 1.1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.elab-sequence-illustration-container {
+    flex: 0.9;
+    position: relative;
+    height: 270px !important;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 10px;
+    margin-top: 30px; /* Slight offset downwards like the quiz */
+}
+
+.elab-seq-girl-chibi-new {
+    height: 230px !important;
+    width: auto;
+    object-fit: contain;
+    z-index: 2;
+}
+
+.elab-seq-wave-bubble-new {
+    height: 75px !important;
+    width: auto;
+    object-fit: contain;
+    position: absolute;
+    right: 5px;
+    top: 30px;
+    z-index: 1;
+}
+
+.elab-seq-lightbulb {
+    height: 60px !important;
+    width: auto;
+    object-fit: contain;
+    position: absolute;
+    left: 45px;
+    top: 25px;
+    z-index: 1;
+}
+
+.sequence-custom .elab-custom-header {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 16px !important;
+    margin-bottom: 20px !important;
+    text-align: left !important;
+}
+
+.sequence-custom .elab-header-badge-img {
+    width: 76px !important;
+    height: 76px !important;
+    object-fit: contain;
+    flex-shrink: 0;
+    display: block !important; /* Override display:none on badges in general */
+}
+
+.elab-custom-title-seq {
+    font-size: 24px !important;
+    font-weight: 900 !important;
+    margin: 0 0 4px 0 !important;
+    font-family: inherit;
+    text-align: left !important;
+    display: flex !important;
+    gap: 6px;
+}
+
+.title-blue {
+    color: #1e3a8a !important; /* Clean primary blue */
+}
+
+.title-pink {
+    color: #db2777 !important; /* Clean pink */
+}
+
+.elab-seq-option-card {
+    background: #fbf4e9 !important; /* Cream/tan background */
+    border: 2px solid #e5d6be !important; /* Solid light brown border */
+    border-radius: 16px !important;
+    padding: 12px 18px !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02) !important;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: all 0.2s ease-in-out;
+}
+
+.elab-seq-option-card:hover {
+    background: rgba(251, 244, 229, 0.95) !important;
+    border-color: #c49c5e !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(92, 56, 24, 0.08) !important;
+}
+
+.elab-seq-option-text {
+    flex: 1;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    color: #5c3818 !important; /* Deep brown */
+}
+
+/* Arrows always visible: aligned to the right */
+.sequence-custom .elab-seq-arrows-row {
+    background: #ffffff !important;
+    border: 1.5px solid #dfd1be !important;
+    border-radius: 12px;
+    padding: 4px 8px;
+    margin-left: auto; /* Push arrow buttons to the far right */
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Arrange in Order: compact layout contained by the illustrated board frame. */
+.elab-block-card.elab-sequence-card {
+    gap: 0;
+    overflow: hidden;
+    padding: clamp(3rem, 7vh, 4rem) clamp(3.75rem, 7vw, 5rem)
+        clamp(4rem, 8vh, 5rem) !important;
+}
+
+.elab-sequence-card .sequence-custom {
+    gap: clamp(1rem, 3vw, 2rem);
+    align-items: center;
+}
+
+.elab-sequence-card .sequence-custom .elab-block-interactive-side {
+    flex: 1 1 56%;
+    min-width: 0;
+    justify-content: flex-start;
+}
+
+.elab-sequence-card .sequence-custom .elab-custom-header {
+    gap: 10px !important;
+    margin: 1.5rem 0 10px !important;
+}
+
+.elab-sequence-card .sequence-custom .elab-header-badge-img {
+    width: 50px !important;
+    height: 50px !important;
+}
+
+.elab-sequence-card .elab-custom-title-seq {
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    font-family: Georgia, "Times New Roman", serif !important;
+    font-size: clamp(16px, 1.7vw, 20px) !important;
+    line-height: 1.05;
+    font-weight: 800 !important;
+}
+
+.elab-sequence-card .title-blue {
+    color: #164dcc !important;
+}
+
+.elab-sequence-card .title-pink {
+    color: #ef176d !important;
+}
+
+.elab-sequence-card .elab-custom-subtitle {
+    margin: 0 !important;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 12px;
+    line-height: 1.35;
+    font-weight: 600;
+    color: #7a2f16 !important;
+}
+
+.elab-sequence-card .elab-seq-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.elab-sequence-card .elab-seq-option-card {
+    min-height: 58px;
+    padding: 7px 10px !important;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.06) !important;
+    border: 1.5px solid #dc8737 !important;
+    border-radius: 12px !important;
+    box-shadow: none !important;
+}
+
+.elab-sequence-card .elab-seq-option-card:hover {
+    background: rgba(255, 248, 218, 0.22) !important;
+    border-color: #bf641d !important;
+    box-shadow: 0 2px 5px rgba(122, 47, 22, 0.1) !important;
+}
+
+.elab-sequence-card .elab-seq-step-badge-img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+.elab-sequence-card .elab-seq-option-text {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    line-height: 1.3;
+    color: #713016 !important;
+}
+
+.elab-sequence-card .elab-seq-arrows-row {
+    flex-shrink: 0;
+    gap: 4px;
+    padding: 3px 5px !important;
+    border: 1px solid #d9c39e !important;
+    border-radius: 10px;
+    background: #fffaf0 !important;
+    box-shadow: 0 2px 5px rgba(92, 56, 24, 0.1);
+}
+
+.elab-sequence-card .elab-seq-arrow-btn {
+    width: 30px;
+    height: 30px;
+    padding: 2px;
+    border-radius: 8px;
+}
+
+.elab-sequence-card .elab-seq-arrow-btn:hover:not(:disabled) {
+    background: #fff0c7;
+    transform: translateY(-1px) scale(1.06);
+}
+
+.elab-sequence-card .elab-seq-arrow-img {
+    width: 24px;
+    height: 24px;
+}
+
+.elab-sequence-card .elab-seq-arrow-divider {
+    display: none;
+}
+
+.elab-sequence-success {
+    display: flex !important;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    margin: 10px 0 0 !important;
+    padding: 9px 12px !important;
+    border: 2px solid #4ac477 !important;
+    border-radius: 12px !important;
+    background: #effcf3 !important;
+    color: #176b38 !important;
+    box-shadow: 0 4px 10px rgba(23, 107, 56, 0.12);
+}
+
+.elab-sequence-success-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
+    border-radius: 50%;
+    background: #28a95b;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 900;
+}
+
+.elab-sequence-success > span:last-child {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.elab-sequence-success strong {
+    font-size: 15px;
+    line-height: 1.2;
+}
+
+.elab-sequence-success small {
+    font-size: 12px;
+    line-height: 1.25;
+    color: #398456;
+}
+
+/* Activity completion modal styled as an illustrated parchment award board. */
+.activity-complete-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(17, 35, 30, 0.5);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+}
+
+.activity-complete-board {
+    position: relative;
+    width: min(92vw, 520px);
+    min-height: 430px;
+    padding: 70px 72px 72px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: url('/summer bg board.png') no-repeat center / 100% 100%;
+    filter: drop-shadow(0 18px 24px rgba(15, 40, 25, 0.35));
+    animation: activityCompletePop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.activity-complete-confetti {
+    position: absolute;
+    top: 82px;
+    color: #e95a4e;
+    font-size: 22px;
+    letter-spacing: 18px;
+}
+
+.activity-complete-medal {
+    display: block;
+    width: 138px;
+    height: 108px;
+    margin: -4px 0 4px;
+    object-fit: contain;
+    filter: drop-shadow(0 7px 7px rgba(74, 41, 10, 0.22));
+}
+
+.activity-complete-board h2 {
+    margin: 4px 0 6px;
+    color: #176b37;
+    font-size: clamp(32px, 7vw, 44px);
+    font-weight: 900;
+    line-height: 1.05;
+}
+
+.activity-complete-board p {
+    max-width: 310px;
+    margin: 0;
+    color: #69401d;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.35;
+}
+
+.activity-complete-board p strong {
+    display: block;
+    color: #176b8e;
+    font-size: 16px;
+}
+
+.activity-complete-star {
+    margin: 6px 0 8px;
+    color: #f6b916;
+    font-size: 22px;
+    text-shadow: 0 2px 0 #d78409;
+}
+
+.activity-complete-button {
+    width: 210px;
+    height: 54px;
+    padding: 0 22px;
+    border: none;
+    border-radius: 0;
+    background: url('/b4c6e517cceac63ee91086eb50eaca7e9dd93bcd.png') no-repeat center / 100% 100%;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 800;
+    cursor: pointer;
+    text-shadow: 0 1px 2px rgba(45, 76, 10, 0.65);
+    box-shadow: none;
+    transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.activity-complete-button:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.06);
+}
+
+.activity-complete-button:active {
+    transform: translateY(1px);
+}
+
+/* Simple reading text cards should size to their content, not a tall preset. */
+.elab-block-card.elab-reading-text-card {
+    min-height: 0 !important;
+    gap: 6px;
+    padding: clamp(2.75rem, 6vh, 3.5rem) clamp(3.75rem, 7vw, 5rem)
+        clamp(3rem, 6.5vh, 3.75rem) !important;
+}
+
+.elab-reading-text-card .elab-block-header {
+    min-height: 0;
+    padding: 0 !important;
+    margin: 0 0 4px !important;
+}
+
+.elab-reading-text-card .elab-block-title {
+    height: 42px;
+    min-width: 140px;
+    padding: 7px 26px !important;
+}
+
+.elab-reading-text-card > p {
+    margin: 0 !important;
+    line-height: 1.5 !important;
+}
+
+@media (max-width: 480px) {
+    .elab-block-card.elab-reading-text-card {
+        padding: 2.5rem 2.5rem 3rem !important;
+    }
+}
+
+@keyframes activityCompletePop {
+    from { transform: scale(0.86); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+@media (max-width: 520px) {
+    .activity-complete-board {
+        min-height: 380px;
+        padding: 62px 52px 64px;
+    }
+
+    .activity-complete-medal {
+        width: 116px;
+        height: 92px;
+    }
+}
+
+.elab-sequence-card .elab-sequence-illustration-container {
+    flex: 1 1 44%;
+    width: 100%;
+    height: auto !important;
+    aspect-ratio: 1.35;
+    min-width: 0;
+    max-height: 300px;
+    margin: 0 !important;
+    padding: 0;
+    align-self: center;
+    overflow: hidden;
+}
+
+.elab-sequence-card .elab-seq-girl-chibi-new {
+    position: absolute;
+    inset: auto 0 0;
+    width: 100%;
+    height: auto !important;
+    object-fit: contain;
+    z-index: 1;
+}
+
+.elab-sequence-card .elab-seq-lightbulb {
+    top: 2%;
+    left: 4%;
+    width: 25%;
+    height: auto !important;
+    z-index: 2;
+}
+
+.elab-sequence-card .elab-seq-side-icons {
+    position: absolute;
+    top: 3%;
+    right: 3%;
+    width: 27%;
+    height: auto;
+    object-fit: contain;
+    z-index: 2;
+}
+
+/* Dictation: use the supplied illustration and compact purple-board heading. */
+.elab-block-card.elab-dictation-card {
+    overflow: hidden;
+    padding: clamp(3.25rem, 7vh, 4.25rem) clamp(3.75rem, 7vw, 5.25rem)
+        clamp(4rem, 8vh, 5rem) !important;
+}
+
+.elab-dictation-card .dictation-custom {
+    display: flex;
+    align-items: center;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    width: 100%;
+}
+
+.elab-dictation-card .elab-dictation-illustration-container {
+    flex: 0 1 43%;
+    width: 43%;
+    height: auto;
+    min-width: 0;
+    align-items: center;
+    overflow: hidden;
+}
+
+.elab-dictation-card .elab-dictation-girl-chibi {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 260px;
+    object-fit: contain;
+}
+
+.elab-dictation-card .elab-block-interactive-side {
+    flex: 1 1 57%;
+    min-width: 0;
+}
+
+.elab-dictation-card .dictation-header-right {
+    margin: 0 0 14px !important;
+}
+
+.elab-dictation-card .dictation-header-right .elab-header-content {
+    align-items: flex-start !important;
+}
+
+.elab-dictation-card .elab-custom-title-purple {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 136px;
+    min-height: 38px;
+    margin: 0 0 6px !important;
+    padding: 6px 22px 9px;
+    background: url('/purple board.png') no-repeat center / 100% 100%;
+    color: #fff !important;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    line-height: 1;
+    text-transform: capitalize;
+    text-shadow: 0 1px 2px rgba(62, 18, 92, 0.45);
+}
+
+.elab-dictation-card .dictation-header-right .elab-custom-subtitle {
+    margin: 0 !important;
+    color: #5d381d !important;
+    font-size: 14px;
+    line-height: 1.35;
+}
+
+@media (max-width: 700px) {
+    .elab-dictation-card .dictation-custom {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .elab-dictation-card .elab-dictation-illustration-container {
+        width: min(70%, 340px);
+        flex: none;
+    }
+
+    .elab-dictation-card .elab-block-interactive-side {
+        width: 100%;
+    }
+}
+
+@media (max-width: 760px) {
+    .elab-block-card.elab-sequence-card {
+        padding: 3rem 3.25rem 4rem !important;
+    }
+
+    .elab-sequence-card .sequence-custom {
+        flex-direction: column;
+    }
+
+    .elab-sequence-card .sequence-custom .elab-block-interactive-side {
+        width: 100%;
+    }
+
+    .elab-sequence-card .elab-sequence-illustration-container {
+        width: min(75%, 320px);
+        flex: none;
+        max-height: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .elab-block-card.elab-sequence-card {
+        padding: 2.5rem 2.25rem 3.25rem !important;
+    }
+
+    .elab-sequence-card .elab-sequence-illustration-container {
+        width: min(85%, 280px);
+    }
+}

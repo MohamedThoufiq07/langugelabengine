@@ -64,87 +64,99 @@ function QuizBlock({ block }) {
 
     return (
 
-        <BlockCard type="quiz">
+        <BlockCard type="quiz" className="custom-quiz-card">
 
-            <BlockHeader
+            {confetti.map(p => (
+                <span
+                    key={p.id}
+                    className="elab-confetti-piece"
+                    style={{ left: `${p.left}%`, top: 0, "--fly-to": p.fly }}
+                >
+                    {p.emoji}
+                </span>
+            ))}
 
-                type="quiz"
-
-                title="Quiz"
-
-                subtitle={question}
-
-            />
-
-            <div style={{ position: "relative" }}>
-
-                {confetti.map(p => (
-                    <span
-                        key={p.id}
-                        className="elab-confetti-piece"
-                        style={{ left: `${p.left}%`, top: 0, "--fly-to": p.fly }}
-                    >
-                        {p.emoji}
-                    </span>
-                ))}
-
-                {audio && (
-                    <div className="quiz-audio-section">
-                        <div className="elab-media-frame">
-                            <audio 
-                                src={audio} 
-                                controls 
-                                className="elab-media-player"
-                                onPlay={() => setAudioPlayed(true)}
+            <div className="quiz-main-layout">
+                {/* Left Side: Header & Options */}
+                <div className="quiz-left-column">
+                    <div className="quiz-custom-header">
+                        <div className="quiz-header-top-row">
+                            <img 
+                                src="/quiz images/quiz question mark icon.png" 
+                                alt="?" 
+                                className="quiz-header-icon"
                             />
+                            <span className="quiz-custom-badge">Quiz</span>
                         </div>
-                        {useAudioMode && (
-                            <div className="audio-first-toggle">
-                                <label className="toggle-label">
-                                    <input 
-                                        type="checkbox" 
-                                        checked={useAudioMode}
-                                        onChange={(e) => setUseAudioMode(e.target.checked)}
-                                        className="toggle-input"
-                                    />
-                                    <span className="toggle-text">Audio-First Mode</span>
-                                </label>
-                                {!audioPlayed && (
-                                    <small className="audio-reminder">Listen first before answering</small>
-                                )}
-                            </div>
-                        )}
+                        <h3 className="quiz-question-text">{question}</h3>
                     </div>
-                )}
 
-                <div className="elab-chip-row" style={{ flexDirection: "column" }}>
+                    {audio && (
+                        <div className="quiz-audio-section">
+                            <div className="elab-media-frame">
+                                <audio 
+                                    src={audio} 
+                                    controls 
+                                    className="elab-media-player"
+                                    onPlay={() => setAudioPlayed(true)}
+                                />
+                            </div>
+                            {useAudioMode && (
+                                <div className="audio-first-toggle">
+                                    <label className="toggle-label">
+                                        <input 
+                                            type="checkbox" 
+                                            checked={useAudioMode}
+                                            onChange={(e) => setUseAudioMode(e.target.checked)}
+                                            className="toggle-input"
+                                        />
+                                        <span className="toggle-text">Audio-First Mode</span>
+                                    </label>
+                                    {!audioPlayed && (
+                                        <small className="audio-reminder">Listen first before answering</small>
+                                    )}
+                                </div>
+                            )}
+                        </div>
+                    )}
 
-                    {options.map((option, index) => {
+                    <div className="quiz-options-container">
+                        {options.map((option, index) => {
 
-                        const isSelected = selected === index;
-                        const isCorrect = !isAssessment && selected !== null && index === correctAnswerIndex;
-                        const isIncorrect = !isAssessment && isSelected && index !== correctAnswerIndex;
+                            const isSelected = selected === index;
+                            const isCorrect = !isAssessment && selected !== null && index === correctAnswerIndex;
+                            const isIncorrect = !isAssessment && isSelected && index !== correctAnswerIndex;
 
-                        return (
+                            return (
 
-                            <button
-                                key={index}
-                                onClick={() => handleSelect(index)}
-                                disabled={!isAssessment && selected !== null}
-                                className={`elab-option ${isSelected ? "is-selected" : ""} ${isCorrect ? "is-correct" : ""} ${isIncorrect ? "is-incorrect" : ""}`}
-                            >
-                                <span className="elab-option-badge">
-                                    {String.fromCharCode(65 + index)}
-                                </span>
-                                {option.text}
-                            </button>
+                                <button
+                                    key={index}
+                                    onClick={() => handleSelect(index)}
+                                    disabled={!isAssessment && selected !== null}
+                                    className={`quiz-custom-option ${isSelected ? "is-selected" : ""} ${isCorrect ? "is-correct" : ""} ${isIncorrect ? "is-incorrect" : ""}`}
+                                >
+                                    <span className="quiz-option-badge">
+                                        {String.fromCharCode(65 + index)}
+                                    </span>
+                                    <span className="quiz-option-text">
+                                        {option.text}
+                                    </span>
+                                </button>
 
-                        );
+                            );
 
-                    })}
-
+                        })}
+                    </div>
                 </div>
 
+                {/* Right Side: Illustration */}
+                <div className="quiz-right-column">
+                    <img 
+                        src="/quiz images/quiz right side image.png" 
+                        alt="Quiz Illustration" 
+                        className="quiz-illustration"
+                    />
+                </div>
             </div>
 
         </BlockCard>

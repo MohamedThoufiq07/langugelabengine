@@ -4,8 +4,6 @@ import { useScreenCompletion } from "../../../screen/ScreenCompletionContext";
 
 // Import cutouts
 import badgeSeqUrl from "../../../../assets/images/badge_seq.png";
-import seqGirlUrl from "../../../../assets/images/seq_girl.png";
-import seqWaveUrl from "../../../../assets/images/seq_wave.png";
 import seqStep1BadgeUrl from "../../../../assets/images/seq_step1_badge.png";
 import seqStep2BadgeUrl from "../../../../assets/images/seq_step2_badge.png";
 import seqStep3BadgeUrl from "../../../../assets/images/seq_step3_badge.png";
@@ -57,7 +55,6 @@ function SequenceBlock({ block }) {
     }
 
     function renderArrowButtons(index) {
-        if (solved) return null;
         const cycleIndex = index % 3;
 
         let upSrc = arrowBlueUpUrl;
@@ -84,7 +81,9 @@ function SequenceBlock({ block }) {
                     type="button"
                     className="elab-seq-arrow-btn"
                     onClick={() => move(index, -1)}
-                    disabled={index === 0}
+                    disabled={solved || index === 0}
+                    aria-label={`Move step ${index + 1} up`}
+                    title="Move up"
                 >
                     <img
                         src={upSrc}
@@ -98,7 +97,9 @@ function SequenceBlock({ block }) {
                     type="button"
                     className="elab-seq-arrow-btn"
                     onClick={() => move(index, 1)}
-                    disabled={index === order.length - 1}
+                    disabled={solved || index === order.length - 1}
+                    aria-label={`Move step ${index + 1} down`}
+                    title="Move down"
                 >
                     <img
                         src={downSrc}
@@ -112,12 +113,12 @@ function SequenceBlock({ block }) {
     }
 
     return (
-        <BlockCard type="sequence">
+        <BlockCard type="sequence" className="elab-sequence-card">
             <div className="elab-block-two-column sequence-custom">
                 <div className="elab-block-interactive-side">
                     {/* Header */}
                     <div className="elab-custom-header">
-                        <img src={badgeSeqUrl} className="elab-header-badge-img" alt="Badge" />
+                        <img src="/arrange in order/arrange in order head icon.png" className="elab-header-badge-img" alt="Badge" />
                         <div className="elab-header-content">
                             <h3 className="elab-custom-title-seq">
                                 <span className="title-blue">ARRANGE</span> <span className="title-pink">IN ORDER</span>
@@ -135,8 +136,6 @@ function SequenceBlock({ block }) {
                             >
                                 <div className="elab-seq-badge-container">
                                     <img src={getStepBadge(index)} className="elab-seq-step-badge-img" alt="Step" />
-                                    {/* Small sparkle icons next to badge */}
-                                    <span className="elab-seq-badge-sparkles">✨</span>
                                 </div>
                                 <span className="elab-seq-option-text">{item}</span>
                                 {renderArrowButtons(index)}
@@ -145,16 +144,33 @@ function SequenceBlock({ block }) {
                     </div>
 
                     {solved && (
-                        <div className="elab-feedback success" style={{ marginTop: "12px" }}>
-                            ✅ Correct order!
+                        <div className="elab-feedback success elab-sequence-success" role="status">
+                            <span className="elab-sequence-success-icon" aria-hidden="true">✓</span>
+                            <span>
+                                <strong>Excellent!</strong>
+                                <small>You found the correct order.</small>
+                            </span>
                         </div>
                     )}
                 </div>
 
                 {/* Right Side Illustration */}
                 <div className="elab-sequence-illustration-container">
-                    <img src={seqWaveUrl} className="elab-seq-wave-bubble" alt="Sound Wave" />
-                    <img src={seqGirlUrl} className="elab-seq-girl-chibi" alt="Girl pointing" />
+                    <img
+                        src="/arrange in order/arrange in order bulp.png"
+                        className="elab-seq-lightbulb"
+                        alt="Lightbulb"
+                    />
+                    <img
+                        src="/arrange in order/arrange in order right side icons.png"
+                        className="elab-seq-side-icons"
+                        alt="Sound and music icons"
+                    />
+                    <img
+                        src="/arrange in order/arrang in order girl image.png"
+                        className="elab-seq-girl-chibi-new"
+                        alt="Girl reading"
+                    />
                 </div>
             </div>
         </BlockCard>

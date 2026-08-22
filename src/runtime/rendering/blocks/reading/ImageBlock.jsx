@@ -12,19 +12,19 @@ function ImageBlock({ block }) {
     };
 
     return (
-        <BlockCard type="image" style={cardStyle}>
+        <BlockCard type="image" className="elab-media-card" style={cardStyle}>
             <BlockHeader
                 type="image"
                 title="Image"
             />
-            <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center", marginTop: "0.25rem" }}>
+            <div className="elab-media-card-content">
                 <img
                     src={url || null}
                     alt={caption || "Content Image"}
-                    style={{ width: "100%", height: "auto", objectFit: "contain", borderRadius: "8px" }}
+                    className="elab-media-card-element"
                 />
                 {caption && (
-                    <p style={{ marginTop: "8px", fontSize: "14px", color: "#64748b", textAlign: "center" }}>{caption}</p>
+                    <p className="elab-media-card-caption">{caption}</p>
                 )}
             </div>
         </BlockCard>

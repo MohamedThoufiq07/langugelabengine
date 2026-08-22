@@ -14,7 +14,7 @@ function TextBlock({ block }) {
 
     return (
 
-        <BlockCard type="text">
+        <BlockCard type="text" className="elab-reading-text-card">
 
             <BlockHeader
 
