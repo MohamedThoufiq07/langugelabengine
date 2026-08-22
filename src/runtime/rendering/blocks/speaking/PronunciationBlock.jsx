@@ -5,7 +5,6 @@ import BlockCard from "../../../ui/components/BlockCard";
 import { useScreenCompletion } from "../../../screen/ScreenCompletionContext";
 
 import pronunciationBadge from "../../../../assets/images/speaking_pronunciation_badge.png";
-import boyMicImg from "../../../../assets/images/speaking_boy_microphone.png";
 import orangeButtonBg from "../../../../assets/images/speaking_orange_button_bg.png";
 
 const VERDICT_META = {
@@ -218,9 +217,9 @@ function PronunciationBlock({ block }) {
                 </div>
 
                 <div className="speaking-custom-illustration">
-                    <img 
-                        src={boyMicImg} 
-                        alt="Pronunciation Illustration" 
+                    <img
+                        src="/pronounciation boy image.png"
+                        alt="Boy practicing pronunciation"
                     />
                 </div>
             </div>

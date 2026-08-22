@@ -5,7 +5,6 @@ import BlockCard from "../../../ui/components/BlockCard";
 import { useScreenCompletion } from "../../../screen/ScreenCompletionContext";
 
 import recorderBadge from "../../../../assets/images/speaking_recorder_badge.png";
-import voiceRecorderImg from "../../../../assets/images/speaking_voice_recorder_illustration.png";
 import recordDot from "../../../../assets/images/speaking_record_dot.png";
 
 function VoiceRecorderBlock({ block }) {
@@ -228,7 +227,7 @@ function VoiceRecorderBlock({ block }) {
 
                 <div className="speaking-custom-illustration">
                     <img 
-                        src={voiceRecorderImg} 
+                        src="/voice recording girl.png"
                         alt="Voice Recorder Illustration" 
                     />
                 </div>
