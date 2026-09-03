@@ -23,6 +23,10 @@ function RuntimeShell({
     children
 }) {
     const experience = runtime.getExperience();
+    const isFirstScreen =
+        (progress.currentActivity === 1 || progress.currentActivity === 0 || !progress.currentActivity) &&
+        progress.currentScreen === 1;
+
     const isLastScreen =
         progress.currentActivity === progress.totalActivities &&
         progress.currentScreen === progress.totalScreens;
@@ -65,12 +69,7 @@ function RuntimeShell({
 
     const isTimeLow = timeLeft < 60; // 1 minute
 
-    const dynamicBackdropStyle = isAssessment ? {
-        backgroundImage: "url('/Assesment bg.png')",
-        backgroundSize: "100% 100%",
-        backgroundPosition: "center center",
-        backgroundRepeat: "no-repeat",
-    } : BACKDROP_STYLE;
+    const dynamicBackdropStyle = BACKDROP_STYLE;
 
     const currentExperienceTypeString = (experience?.experienceType || experience?.experience_type || experience?.lessonType || experience?.lesson_type || "").toLowerCase();
 
@@ -113,35 +112,37 @@ function RuntimeShell({
                         {children}
                     </div>
 
-                    {/* ── Screen indicator — bottom-left ── */}
-                    {!isAssessment && (
-                        <div className="board-text-widget">
-                            <span className="board-screen-text" aria-label={`Screen ${progress.currentScreen} of ${progress.totalScreens}`} />
-                        </div>
-                    )}
+                    <div
+                        className="screen-progress-widget"
+                        role="status"
+                        aria-label={`Screen ${progress.currentScreen} of ${progress.totalScreens}`}
+                    >
+                        <span>{progress.currentScreen} / {progress.totalScreens}</span>
+                    </div>
 
                     {/* ── Attractive nav buttons — bottom-center ── */}
                     <div className="floating-nav-bar">
-                        {/* Previous — yellow round */}
-                        <button
-                            className="game-btn game-btn-prev"
-                            disabled={progress.currentScreen <= 1}
-                            onClick={onPrevious}
-                            aria-label="Previous"
-                            title="Previous"
-                        >
-                            <img 
-                                src="/arrrow.png" 
-                                style={{ 
-                                    width: "80px", 
-                                    height: "auto", 
-                                    transform: "scaleX(-1)", 
-                                    opacity: progress.currentScreen <= 1 ? 0.5 : 1,
-                                    transition: "all 0.2s ease"
-                                }} 
-                                alt="Previous" 
-                            />
-                        </button>
+                        {/* Previous — hidden on first screen */}
+                        {!isFirstScreen && (
+                            <button
+                                className="game-btn game-btn-prev"
+                                onClick={onPrevious}
+                                aria-label="Previous"
+                                title="Previous"
+                            >
+                                <img 
+                                    src="/arrrow.png" 
+                                    style={{ 
+                                        width: "80px", 
+                                        height: "auto", 
+                                        transform: "scaleX(-1)", 
+                                        opacity: 1,
+                                        transition: "all 0.2s ease"
+                                    }} 
+                                    alt="Previous" 
+                                />
+                            </button>
+                        )}
 
                         {/* Exit — red clearly visible */}
                         <button

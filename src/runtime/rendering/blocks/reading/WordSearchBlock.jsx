@@ -323,14 +323,8 @@ function WordSearchBlock({ block }) {
 
             <div className="wordsearch-custom-card-content">
                 <div className="wordsearch-custom-interactive">
-                    <div className="wordsearch-header">
-                        <div className="wordsearch-badge">abc</div>
-                        <div className="wordsearch-header-info">
-                            <h3 className="wordsearch-header-title">WORD SEARCH</h3>
-                            <p className="wordsearch-header-subtitle">
-                                {question || "Find the hidden words in the grid."}
-                            </p>
-                        </div>
+                    <div className="grammar-header" style={{ marginBottom: "8px" }}>
+                        <div className="grammar-title-banner writing">WORD SEARCH</div>
                     </div>
 
                     <div

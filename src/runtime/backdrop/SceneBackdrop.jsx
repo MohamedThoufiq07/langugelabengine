@@ -6,12 +6,7 @@ function SceneBackdrop({ runtime }) {
     const currentActivity = experience?.activities?.[currentActivityIndex];
     const isAssessment = experience?.experienceType === 'ASSESSMENT' || experience?.experience_type === 'ASSESSMENT' || currentActivity?.activityType === 'ASSESSMENT' || currentActivity?.activity_type === 'ASSESSMENT';
 
-    const bgStyle = isAssessment ? {
-        backgroundImage: "url('/Assesment bg.png')",
-        backgroundSize: "100% 100%",
-        backgroundPosition: "center center",
-        backgroundRepeat: "no-repeat",
-    } : {};
+    const bgStyle = {};
 
     return (
         <div 

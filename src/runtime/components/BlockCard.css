@@ -7,9 +7,9 @@
 .block-card,
 .elab-block-card {
     width: 100%;
-    background: transparent;
-    border-radius: 18px;
-    padding: 1.25rem 1.5rem;
+    background: url('/summer bg board.png') no-repeat center / 100% 100% !important;
+    border-radius: 0;
+    padding: 4.5rem 5.5rem 5.5rem 5.5rem !important;
     box-shadow: none;
     border: none;
     box-sizing: border-box;

@@ -13,9 +13,16 @@ function RolePlayBlock({ block }) {
 
         character,
         dialogue,
+        prompt,
+        script = [],
         referenceAudio
 
     } = block.content;
+
+    // Build dialogue text from script if dialogue is empty
+    const displayDialogue = dialogue || (script.length > 0 
+        ? script.map(item => `${item.speaker ? item.speaker + ': ' : ''}${item.text}`).join('\n')
+        : prompt || "");
 
     const [recording, setRecording] = useState(false);
     const [audio, setAudio] = useState(null);
@@ -72,8 +79,8 @@ function RolePlayBlock({ block }) {
 
                     <div className="speaking-divider-line" />
 
-                    <div className="speaking-quotes-container">
-                        ” {dialogue || ""} ”
+                    <div className="speaking-quotes-container" style={{ whiteSpace: "pre-line" }}>
+                        ” {displayDialogue} ”
                     </div>
 
                     {referenceAudio && (
@@ -110,7 +117,7 @@ function RolePlayBlock({ block }) {
 
                 <div className="speaking-custom-illustration">
                     <img 
-                        src={puppetShowImg} 
+                        src="/role play boy and girl.png" 
                         alt="Role Play Illustration" 
                     />
                 </div>

@@ -102,8 +102,9 @@ function VideoBlock({ block }) {
     }, []);
 
     const jsonStyles = block.styles || {};
+    const requestedWidth = jsonStyles.blockWidth || "760px";
     const cardStyle = {
-        width: jsonStyles.blockWidth ? jsonStyles.blockWidth : "933px",
+        width: `min(100%, max(480px, ${requestedWidth}))`,
         minHeight: jsonStyles.minHeight ? jsonStyles.minHeight : "auto",
         margin: "0 auto"
     };

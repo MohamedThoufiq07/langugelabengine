@@ -98,7 +98,7 @@ function RoleplaySimulationBlock({ block }) {
     );
 
     return (
-        <BlockCard type="roleplay_simulation">
+        <BlockCard type="roleplay_simulation" style={{ border: "none", boxShadow: "none", background: "transparent" }}>
             <div className="elab-block-two-column">
                 <div className="elab-block-interactive-side">
                     <BlockHeader

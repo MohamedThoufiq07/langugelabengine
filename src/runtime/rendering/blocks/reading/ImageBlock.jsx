@@ -5,8 +5,12 @@ function ImageBlock({ block }) {
     const { url, caption } = block.content;
     const jsonStyles = block.styles || {};
 
+    const requestedWidth = jsonStyles.blockWidth || "640px";
     const cardStyle = {
-        width: jsonStyles.blockWidth ? jsonStyles.blockWidth : "933px",
+        // Illustrated cards become unusable when a CMS JSON supplies a very
+        // small width. Keep the requested width, but enforce a safe minimum
+        // and always fit within the viewport.
+        width: `min(100%, max(390px, ${requestedWidth}))`,
         minHeight: jsonStyles.minHeight ? jsonStyles.minHeight : "auto",
         margin: "0 auto"
     };

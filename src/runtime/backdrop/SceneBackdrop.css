@@ -20,7 +20,12 @@
 .scene-content-area {
   position: absolute;
   inset: 0;
-  padding: 2rem 2rem 8rem 8rem; /* Increased left padding to shift content slightly to the right */
+  padding: 2rem 2rem 8rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  z-index: 5;
+  display: flex;
   overflow-y: auto;
   overflow-x: hidden;
   box-sizing: border-box;
@@ -59,25 +64,21 @@
 .elab-stage {
   display: flex;
   flex-direction: column;
+  gap: 20px;
   width: 100%;
 }
 
-
-/* ── Board Text Overlay — sits on the bg board (bottom-left) ── */
-.board-text-widget {
-  position: absolute;
-  bottom: 24px;
-  left: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-  z-index: 100;
+.elab-block-row:not(:has(.elab-block-card)) {
+  width: 100%;
+  background: url('/summer bg board.png') no-repeat center / 100% 100% !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 4.5rem 5.5rem 5.5rem 5.5rem !important;
+  box-sizing: border-box !important;
 }
 
 
 .board-title-text {
-  font-family: 'Poppins', 'Inter', sans-serif;
   font-size: 21px;
   font-weight: 800;
   color: #431f05;
@@ -94,15 +95,39 @@
   max-width: 90%;
 }
 
-.board-screen-text {
-  width: 140px;
-  height: 56px;
-  background: url('/screen show.png') no-repeat;
-  background-size: 100% 100%;
-  display: inline-flex;
+/* JSON-driven screen indicator using the green illustrated plaque. */
+.screen-progress-widget {
+  position: absolute;
+  left: 24px;
+  bottom: 24px;
+  z-index: 100;
+  width: 150px;
+  height: 50px;
+  display: flex;
   align-items: center;
   justify-content: center;
-  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15));
+  padding: 0 24px;
+  box-sizing: border-box;
+  color: #111111;
+  background: url('/b4c6e517cceac63ee91086eb50eaca7e9dd93bcd.png') no-repeat center / 100% 100%;
+  font-family: 'Poppins', 'Inter', sans-serif;
+  font-size: 18px;
+  font-weight: 900;
+  line-height: 1;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2);
+  pointer-events: none;
+  user-select: none;
+}
+
+@media (max-width: 640px) {
+  .screen-progress-widget {
+    left: 12px;
+    bottom: 14px;
+    width: 126px;
+    height: 42px;
+    padding: 0 20px;
+    font-size: 16px;
+  }
 }
 
 /* ══════════════════════════════════════

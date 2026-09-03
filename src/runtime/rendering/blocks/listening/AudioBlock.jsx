@@ -60,33 +60,54 @@ function AudioBlock({ block }) {
                 <div className="elab-block-interactive-side">
                     {/* Header */}
                     <div className="elab-custom-header">
-                        <img src={badgeAudioUrl} className="elab-header-badge-img" alt="Badge" />
                         <div className="elab-header-content">
-                            <h3 className="elab-custom-title-audio">
-                                <span className="title-blue">Listen</span> <span className="title-pink">Carefully</span>
+                            <h3 className="elab-block-title" style={{ display: "inline-flex", background: "url('/purple board.png') no-repeat", backgroundSize: "100% 100%", padding: "10px 32px", color: "#ffffff", height: "52px", alignItems: "center", justifyContent: "center" }}>
+                                Listen <span style={{ color: "#ff8ab4", marginLeft: "6px" }}>Carefully</span>
                             </h3>
-                            <p className="elab-custom-subtitle">Listen to the audio and answer the question.</p>
+                            <p className="elab-custom-subtitle" style={{ marginTop: "16px" }}>Listen to the audio and answer the question</p>
                         </div>
                     </div>
 
                     {/* Custom Player Controls */}
-                    <div className="elab-audio-player-custom-row">
-                        {/* Circular Play Button */}
-                        <button className="elab-audio-play-btn-large" onClick={togglePlay} aria-label={isPlaying ? "Pause" : "Play"}>
-                            {isPlaying ? (
-                                <div className="elab-audio-pause-btn-custom" />
-                            ) : (
-                                <img src={audioPlayBlueUrl} className="elab-play-btn-bg" alt="Play Button" />
-                            )}
-                        </button>
-
-                        {/* Control Bar */}
-                        <div className="elab-audio-control-bar">
-                            <button className="elab-audio-replay-btn" onClick={replay}>
-                                <img src={audioReplayUrl} className="elab-replay-icon-img" alt="Replay" />
-                                <span className="elab-replay-text">Replay</span>
+                    <div className="elab-audio-player-custom-row" style={{ display: "flex", flexDirection: "column", gap: "16px", alignItems: "flex-start", width: "100%" }}>
+                        {/* Play and Replay Buttons Row */}
+                        <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+                            {/* Circular Play Button */}
+                            <button className="elab-audio-play-btn-large" onClick={togglePlay} aria-label={isPlaying ? "Pause" : "Play"}>
+                                {isPlaying ? (
+                                    <div className="elab-audio-pause-btn-custom" />
+                                ) : (
+                                    <div className="elab-audio-play-btn-custom">
+                                        <div className="elab-audio-play-triangle" />
+                                    </div>
+                                )}
                             </button>
 
+                            {/* Replay Button */}
+                            <button 
+                                onClick={replay}
+                                style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: "6px",
+                                    background: "#ffffff",
+                                    border: "none",
+                                    borderRadius: "18px",
+                                    padding: "8px 16px",
+                                    cursor: "pointer",
+                                    fontFamily: "inherit",
+                                    fontWeight: "600",
+                                    fontSize: "14px",
+                                    color: "#4f46e5",
+                                    boxShadow: "0 2px 8px rgba(0, 0, 0, 0.08)"
+                                }}
+                            >
+                                <span style={{ fontSize: "14px" }}>🔄</span> Replay
+                            </button>
+                        </div>
+
+                        {/* Full Width Seek Bar Container */}
+                        <div className="elab-audio-control-bar" style={{ width: "100%", display: "flex", alignItems: "center", gap: "16px" }}>
                             {/* Slider Seek Bar */}
                             <div className="elab-audio-slider-container" onClick={handleProgressClick}>
                                 <div className="elab-audio-slider-track">
@@ -103,9 +124,8 @@ function AudioBlock({ block }) {
                 </div>
 
                 {/* Right Side Illustration */}
-                <div className="elab-audio-illustration-container">
-                    <img src={audioWaveUrl} className="elab-audio-wave-bubble" alt="Audio Wave" />
-                    <img src={audioBoyUrl} className="elab-audio-boy-chibi" alt="Audio Boy" />
+                <div className="elab-audio-illustration-container-single">
+                    <img src="/listen carefully boy.png" className="elab-audio-boy-chibi-single" alt="Listen Carefully Boy" />
                 </div>
             </div>
 

@@ -3,7 +3,6 @@ import BlockCard from "../../../ui/components/BlockCard";
 import { useScreenCompletion } from "../../../screen/ScreenCompletionContext";
 
 // Import cutouts
-import badgeSeqUrl from "../../../../assets/images/badge_seq.png";
 import seqStep1BadgeUrl from "../../../../assets/images/seq_step1_badge.png";
 import seqStep2BadgeUrl from "../../../../assets/images/seq_step2_badge.png";
 import seqStep3BadgeUrl from "../../../../assets/images/seq_step3_badge.png";
@@ -121,7 +120,7 @@ function SequenceBlock({ block }) {
                         <img src="/arrange in order/arrange in order head icon.png" className="elab-header-badge-img" alt="Badge" />
                         <div className="elab-header-content">
                             <h3 className="elab-custom-title-seq">
-                                <span className="title-blue">ARRANGE</span> <span className="title-pink">IN ORDER</span>
+                                ARRANGE IN ORDER
                             </h3>
                             <p className="elab-custom-subtitle">Use the arrows to put the steps in the correct order</p>
                         </div>

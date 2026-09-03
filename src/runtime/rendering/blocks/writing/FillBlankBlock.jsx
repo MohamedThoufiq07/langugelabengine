@@ -10,11 +10,10 @@ function FillBlankBlock({ block }) {
     const completion = useScreenCompletion();
     const savedAnswer = completion?.getSavedAnswer?.(block.id);
 
-    const rawSentence = sentence || text || block.content.items?.[0]?.text || "";
+    const items = block.content.items || [];
 
-    // Parse sentence like "The quick brown [fox] jumps over the lazy [dog]."
-    // into parts: ["The quick brown ", { expected: "fox" }, " jumps over the lazy ", { expected: "dog" }, "."]
-    const parts = useMemo(() => {
+    // Helper function to parse sentences like "The quick brown [fox] jumps over the lazy [dog]."
+    function parseSentence(rawSentence) {
         const result = [];
         let lastIndex = 0;
         const regex = /\[([^\]]+)\]/g;
@@ -31,34 +30,28 @@ function FillBlankBlock({ block }) {
             result.push({ type: "text", content: rawSentence.substring(lastIndex) });
         }
         return result;
-    }, [rawSentence]);
+    }
 
     const [answers, setAnswers] = useState(savedAnswer || {});
 
-    useEffect(() => {
-        if (savedAnswer) {
-            const blanksCount = parts.filter(p => p.type === "blank").length;
-            const enteredCount = Object.values(savedAnswer).filter(val => val.trim().length > 0).length;
-            if (enteredCount === blanksCount) {
-                completion?.reportAnswered(block.id);
-            }
-        }
-    }, [savedAnswer, parts]);
-
-    function handleInlineChange(blankIndex, value) {
-        const newAnswers = { ...answers, [blankIndex]: value };
+    function handleInlineChange(sentenceId, blankIndex, value) {
+        const key = `${sentenceId}-${blankIndex}`;
+        const newAnswers = { ...answers, [key]: value };
         setAnswers(newAnswers);
         completion?.saveAnswer?.(block.id, newAnswers);
 
         // Check if all blanks have some text entered to report answered
-        const blanksCount = parts.filter(p => p.type === "blank").length;
+        let totalBlanks = 0;
+        items.forEach(item => {
+            const parsed = parseSentence(item.text);
+            totalBlanks += parsed.filter(p => p.type === "blank").length;
+        });
+
         const enteredCount = Object.values(newAnswers).filter(val => val.trim().length > 0).length;
-        if (enteredCount === blanksCount) {
+        if (enteredCount === totalBlanks) {
             completion?.reportAnswered(block.id);
         }
     }
-
-    const isAssessment = window.__isAssessment;
 
     return (
         <BlockCard type="fill_blank">
@@ -67,73 +60,80 @@ function FillBlankBlock({ block }) {
                     <img src={grammarGirlReading} alt="Fill in the Blank Illustration" />
                 </div>
 
-                <div className="grammar-custom-interactive">
-                    <div className="grammar-header">
-                        <img src={grammarBadgePencil} className="grammar-badge" alt="Pencil Badge" />
-                        <div className="grammar-title-banner fill-blank">FILL IN THE BLANK</div>
+                <div className="grammar-custom-interactive" style={{ display: "flex", flexDirection: "column", gap: "16px", paddingLeft: "12px", paddingTop: "12px" }}>
+                    <div className="grammar-header" style={{ marginBottom: "8px" }}>
+                        <div className="elab-block-title" style={{ display: "inline-flex", background: "url('/purple board.png') no-repeat", backgroundSize: "100% 100%", padding: "10px 32px", color: "#ffffff", height: "52px", alignItems: "center", justifyContent: "center" }}>
+                            FILL IN THE BLANK
+                        </div>
                     </div>
 
                     <h4 className="grammar-subtitle">
                         {question || "Complete the sentence by filling in the blanks."}
                     </h4>
 
-                    {rawSentence && (
-                        <div 
-                            className="elab-inline-fill-sentence" 
-                            style={{ 
-                                fontSize: "19px", 
-                                lineHeight: "2.2", 
-                                color: "#334155", 
-                                display: "flex", 
-                                flexWrap: "wrap", 
-                                alignItems: "center", 
-                                gap: "8px",
-                                marginTop: "1rem",
-                                padding: "16px 20px",
-                                background: "#fafafa",
-                                borderRadius: "12px",
-                                border: "1px solid #f0f0f0"
-                            }}
-                        >
-                            {parts.map((part, i) => {
-                                if (part.type === "text") {
-                                    return <span key={i} style={{ fontWeight: 500 }}>{part.content}</span>;
-                                } else {
-                                    return (
-                                        <input
-                                            key={i}
-                                            type="text"
-                                            value={answers[part.index] || ""}
-                                            onChange={(e) => handleInlineChange(part.index, e.target.value)}
-                                            placeholder=""
-                                            style={{
-                                                border: "none",
-                                                borderBottom: "2px solid #0f766e",
-                                                background: "#f0fdf4",
-                                                textAlign: "center",
-                                                width: `${Math.max(part.expected.length * 14 + 10, 80)}px`,
-                                                fontSize: "17px",
-                                                fontWeight: "bold",
-                                                color: "#0f766e",
-                                                padding: "4px 8px",
-                                                outline: "none",
-                                                borderRadius: "4px",
-                                                transition: "all 0.2s ease"
-                                            }}
-                                            onFocus={(e) => {
-                                                e.target.style.background = "#e6f9f5";
-                                                e.target.style.borderBottomColor = "#0d9488";
-                                            }}
-                                            onBlur={(e) => {
-                                                e.target.style.background = "#f0fdf4";
-                                                e.target.style.borderBottomColor = "#0f766e";
-                                            }}
-                                        />
-                                    );
-                                }
-                            })}
-                        </div>
-                    )}
+                    <div style={{ display: "flex", flexDirection: "column", gap: "12px", width: "100%" }}>
+                        {items.map((item, idx) => {
+                            const parsedParts = parseSentence(item.text);
+                            return (
+                                <div 
+                                    key={item.id}
+                                    className="elab-inline-fill-sentence" 
+                                    style={{ 
+                                        fontSize: "19px", 
+                                        lineHeight: "2.2", 
+                                        color: "#334155", 
+                                        display: "flex", 
+                                        flexWrap: "wrap", 
+                                        alignItems: "center", 
+                                        gap: "8px",
+                                        padding: "8px 0px",
+                                        background: "transparent",
+                                        border: "none"
+                                    }}
+                                >
+                                    <span style={{ fontWeight: "bold", marginRight: "8px", color: "#4f46e5" }}>{idx + 1}.</span>
+                                    {parsedParts.map((part, i) => {
+                                        if (part.type === "text") {
+                                            return <span key={i} style={{ fontWeight: 500 }}>{part.content}</span>;
+                                        } else {
+                                            const key = `${item.id}-${part.index}`;
+                                            return (
+                                                <input
+                                                    key={i}
+                                                    type="text"
+                                                    value={answers[key] || ""}
+                                                    onChange={(e) => handleInlineChange(item.id, part.index, e.target.value)}
+                                                    placeholder=""
+                                                    style={{
+                                                        border: "none",
+                                                        borderBottom: "2px solid #0f766e",
+                                                        background: "transparent",
+                                                        textAlign: "center",
+                                                        width: `${Math.max(part.expected.length * 14 + 10, 80)}px`,
+                                                        fontSize: "17px",
+                                                        fontWeight: "bold",
+                                                        color: "#0f766e",
+                                                        padding: "4px 8px",
+                                                        outline: "none",
+                                                        borderRadius: "4px",
+                                                        transition: "all 0.2s ease"
+                                                    }}
+                                                    onFocus={(e) => {
+                                                        e.target.style.background = "rgba(15, 118, 110, 0.08)";
+                                                        e.target.style.borderBottomColor = "#0d9488";
+                                                    }}
+                                                    onBlur={(e) => {
+                                                        e.target.style.background = "transparent";
+                                                        e.target.style.borderBottomColor = "#0f766e";
+                                                    }}
+                                                />
+                                            );
+                                        }
+                                    })}
+                                </div>
+                            );
+                        })}
+                    </div>
                 </div>
             </div>
         </BlockCard>

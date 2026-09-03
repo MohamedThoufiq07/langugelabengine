@@ -4,8 +4,10 @@ import { useScreenCompletion } from "../../../screen/ScreenCompletionContext";
 import RecordingService from "../../services/recording/RecordingService";
 
 import badgeUrl from "../../../../assets/images/speaking_masks_badge.png";
-import illustrationUrl from "../../../../assets/images/speaking_puppet_show.png";
 import recordDot from "../../../../assets/images/speaking_record_dot.png";
+
+// Public-folder image — no import needed, Vite serves /public directly
+const illustrationUrl = "/role play boy and girl.png";
 
 function YouAskBlock({ block }) {
     const { 

@@ -260,7 +260,7 @@ ol {
 
     margin: 16px 24px 0;
 
-    padding: 16px 24px;
+    padding: 16px 48px;
 
     display: flex;
 
@@ -268,16 +268,20 @@ ol {
 
     gap: 12px;
 
-    background: rgba(255, 255, 255, 0.75);
+    /* Locked board image as background */
+    background: url('/locked board.png') center center / 100% 100% no-repeat;
 
-    backdrop-filter: blur(16px) saturate(180%);
-    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
 
-    border: 1px solid rgba(255, 255, 255, 0.4);
+    border: none;
 
-    border-radius: var(--radius-md);
+    border-radius: 0;
 
-    box-shadow: var(--shadow-sm);
+    box-shadow: none;
+
+    /* Match the board's natural aspect ratio (~5.7:1) */
+    min-height: 90px;
 
     transition:
         box-shadow var(--transition-normal),
@@ -288,9 +292,9 @@ ol {
 
 .runtime-header:hover {
 
-    box-shadow: var(--shadow-md);
+    box-shadow: none;
 
-    border-color: rgba(255, 255, 255, 0.6);
+    border-color: transparent;
 
 }
 
@@ -361,7 +365,7 @@ ol {
 
     font-weight: var(--font-bold);
 
-    color: var(--text-primary);
+    color: #000000;
 
     letter-spacing: -0.02em;
 
@@ -369,7 +373,7 @@ ol {
 
 .runtime-title-accent {
 
-    color: var(--primary);
+    color: #000000;
 
 }
 
@@ -379,7 +383,7 @@ ol {
 
     font-size: var(--font-sm);
 
-    color: var(--text-secondary);
+    color: #000000;
 
     font-weight: var(--font-medium);
 
@@ -407,7 +411,7 @@ ol {
 
     font-size: 13px;
 
-    color: var(--text-secondary);
+    color: #000000;
 
     white-space: nowrap;
 
@@ -3081,6 +3085,201 @@ ol {
     width: 100%;
 }
 
+
+
+.roleplay-characters {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.character-badge,
+.conversation-history,
+.roleplay-turn-section {
+    padding: 1rem;
+    border: 1px solid #ffedd5;
+    border-radius: 1rem;
+    background: #ffffff;
+}
+
+.character-badge {
+    min-width: 0;
+}
+
+.character-badge.your-role {
+    border-color: #fed7aa;
+    background: #fff7ed;
+}
+
+.character-name {
+    color: #7c2d12;
+    font-weight: 800;
+    overflow-wrap: anywhere;
+}
+
+.character-role,
+.history-empty {
+    margin-top: 0.25rem;
+    color: #64748b;
+}
+
+.roleplay-divider {
+    color: #f97316;
+    font-size: 1.2rem;
+}
+
+.roleplay-turn-section {
+    display: grid;
+    gap: 0.9rem;
+}
+
+.turn-label {
+    color: #9a3412;
+    font-weight: 800;
+}
+
+.roleplay-text-display,
+.roleplay-instructions {
+    padding: 0.85rem 1rem;
+    border-radius: 0.75rem;
+    line-height: 1.5;
+}
+
+.roleplay-text-display {
+    border-left: 4px solid #fb923c;
+    background: #fff7ed;
+    color: #431407;
+    overflow-wrap: anywhere;
+}
+
+.roleplay-instructions {
+    background: #fffbeb;
+    color: #78350f;
+}
+
+.roleplay-instructions p {
+    margin: 0.35rem 0 0;
+    overflow-wrap: anywhere;
+}
+
+.recording-section {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.elab-block-card[data-type="roleplay_simulation"] .elab-recording-btn,
+.elab-block-card[data-type="roleplay_simulation"] .elab-skip-btn {
+    min-height: 2.8rem;
+    padding: 0.7rem 1rem;
+    border-radius: 0.75rem;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.elab-block-card[data-type="roleplay_simulation"] .elab-recording-btn {
+    border: 1px solid #ea580c;
+    background: #f97316;
+    color: #ffffff;
+    box-shadow: 0 6px 14px rgba(234, 88, 12, 0.2);
+}
+
+.elab-block-card[data-type="roleplay_simulation"] .elab-recording-btn.is-recording {
+    background: #dc2626;
+    border-color: #b91c1c;
+}
+
+.elab-block-card[data-type="roleplay_simulation"] .elab-skip-btn {
+    border: 1px solid #fed7aa;
+    background: #fff7ed;
+    color: #9a3412;
+}
+
+.conversation-history {
+    align-self: stretch;
+}
+
+.conversation-history h4 {
+    margin: 0 0 0.85rem;
+    color: #431407;
+}
+
+.history-list {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.history-turn {
+    padding: 0.75rem;
+    border-radius: 0.75rem;
+    background: #fff7ed;
+}
+
+.turn-speaker {
+    color: #9a3412;
+}
+
+.turn-text,
+.response-transcript {
+    margin-top: 0.3rem;
+    color: #475569;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 640px) {
+    .roleplay-characters {
+        grid-template-columns: 1fr;
+    }
+
+    .roleplay-divider {
+        text-align: center;
+        transform: rotate(90deg);
+    }
+}
+
+@media (max-width: 900px) {
+    .elab-block-card[data-type="audio_mystery"] .elab-block-two-column {
+        gap: 1.5rem;
+    }
+
+    .elab-block-card[data-type="audio_mystery"] .elab-block-content-side {
+        align-items: stretch;
+    }
+}
+
+@media (max-width: 560px) {
+    .elab-block-card[data-type="audio_mystery"] .elab-block-two-column {
+        gap: 1rem;
+    }
+
+    .result-item {
+        grid-template-columns: 1fr;
+        gap: 0.15rem;
+    }
+}
+
+/* Custom memory game elements */
+.elab-memory-container {
+    background: #F8F6FF;
+    border: 2px dashed #D6C2F9;
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.elab-memory-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    width: 100%;
+}
+
 .elab-memory-card {
     display: flex;
     align-items: center;
@@ -3157,6 +3356,19 @@ ol {
     margin-bottom: 24px !important;
     gap: 16px !important;
     align-items: center;
+}
+
+.runtime-shell .elab-block-card,
+.runtime-shell .elab-block-row:not(:has(.elab-block-card)),
+.elab-block-card,
+.elab-block-row:not(:has(.elab-block-card)) {
+    background: url('/summer bg board.png') no-repeat center / 100% 100% !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 4.5rem 5.5rem 5.5rem 5.5rem !important;
+    box-sizing: border-box !important;
 }
 
 .elab-block-title {
@@ -3310,7 +3522,7 @@ ol {
     display: flex;
     align-items: center;
     gap: 16px;
-    margin-bottom: 24px;
+    margin-bottom: 12px;
     width: 100%;
 }
 
@@ -3852,6 +4064,28 @@ ol {
     line-height: 1;
 }
 
+.elab-audio-play-btn-custom {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #4d8dfa 0%, #1a56db 100%);
+    border: 3.5px solid #ffffff;
+    box-shadow: 0 4px 10px rgba(29, 86, 219, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+.elab-audio-play-triangle {
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 16px solid white;
+    margin-left: 4px;
+}
+
 .elab-audio-pause-btn-custom {
     width: 100%;
     height: 100%;
@@ -3974,6 +4208,23 @@ ol {
     right: 0px;
     top: 20px;
     z-index: 1;
+}
+
+.elab-audio-illustration-container-single {
+    flex: 0.85;
+    position: relative;
+    height: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.elab-audio-boy-chibi-single {
+    max-height: 100%;
+    width: auto;
+    object-fit: contain;
+    transform: translateY(12px) scale(1.15);
+    transform-origin: bottom center;
 }
 
 /* --- Dictation Block Custom Styling --- */
@@ -4603,8 +4854,10 @@ ol {
 .elab-drop-zones-row {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 14px;
+    gap: 16px;
+    justify-content: center;
+    align-items: flex-end;
+    margin-top: 16px;
     width: 100%;
 }
 
@@ -4613,20 +4866,22 @@ ol {
     flex-direction: column;
     align-items: center;
     gap: 6px;
-    flex: 1;
-    min-width: 100px;
+    flex: 0 1 auto;
+    min-width: 130px;
+    max-width: 220px;
 }
 
 .elab-drop-zone-dest {
     font-family: 'Poppins', sans-serif;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 700;
     color: #E65100;
 }
 
 .elab-drop-zone-target-box {
     width: 100%;
-    height: 48px;
+    min-width: 120px;
+    height: 44px;
     border: 2px dashed #FFCC80;
     border-radius: 16px;
     display: flex;
@@ -4635,6 +4890,7 @@ ol {
     background: rgba(255, 243, 224, 0.5);
     cursor: pointer;
     box-sizing: border-box;
+    padding: 0 16px;
     transition: all 0.2s;
 }
 
@@ -4644,10 +4900,13 @@ ol {
 }
 
 .elab-drop-zone-target-box.is-filled {
-    border-style: solid;
-    border-color: #FFCC80;
-    background: #FFFFFF;
-    cursor: default;
+    border: none !important;
+    background: transparent !important;
+    height: auto !important;
+    width: auto !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    cursor: pointer;
 }
 
 .elab-drop-zone-target-box.is-wrong {
@@ -4817,8 +5076,9 @@ ol {
 
 .elab-block-card[data-type="you_ask"] .speaking-badge-tag {
     background: #fff1e2;
+    background: transparent;
     color: #c2410c;
-    border: 1.5px solid #fed7aa;
+    border: 1.5px solid transparent;
 }
 
 .elab-block-card[data-type="you_ask"] .speaking-topic-title {
@@ -4829,12 +5089,18 @@ ol {
     overflow-wrap: anywhere;
 }
 
+/* Two-way roleplay */
+.elab-block-card[data-type="roleplay_simulation"] {
+    border: none !important;
+    border-top: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background: transparent !important;
+}
+
 .you-ask-prompt-panel {
     padding: 1.35rem 1.5rem;
-    border: 2px dashed #f3c98b;
     border-radius: 1.25rem;
-    background: linear-gradient(135deg, #fffdf5 0%, #fff7ed 100%);
-    box-shadow: inset 0 1px 0 #ffffff, 0 8px 18px rgba(234, 88, 12, 0.06);
 }
 
 .elab-block-card[data-type="you_ask"] .speaking-instructions {
@@ -5272,8 +5538,9 @@ ol {
     flex: 1.15;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 0.75rem;
     width: 100%;
+    padding-top: 2rem;
 }
 
 .wordsearch-custom-illustration {
@@ -5298,27 +5565,40 @@ ol {
 .wordsearch-custom-card-content {
     display: flex;
     gap: 2.5rem;
-    align-items: center;
+    align-items: flex-start;
     width: 100%;
 }
 
-
+/* Wordsearch card padding override */
+.elab-block-card[data-type="wordsearch"] {
+    padding: 0.75rem 1.25rem;
+}
 
 /* Badge and Header */
 .wordsearch-badge {
     width: 54px;
     height: 54px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #67e8f9, #06b6d4);
-    color: #ffffff;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 800;
-    font-size: 1.35rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #3b9eda, #1565c0);
     display: flex;
     align-items: center;
     justify-content: center;
-    text-transform: lowercase;
     flex-shrink: 0;
+    box-shadow: 0 3px 10px rgba(21, 101, 192, 0.35);
+}
+
+.wordsearch-badge svg {
+    width: 26px;
+    height: 26px;
+    stroke: #ffffff;
+    stroke-width: 2.5;
+}
+
+.wordsearch-badge svg {
+    width: 26px;
+    height: 26px;
+    stroke: #ffffff;
+    stroke-width: 2.5;
 }
 
 .wordsearch-header {
@@ -5335,11 +5615,12 @@ ol {
 
 .wordsearch-header-title {
     font-family: 'Poppins', sans-serif;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: 800;
-    color: #1e293b;
+    color: #1565c0;
     margin: 0;
     text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .wordsearch-header-subtitle {
@@ -5483,26 +5764,30 @@ ol {
 }
 
 .grammar-title-banner {
-    padding: 0.4rem 1.75rem;
-    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: url('/purple board.png') no-repeat center / 100% 100%;
+    color: #ffffff !important;
     font-family: 'Poppins', sans-serif;
     font-weight: 800;
-    font-size: 1.2rem;
-    color: #ffffff;
+    font-size: 1.1rem;
     letter-spacing: 0.05em;
     text-transform: uppercase;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    min-width: 150px;
+    height: 52px;
+    padding: 10px 32px;
+    box-sizing: border-box;
 }
 
-.grammar-title-banner.writing {
-    background: linear-gradient(135deg, #1e88e5, #007aff);
-}
-
-.grammar-title-banner.fill-blank {
-    background: linear-gradient(135deg, #f57c00, #ff9800);
-}
-
+/* All variants now share the same purple board — override any gradient */
+.grammar-title-banner.writing,
+.grammar-title-banner.fill-blank,
 .grammar-title-banner.sentence-builder {
-    background: linear-gradient(135deg, #2e7d32, #4caf50);
+    background: url('/purple board.png') no-repeat center / 100% 100% !important;
 }
 
 .grammar-subtitle {
@@ -6221,6 +6506,33 @@ ol {
     text-align: center;
 }
 
+/* Keep every JSON-driven image card centered and proportionate. */
+.elab-block-row:has(> .elab-media-card[data-type="image"]) {
+    display: flex;
+    justify-content: center;
+}
+
+.elab-block-card.elab-media-card[data-type="image"] {
+    min-height: 0 !important;
+    gap: 6px;
+    padding: 2.75rem 3rem 3rem !important;
+}
+
+.elab-media-card[data-type="image"] .elab-block-header {
+    width: 100%;
+    padding: 0 0 6px !important;
+}
+
+.elab-media-card[data-type="image"] > .elab-media-card-content {
+    padding: 0 !important;
+}
+
+.elab-media-card[data-type="image"] .elab-media-card-element {
+    width: auto !important;
+    max-width: 100% !important;
+    max-height: 190px !important;
+}
+
 @media (max-width: 768px) {
     .elab-block-card.elab-media-card {
         padding: 3.25rem 3.5rem 4rem !important;
@@ -6606,13 +6918,25 @@ ol {
 }
 
 .elab-custom-title-seq {
-    font-size: 24px !important;
-    font-weight: 900 !important;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    background: url('/purple board.png') no-repeat center / 100% 100% !important;
+    color: #ffffff !important;
+    font-family: 'Poppins', sans-serif !important;
+    font-size: 1.05rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    min-width: 160px;
+    height: 52px;
+    padding: 10px 32px;
+    box-sizing: border-box;
     margin: 0 0 4px 0 !important;
-    font-family: inherit;
-    text-align: left !important;
-    display: flex !important;
-    gap: 6px;
+    gap: 0;
 }
 
 .title-blue {
@@ -6962,6 +7286,79 @@ ol {
 @media (max-width: 480px) {
     .elab-block-card.elab-reading-text-card {
         padding: 2.5rem 2.5rem 3rem !important;
+    }
+}
+
+/* Final card-fit rules: preserve the illustrated frame while avoiding the
+   oversized nested spacing previously applied to headers and media. */
+.elab-block-row {
+    margin-bottom: 0.875rem;
+}
+
+.elab-block-card:not(.elab-sequence-card):not(.elab-dictation-card):not(.elab-reading-text-card) {
+    gap: 10px;
+    padding: 3rem 4rem 3.5rem !important;
+}
+
+.elab-block-card .elab-block-header,
+.elab-block-card .elab-custom-header {
+    min-height: 0;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.elab-block-card .elab-block-info,
+.elab-block-card .elab-header-content {
+    min-height: 0;
+}
+
+.elab-block-card.elab-media-card {
+    gap: 10px;
+    min-height: 0 !important;
+    padding: 3rem 4rem 3.5rem !important;
+}
+
+.elab-block-card.elab-media-card > .elab-block-header,
+.elab-block-card.elab-media-card[data-type="video"] > .elab-block-header {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.elab-block-card.elab-media-card > .elab-media-card-content,
+.elab-block-card[data-type="image"] > .elab-media-card-content,
+.elab-block-card[data-type="video"] > .elab-media-card-content {
+    width: 100%;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.elab-block-card.elab-media-card .elab-media-card-element {
+    display: block;
+    width: 100% !important;
+    max-width: 100% !important;
+    max-height: 46dvh !important;
+    margin: 0 auto;
+    object-fit: contain !important;
+}
+
+@media (max-width: 768px) {
+    .elab-block-card:not(.elab-sequence-card):not(.elab-dictation-card):not(.elab-reading-text-card),
+    .elab-block-card.elab-media-card {
+        padding: 2.75rem 3rem 3.25rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .elab-block-card:not(.elab-sequence-card):not(.elab-dictation-card):not(.elab-reading-text-card),
+    .elab-block-card.elab-media-card {
+        padding: 2.25rem 2rem 2.75rem !important;
+    }
+
+    .elab-block-title {
+        min-width: 120px;
+        height: 44px;
+        padding: 8px 24px !important;
+        font-size: 18px !important;
     }
 }
 

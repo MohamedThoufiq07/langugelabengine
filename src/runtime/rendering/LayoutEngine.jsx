@@ -1,8 +1,7 @@
 import { useMemo } from "react";
 import ElementRenderer from "./ElementRenderer";
-import ScreenStepBar from "./ScreenStepBar";
 
-function LayoutEngine({ screen, activityScreens = [], currentScreenIndex = 0, isExperienceType }) {
+function LayoutEngine({ screen, currentScreenIndex = 0 }) {
 
     const rawElements = screen?.content?.elements || [];
     const list = useMemo(() => {
@@ -21,34 +20,11 @@ function LayoutEngine({ screen, activityScreens = [], currentScreenIndex = 0, is
         });
     }, [rawElements]);
 
-    const noOuterCard = useMemo(() => {
-        const titleLower = screen.title?.toLowerCase();
-        return (
-            titleLower === "screen 2" ||
-            currentScreenIndex === 0 ||
-            currentScreenIndex === 1 ||
-            currentScreenIndex === 2 ||
-            currentScreenIndex === 4 ||
-            currentScreenIndex === 5 ||
-            screen.id === "171" ||
-            screen.id === "170" ||
-            screen.id === "165" ||
-            screen.id === "169"
-        );
-    }, [screen.title, screen.id, currentScreenIndex]);
+    const noOuterCard = false;
 
     return (
         <div className="layout-engine-container">
-
-            {/* ── Horizontal step progress bar at the top ── */}
-            {!isExperienceType && (
-                <ScreenStepBar
-                    screens={activityScreens}
-                    currentIndex={currentScreenIndex}
-                />
-            )}
-
-            {/* ── Blocks stacked cleanly, no step numbers ── */}
+            {/* ── Blocks stacked cleanly, top 1, 2, 3 step bar removed completely ── */}
             <div className={`scene-backdrop-content ${noOuterCard ? "no-card" : ""}`}>
                 <div className="elab-stage">
                     {list.map((element) => (
@@ -58,10 +34,8 @@ function LayoutEngine({ screen, activityScreens = [], currentScreenIndex = 0, is
                     ))}
                 </div>
             </div>
-
         </div>
     );
-
 }
 
 export default LayoutEngine;

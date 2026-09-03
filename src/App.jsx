@@ -4,7 +4,7 @@ import RuntimeEngine from "./runtime/engine/RuntimeEngine";
 import RuntimePlayer from "./runtime/player/RuntimePlayer";
 import LoadingScreen from "./runtime/player/LoadingScreen";
 
-import experience from "./runtime/samples/The_Lost_Picnic_v1.0.0.elab/experience.json";
+import experience from "./runtime/samples/experience.json";
 
 // The sample experience's media URLs point at the live CMS backend
 // (localhost:8000), which isn't running in this standalone demo. Every file
@@ -13,7 +13,7 @@ import experience from "./runtime/samples/The_Lost_Picnic_v1.0.0.elab/experience
 // add another sample asset, just drop it in the right assets/ subfolder
 // and reference that filename from experience.json).
 const assetModules = import.meta.glob(
-    ["./assets/**/*", "./runtime/samples/**/assets/**/*"],
+    "./runtime/samples/**/assets/**/*",
     { eager: true, query: "?url", import: "default" }
 );
 
