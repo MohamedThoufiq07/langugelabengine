@@ -34,23 +34,29 @@ function FillBlankBlock({ block }) {
 
     const [answers, setAnswers] = useState(savedAnswer || {});
 
-    function handleInlineChange(sentenceId, blankIndex, value) {
-        const key = `${sentenceId}-${blankIndex}`;
-        const newAnswers = { ...answers, [key]: value };
-        setAnswers(newAnswers);
-        completion?.saveAnswer?.(block.id, newAnswers);
-
-        // Check if all blanks have some text entered to report answered
+    useEffect(() => {
         let totalBlanks = 0;
         items.forEach(item => {
             const parsed = parseSentence(item.text);
             totalBlanks += parsed.filter(p => p.type === "blank").length;
         });
 
-        const enteredCount = Object.values(newAnswers).filter(val => val.trim().length > 0).length;
-        if (enteredCount === totalBlanks) {
+        if (totalBlanks === 0) {
+            completion?.reportAnswered(block.id);
+            return;
+        }
+
+        const enteredCount = Object.values(answers).filter(val => typeof val === "string" && val.trim().length > 0).length;
+        if (enteredCount >= totalBlanks) {
             completion?.reportAnswered(block.id);
         }
+    }, [answers, items]);
+
+    function handleInlineChange(sentenceId, blankIndex, value) {
+        const key = `${sentenceId}-${blankIndex}`;
+        const newAnswers = { ...answers, [key]: value };
+        setAnswers(newAnswers);
+        completion?.saveAnswer?.(block.id, newAnswers);
     }
 
     return (

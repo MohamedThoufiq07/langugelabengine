@@ -18,15 +18,20 @@ function QuizBlock({ block }) {
     const completion = useScreenCompletion();
     const savedAnswer = completion?.getSavedAnswer?.(block.id);
 
-    const [selected, setSelected] = useState(savedAnswer !== null ? savedAnswer : null);
+    const [selected, setSelected] = useState(() => {
+        if (savedAnswer != null) {
+            return typeof savedAnswer === "object" ? savedAnswer.selectedIndex : savedAnswer;
+        }
+        return null;
+    });
 
     const [confetti, setConfetti] = useState([]);
     const [audioPlayed, setAudioPlayed] = useState(false);
     const [useAudioMode, setUseAudioMode] = useState(audioFirst);
 
-    // Pre-report answered state if there is a saved answer loaded on mount
+    // Pre-report answered state ONLY if there is an actual saved answer loaded on mount
     useEffect(() => {
-        if (savedAnswer !== null) {
+        if (savedAnswer != null) {
             completion?.reportAnswered(block.id);
         }
     }, [savedAnswer]);

@@ -41,25 +41,17 @@ function DragDropBlock({ block }) {
     const [currentHint, setCurrentHint] = useState(null);
 
     const placedItemIndices = new Set(Object.values(placed));
+    const placedCount = Object.keys(placed).length;
     const total = Math.min(finalDraggable.length, finalZones.length);
-    const allPlaced = total > 0 && placedItemIndices.size === total;
+    const allPlaced = total === 0 || placedCount >= total;
 
     const isAssessment = window.__isAssessment;
 
     useEffect(() => {
-        if (allPlaced) completion?.reportAnswered(block.id);
-    }, [allPlaced]);
-
-    useEffect(() => {
-        if (savedAnswer) {
-            const placedItemIndices = new Set(Object.values(savedAnswer));
-            const total = Math.min(finalDraggable.length, finalZones.length);
-            const allPlaced = total > 0 && placedItemIndices.size === total;
-            if (allPlaced) {
-                completion?.reportAnswered(block.id);
-            }
+        if (allPlaced) {
+            completion?.reportAnswered(block.id);
         }
-    }, [savedAnswer, finalDraggable, finalZones]);
+    }, [allPlaced, placed]);
 
     function chooseItem(index) {
         if (placedItemIndices.has(index)) return;
@@ -78,7 +70,24 @@ function DragDropBlock({ block }) {
         setShowHint(true);
     }
 
+    function handleRemovePlaced(zoneIndex, e) {
+        if (e) e.stopPropagation();
+        setPlaced(prev => {
+            const next = { ...prev };
+            delete next[zoneIndex];
+            completion?.saveAnswer?.(block.id, next);
+            return next;
+        });
+        setSelectedItem(null);
+    }
+
     function chooseZone(zoneIndex) {
+        // If zone is already filled, clicking it removes/undoes the placed item
+        if (placed[zoneIndex] !== undefined) {
+            handleRemovePlaced(zoneIndex);
+            return;
+        }
+
         if (selectedItem === null) return;
 
         if (isAssessment || selectedItem === zoneIndex) {
@@ -190,13 +199,15 @@ function DragDropBlock({ block }) {
                                 <div className="elab-drop-zone-dest">{zone}</div>
                                 <div className={`elab-drop-zone-target-box ${filled ? "is-filled" : ""} ${wrongZone === zoneIndex ? "is-wrong" : ""}`}>
                                     {filled ? (
-                                        <span 
+                                        <button 
+                                            type="button"
+                                            onClick={(e) => handleRemovePlaced(zoneIndex, e)}
                                             className="elab-drag-chip" 
-                                            style={{ cursor: "pointer" }}
-                                            title="Click to remove"
+                                            style={{ cursor: "pointer", border: "none" }}
+                                            title="Click to remove / undo"
                                         >
                                             {finalDraggable[itemIndex]}
-                                        </span>
+                                        </button>
                                     ) : (
                                         <span className="elab-drop-here-text">Drop here</span>
                                     )}

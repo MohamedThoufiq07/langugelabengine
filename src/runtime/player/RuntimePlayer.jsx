@@ -22,24 +22,10 @@ import RuntimeShell from "../ui/RuntimeShell";
 
 import LoadingScreen from "./LoadingScreen";
 
-function RuntimePlayer({
-
-    runtime,
-
-    onExit
-
-}) {
-
-    const registry = useMemo(
-
-        () => new RendererRegistry(),
-
-        []
-
-    );
+function RuntimePlayer({ runtime, onExit }) {
+    const registry = useMemo(() => new RendererRegistry(), []);
 
     const [loading, setLoading] = useState(true);
-
     const [screen, setScreen] = useState(null);
 
     // True once all required blocks on the current screen are completed.
@@ -47,36 +33,20 @@ function RuntimePlayer({
     const [isScreenCompleted, setIsScreenCompleted] = useState(false);
 
     useEffect(() => {
-
-        setScreen(
-
-            runtime.getCurrentScreen()
-
-        );
-
+        setScreen(runtime.getCurrentScreen());
         setLoading(false);
-
     }, [runtime]);
 
     const refreshScreen = useCallback(() => {
-
-        setScreen(
-
-            runtime.getCurrentScreen()
-
-        );
-
+        setScreen(runtime.getCurrentScreen());
     }, [runtime]);
 
     const handleComplete = useCallback((result = {}) => {
-
         runtime.completeCurrentScreen(result);
 
         // Mark the screen as completed so the Next button becomes enabled.
         setIsScreenCompleted(true);
-
         refreshScreen();
-
     }, [runtime, refreshScreen]);
 
     // Start directly at activity 0 — no skills selection page
@@ -197,43 +167,7 @@ function RuntimePlayer({
         // If already on very first screen of first activity, do nothing
     }, [runtime, refreshScreen, selectedActivityIndex, activities]);
 
-    if (loading) {
-        return <LoadingScreen />;
-    }
-
-    // Congratulatory overlay — only shown when the entire level (last activity) is completed
-    if (justFinishedActivityIndex !== null && showCongrats) {
-        return (
-            <div className="activity-complete-overlay">
-                <div className="activity-complete-board" role="dialog" aria-modal="true" aria-labelledby="activity-complete-title">
-                    <div className="activity-complete-confetti" aria-hidden="true">• ✦ •</div>
-                    <img
-                        className="activity-complete-medal"
-                        src="/star.png"
-                        alt=""
-                        aria-hidden="true"
-                    />
-                    <h2 id="activity-complete-title">Well Done!</h2>
-                    <p>
-                        You've successfully completed the level!
-                    </p>
-                    <div className="activity-complete-star" aria-hidden="true">★</div>
-                    <button
-                        className="activity-complete-button"
-                        onClick={() => {
-                            setShowCongrats(false);
-                            setJustFinishedActivityIndex(null);
-                            if (onExit) onExit();
-                        }}
-                    >
-                        Continue Learning <span aria-hidden="true">→</span>
-                    </button>
-                </div>
-            </div>
-        );
-    }
-
-    if (!screen) {
+    if (loading || !screen) {
         return <LoadingScreen />;
     }
 
@@ -241,12 +175,46 @@ function RuntimePlayer({
     const customProgress = {
         ...progress,
         currentScreen: (runtime.getCurrentScreenIndex() ?? 0) + 1,
-        totalScreens: activityScreens.length,
+        totalScreens: activityScreens.length
     };
 
     const Renderer = registry.getRenderer("screen");
     const theme = pickThemeForScreen(screen, customProgress.currentScreen).vars;
     const gradeBand = parseGradeBand(runtime.getExperience()?.grade);
+
+    // Congratulatory overlay — only shown when the entire level (last activity) is completed
+    if (justFinishedActivityIndex !== null && showCongrats) {
+        return (
+            <div className="scene-backdrop congrats-backdrop">
+                <div className="activity-complete-overlay">
+                    <div className="activity-complete-board" role="dialog" aria-modal="true" aria-labelledby="activity-complete-title">
+                        <div className="activity-complete-confetti" aria-hidden="true">• ✦ •</div>
+                        <img
+                            className="activity-complete-medal"
+                            src="/star.png"
+                            alt=""
+                            aria-hidden="true"
+                        />
+                        <h2 id="activity-complete-title">Well Done!</h2>
+                        <p>
+                            You've successfully completed the level!
+                        </p>
+                        <div className="activity-complete-star" aria-hidden="true">★</div>
+                        <button
+                            className="activity-complete-button"
+                            onClick={() => {
+                                setShowCongrats(false);
+                                setJustFinishedActivityIndex(null);
+                                if (onExit) onExit();
+                            }}
+                        >
+                            Continue Learning <span aria-hidden="true">→</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <RuntimeShell

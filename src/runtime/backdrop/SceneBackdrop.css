@@ -14,6 +14,12 @@
   background-position: center center;
   background-repeat: no-repeat;
 }
+.congrats-backdrop {
+  background-image: url('/bg1.png');
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 
 /* ── Scrollable content layer ── */
@@ -350,3 +356,4 @@
     opacity: 1;
   }
 }
+
