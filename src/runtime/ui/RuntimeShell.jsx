@@ -117,7 +117,12 @@ function RuntimeShell({
                         role="status"
                         aria-label={`Screen ${progress.currentScreen} of ${progress.totalScreens}`}
                     >
-                        <span>{progress.currentScreen} / {progress.totalScreens}</span>
+                        <div className="screen-progress-board-top">
+                            <span className="screen-label">SCREEN</span>
+                        </div>
+                        <div className="screen-progress-board-bottom">
+                            <span className="screen-count">{progress.currentScreen} / {progress.totalScreens}</span>
+                        </div>
                     </div>
 
                     {/* ── Attractive nav buttons — bottom-center ── */}

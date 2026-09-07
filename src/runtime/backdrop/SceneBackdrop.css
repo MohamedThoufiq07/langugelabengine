@@ -101,38 +101,89 @@
   max-width: 90%;
 }
 
-/* JSON-driven screen indicator using the green illustrated plaque. */
+/* Screen indicator split across top arrow board and below rectangular plank */
 .screen-progress-widget {
   position: absolute;
-  left: 24px;
-  bottom: 24px;
+  left: clamp(36px, 4.8vw, 65px);
+  bottom: clamp(130px, 16.5vh, 155px);
   z-index: 100;
-  width: 150px;
-  height: 50px;
+  width: 160px;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 24px;
-  box-sizing: border-box;
-  color: #111111;
-  background: url('/b4c6e517cceac63ee91086eb50eaca7e9dd93bcd.png') no-repeat center / 100% 100%;
-  font-family: 'Poppins', 'Inter', sans-serif;
-  font-size: 18px;
-  font-weight: 900;
-  line-height: 1;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2);
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
   pointer-events: none;
   user-select: none;
 }
 
+.screen-progress-board-top {
+  width: 140px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  white-space: nowrap;
+}
+
+.screen-progress-board-bottom {
+  width: 105px;
+  height: 36px;
+  margin-top: 6px;
+  margin-left: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  white-space: nowrap;
+}
+
+.screen-progress-board-top .screen-label {
+  font-family: 'Poppins', 'Outfit', 'Inter', sans-serif;
+  font-size: 19px;
+  font-weight: 900;
+  color: #000000 !important;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  text-shadow: 
+    0px 1px 1px rgba(255, 255, 255, 0.8),
+    0px -1px 0px rgba(0, 0, 0, 0.2);
+}
+
+.screen-progress-board-bottom .screen-count {
+  font-family: 'Poppins', 'Outfit', 'Inter', sans-serif;
+  font-size: 21px;
+  font-weight: 900;
+  color: #000000 !important;
+  letter-spacing: 2px;
+  text-shadow: 
+    0px 1px 1px rgba(255, 255, 255, 0.8),
+    0px -1px 0px rgba(0, 0, 0, 0.2);
+}
+
 @media (max-width: 640px) {
   .screen-progress-widget {
-    left: 12px;
-    bottom: 14px;
-    width: 126px;
-    height: 42px;
-    padding: 0 20px;
-    font-size: 16px;
+    left: 20px;
+    bottom: 95px;
+    width: 130px;
+  }
+  .screen-progress-board-top {
+    width: 110px;
+    height: 36px;
+  }
+  .screen-progress-board-bottom {
+    width: 80px;
+    height: 28px;
+    margin-left: 14px;
+    margin-top: 4px;
+  }
+  .screen-progress-board-top .screen-label {
+    font-size: 14px;
+    letter-spacing: 1.5px;
+  }
+  .screen-progress-board-bottom .screen-count {
+    font-size: 15px;
+    letter-spacing: 1px;
   }
 }
 

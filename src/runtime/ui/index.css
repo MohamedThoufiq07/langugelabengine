@@ -7234,28 +7234,41 @@ ol {
 }
 
 .activity-complete-button {
-    width: 210px;
-    height: 54px;
-    padding: 0 22px;
-    border: none;
-    border-radius: 0;
-    background: url('/b4c6e517cceac63ee91086eb50eaca7e9dd93bcd.png') no-repeat center / 100% 100%;
-    color: #fff;
-    font-size: 15px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 14px;
+    padding: 13px 30px;
+    border: 2px solid #81c784;
+    border-radius: 50px;
+    background: linear-gradient(180deg, #4caf50 0%, #2e7d32 100%);
+    color: #ffffff !important;
+    font-family: 'Poppins', 'Outfit', 'Inter', sans-serif;
+    font-size: 16px;
     font-weight: 800;
+    letter-spacing: 0.5px;
     cursor: pointer;
-    text-shadow: 0 1px 2px rgba(45, 76, 10, 0.65);
-    box-shadow: none;
-    transition: transform 0.15s ease, filter 0.15s ease;
+    box-shadow: 
+        0 4px 0 #1b5e20,
+        0 8px 18px rgba(46, 125, 50, 0.35);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
 }
 
 .activity-complete-button:hover {
     transform: translateY(-2px);
-    filter: brightness(1.06);
+    background: linear-gradient(180deg, #66bb6a 0%, #388e3c 100%);
+    box-shadow: 
+        0 6px 0 #1b5e20,
+        0 12px 22px rgba(46, 125, 50, 0.45);
 }
 
 .activity-complete-button:active {
-    transform: translateY(1px);
+    transform: translateY(2px);
+    box-shadow: 
+        0 2px 0 #1b5e20,
+        0 4px 8px rgba(46, 125, 50, 0.3);
 }
 
 /* Simple reading text cards should size to their content, not a tall preset. */
