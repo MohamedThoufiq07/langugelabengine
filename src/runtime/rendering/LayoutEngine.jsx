@@ -24,14 +24,20 @@ function LayoutEngine({ screen, currentScreenIndex = 0 }) {
 
     return (
         <div className="layout-engine-container">
-            {/* ── Blocks stacked cleanly, top 1, 2, 3 step bar removed completely ── */}
+            {/* ── Blocks stacked cleanly ── */}
             <div className={`scene-backdrop-content ${noOuterCard ? "no-card" : ""}`}>
                 <div className="elab-stage">
-                    {list.map((element) => (
-                        <div key={element.id} className="elab-block-row">
-                            <ElementRenderer element={element} />
-                        </div>
-                    ))}
+                    {list.map((element) => {
+                        const isHeading = element.type === "heading";
+                        return (
+                            <div 
+                                key={element.id} 
+                                className={`elab-block-row ${isHeading ? "elab-block-row-heading" : ""}`}
+                            >
+                                <ElementRenderer element={element} />
+                            </div>
+                        );
+                    })}
                 </div>
             </div>
         </div>

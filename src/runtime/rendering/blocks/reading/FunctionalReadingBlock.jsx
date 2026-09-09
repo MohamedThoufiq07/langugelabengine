@@ -127,34 +127,34 @@ function FunctionalReadingBlock({ block }) {
                                         {idx + 1}.
                                     </span>
                                     <span className="question-text">
-                                        {question.text}
+                                        {question.text || question.question}
                                     </span>
                                 </label>
 
-                                {question.type === "multiple_choice" ? (
+                                {(question.type === "multiple_choice" || question.type === "mcq") ? (
                                     <div className="question-options">
-                                        {question.options.map((option, oIdx) => (
+                                        {(question.options || []).map((option, oIdx) => (
                                             <label
                                                 key={oIdx}
                                                 className="option-label"
                                             >
                                                 <input
                                                     type="radio"
-                                                    name={question.id}
+                                                    name={question.id || `q-${idx}`}
                                                     value={option}
                                                     checked={
-                                                        answers[question.id] ===
+                                                        answers[question.id || `q-${idx}`] ===
                                                         option
                                                     }
                                                     onChange={(e) =>
                                                         handleAnswerChange(
-                                                            question.id,
+                                                            question.id || `q-${idx}`,
                                                             e.target.value
                                                         )
                                                     }
                                                     disabled={submitted}
                                                 />
-                                                {option}
+                                                {typeof option === "object" ? (option.text || option.label) : option}
                                             </label>
                                         ))}
                                     </div>

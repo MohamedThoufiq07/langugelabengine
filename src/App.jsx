@@ -4,14 +4,13 @@ import RuntimeEngine from "./runtime/engine/RuntimeEngine";
 import RuntimePlayer from "./runtime/player/RuntimePlayer";
 import LoadingScreen from "./runtime/player/LoadingScreen";
 
-import experience from "./runtime/samples/experience.json";
+// Discover all extracted experience.json files across sample folders
+const experienceModules = import.meta.glob(
+    "./runtime/samples/**/experience.json",
+    { eager: true, import: "default" }
+);
 
-// The sample experience's media URLs point at the live CMS backend
-// (localhost:8000), which isn't running in this standalone demo. Every file
-// under samples/assets/** ships locally, so swap in the bundled copy by
-// filename — this auto-discovers new files (no import/map edit needed to
-// add another sample asset, just drop it in the right assets/ subfolder
-// and reference that filename from experience.json).
+// Discover all sample assets across sample folders
 const assetModules = import.meta.glob(
     "./runtime/samples/**/assets/**/*",
     { eager: true, query: "?url", import: "default" }
@@ -24,6 +23,8 @@ const LOCAL_SAMPLE_ASSETS = Object.fromEntries(
 function useLocalSampleAssets(rawExperience) {
 
     return useMemo(() => {
+
+        if (!rawExperience) return null;
 
         const clone = structuredClone(rawExperience);
 
@@ -62,38 +63,78 @@ function useLocalSampleAssets(rawExperience) {
 
 function App() {
 
-    const runtime = useMemo(
+    const experiencesList = useMemo(() => {
 
-        () => new RuntimeEngine(),
+        return Object.entries(experienceModules).map(([filePath, expData]) => {
 
-        []
+            const parts = filePath.split("/");
+            const folderName = parts[parts.length - 2] || "Sample";
+            const cleanTitle = (expData && expData.title)
+                ? expData.title
+                : folderName.replace(/_/g, " ").replace(/\.\.\./g, "").trim();
 
-    );
+            return {
+                id: (expData && expData.id) || folderName,
+                folderName,
+                title: cleanTitle,
+                data: expData
+            };
 
-    const resolvedExperience = useLocalSampleAssets(experience);
+        });
 
+    }, []);
+
+    const [selectedExpIndex, setSelectedExpIndex] = useState(0);
     const [ready, setReady] = useState(false);
-
     const [showExitHint, setShowExitHint] = useState(false);
+
+    const currentRawExp = experiencesList[selectedExpIndex]?.data || null;
+    const resolvedExperience = useLocalSampleAssets(currentRawExp);
+
+    const [runtime, setRuntime] = useState(() => new RuntimeEngine());
 
     useEffect(() => {
 
+        let isMounted = true;
+
         async function initializeRuntime() {
 
-            await runtime.start(resolvedExperience);
+            if (!resolvedExperience) {
 
-            setReady(true);
+                setReady(false);
+
+                return;
+
+            }
+
+            setReady(false);
+
+            const newRuntime = new RuntimeEngine();
+
+            await newRuntime.start(resolvedExperience);
+
+            if (isMounted) {
+
+                setRuntime(newRuntime);
+
+                setReady(true);
+
+            }
 
         }
 
         initializeRuntime();
 
-    }, [runtime, resolvedExperience]);
+        return () => {
+
+            isMounted = false;
+
+        };
+
+    }, [resolvedExperience]);
 
     function handleExit() {
 
-        // Hosted inside the Electron student app: ask the shell to close
-        // this engine window.
         if (window.electronAPI?.closeEngine) {
 
             window.electronAPI.closeEngine();
@@ -102,10 +143,6 @@ function App() {
 
         }
 
-        // Standalone in a plain browser tab: window.close() only works on
-        // tabs the page itself opened via script. Browsers silently ignore
-        // it otherwise, so detect that and tell the user instead of doing
-        // nothing visible.
         window.close();
 
         setTimeout(() => {
@@ -116,23 +153,93 @@ function App() {
 
     }
 
-    if (!ready) {
-
-        return <LoadingScreen />;
-
-    }
-
     return (
 
-        <>
+        <div style={{ display: 'flex', flexDirection: 'column', width: '100vw', height: '100vh', overflow: 'hidden' }}>
 
-            <RuntimePlayer
+            {experiencesList.length > 0 && (
 
-                runtime={runtime}
+                <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '8px 16px',
+                    background: '#0f172a',
+                    color: '#fff',
+                    zIndex: 9999,
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+                    flexShrink: 0
+                }}>
 
-                onExit={handleExit}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
 
-            />
+                        <span style={{ fontWeight: '600', fontSize: '14px', color: '#94a3b8' }}>📚 Experience Package:</span>
+
+                        <select
+
+                            value={selectedExpIndex}
+
+                            onChange={(e) => setSelectedExpIndex(Number(e.target.value))}
+
+                            style={{
+                                padding: '6px 12px',
+                                borderRadius: '6px',
+                                background: '#1e293b',
+                                color: '#f8fafc',
+                                border: '1px solid #475569',
+                                fontSize: '14px',
+                                fontWeight: '500',
+                                cursor: 'pointer',
+                                outline: 'none'
+                            }}
+
+                        >
+
+                            {experiencesList.map((exp, idx) => (
+
+                                <option key={exp.id + idx} value={idx}>
+
+                                    {idx + 1}. {exp.title} ({exp.folderName})
+
+                                </option>
+
+                            ))}
+
+                        </select>
+
+                    </div>
+
+                    <span style={{ fontSize: '12px', color: '#64748b' }}>
+
+                        {selectedExpIndex + 1} of {experiencesList.length} packages available
+
+                    </span>
+
+                </div>
+
+            )}
+
+            <div style={{ flex: 1, position: 'relative', width: '100%', height: '100%', overflow: 'hidden' }}>
+
+                {!ready ? (
+
+                    <LoadingScreen />
+
+                ) : (
+
+                    <RuntimePlayer
+
+                        key={experiencesList[selectedExpIndex]?.id || selectedExpIndex}
+
+                        runtime={runtime}
+
+                        onExit={handleExit}
+
+                    />
+
+                )}
+
+            </div>
 
             {showExitHint && (
 
@@ -153,7 +260,9 @@ function App() {
                             onClick={() => setShowExitHint(false)}
 
                         >
+
                             Back to experience
+
                         </button>
 
                     </div>
@@ -162,7 +271,7 @@ function App() {
 
             )}
 
-        </>
+        </div>
 
     );
 

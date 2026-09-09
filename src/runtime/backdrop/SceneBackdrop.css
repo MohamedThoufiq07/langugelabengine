@@ -74,14 +74,27 @@
   width: 100%;
 }
 
-.elab-block-row:not(:has(.elab-block-card)) {
+.elab-block-row {
   width: 100%;
-  background: url('/summer bg board.png') no-repeat center / 100% 100% !important;
+  background: transparent !important;
+  background-image: none !important;
+  padding: 0 !important;
   border: none !important;
   box-shadow: none !important;
-  padding: 4.5rem 5.5rem 5.5rem 5.5rem !important;
   box-sizing: border-box !important;
 }
+
+.elab-block-row-heading {
+  width: 100%;
+  background: transparent !important;
+  background-image: none !important;
+  padding: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+  box-sizing: border-box !important;
+}
+
+
 
 
 .board-title-text {

@@ -1,0 +1,121 @@
+{
+  "schemaVersion": "1.0.0",
+  "version": "1.0.0",
+  "id": "39",
+  "title": "Can You Help Me?",
+  "description": "Ask for help, make polite requests, understand classroom messages, and respond appropriately in everyday school situations.",
+  "language": "English",
+  "grade": "Grade 3",
+  "subject": "General",
+  "estimatedDuration": 15,
+  "experienceType": "LESSON",
+  "masteryThreshold": 70,
+  "activities": [
+    {
+      "id": "97",
+      "title": "Listening",
+      "description": "",
+      "sequence": 1,
+      "estimatedDuration": 5,
+      "skills": [
+        "Listening"
+      ],
+      "activityType": "LISTENING",
+      "masteryThreshold": 80,
+      "screens": [
+        {
+          "id": "105",
+          "title": "Listten",
+          "type": "text",
+          "content": {
+            "tag": "H1",
+            "font": "Poppins",
+            "size": 48,
+            "text": "Welcome Screen Text",
+            "color": "#1F2937",
+            "steps": [
+              {
+                "name": "Ben",
+                "step": 1,
+                "text": "Hi! What would you like to order?"
+              },
+              {
+                "name": "Anna",
+                "step": 2,
+                "text": "I'd like a cup of coffee, please."
+              }
+            ],
+            "title": "Listten",
+            "layout": "1-column",
+            "weight": "Bold",
+            "elements": [
+              {
+                "id": "block-1788845790853-f482z769l",
+                "type": "audio",
+                "styles": {
+                  "top": "20px",
+                  "left": "20px"
+                },
+                "content": {
+                  "url": "/media/media_library/d449a6a7c86949868728d5936134a61e.mp3",
+                  "title": "Audio Clip",
+                  "media_id": 138,
+                  "media_type": "AUDIO"
+                }
+              },
+              {
+                "id": "block-1788845802978-tvkcfn68q",
+                "type": "true_false",
+                "styles": {
+                  "top": "204px",
+                  "left": "0px",
+                  "blockWidth": "934px"
+                },
+                "content": {
+                  "statements": [
+                    {
+                      "question": "Sam helps Mia find her pencil.",
+                      "correctAnswer": true
+                    },
+                    {
+                      "question": "Mia says bye",
+                      "correctAnswer": false
+                    }
+                  ]
+                }
+              }
+            ],
+            "media_id": 138,
+            "alignment": "Center",
+            "media_url": "/media/media_library/d449a6a7c86949868728d5936134a61e.mp3",
+            "media_type": "AUDIO",
+            "columnRatio": "50-50",
+            "quiz_options": [
+              "",
+              "",
+              "",
+              ""
+            ],
+            "quiz_question": "",
+            "quiz_correct_index": 0,
+            "audio": "assets/audio/d449a6a7c86949868728d5936134a61e.mp3"
+          },
+          "resolvedMedia": [
+            {
+              "media_id": 138,
+              "type": "AUDIO",
+              "url": "assets/audio/d449a6a7c86949868728d5936134a61e.mp3",
+              "missing": false
+            },
+            {
+              "media_id": 138,
+              "type": "AUDIO",
+              "url": "assets/audio/d449a6a7c86949868728d5936134a61e.mp3",
+              "missing": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

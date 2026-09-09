@@ -7,13 +7,55 @@ const CONFETTI_EMOJI = ["🎉", "⭐", "✨"];
 
 function QuizBlock({ block }) {
 
-    const { 
-        question, 
-        options, 
-        correctAnswerIndex,
-        audio,
-        audioFirst = false
-    } = block.content;
+    const content = block?.content || {};
+
+    // Check if sub-questions array exists (e.g. content.questions[0])
+    const firstQ = (Array.isArray(content.questions) && content.questions.length > 0)
+        ? content.questions[0]
+        : null;
+
+    // Get question text: prioritize firstQ.question, then content.question, then content.quiz_question
+    let question = "Enter question text here...";
+    if (firstQ?.question && firstQ.question !== "Enter question text here...") {
+        question = firstQ.question;
+    } else if (content.question && content.question !== "Enter question text here...") {
+        question = content.question;
+    } else if (content.quiz_question && content.quiz_question !== "Enter question text here...") {
+        question = content.quiz_question;
+    } else if (firstQ?.question) {
+        question = firstQ.question;
+    } else if (content.question) {
+        question = content.question;
+    } else if (content.quiz_question) {
+        question = content.quiz_question;
+    }
+
+    // Get options array
+    let rawOptions = [];
+    if (firstQ?.options && Array.isArray(firstQ.options) && firstQ.options.some(o => typeof o === "string" ? o.trim() : o?.text?.trim())) {
+        rawOptions = firstQ.options;
+    } else if (Array.isArray(content.options) && content.options.some(o => typeof o === "string" ? o.trim() : o?.text?.trim())) {
+        rawOptions = content.options;
+    } else if (Array.isArray(content.quiz_options) && content.quiz_options.some(o => typeof o === "string" ? o.trim() : o?.text?.trim())) {
+        rawOptions = content.quiz_options;
+    } else if (firstQ?.options && Array.isArray(firstQ.options)) {
+        rawOptions = firstQ.options;
+    } else if (Array.isArray(content.options)) {
+        rawOptions = content.options;
+    } else if (Array.isArray(content.quiz_options)) {
+        rawOptions = content.quiz_options;
+    }
+
+    const options = rawOptions.map(opt => {
+        if (typeof opt === "string") return { text: opt };
+        if (opt && typeof opt === "object") return { text: opt.text || "" };
+        return { text: String(opt || "") };
+    });
+
+    const correctAnswerIndex = firstQ?.correctAnswerIndex ?? content.correctAnswerIndex ?? content.quiz_correct_index ?? 0;
+    const audio = content.audio;
+    const audioFirst = content.audioFirst || false;
+
 
     const completion = useScreenCompletion();
     const savedAnswer = completion?.getSavedAnswer?.(block.id);

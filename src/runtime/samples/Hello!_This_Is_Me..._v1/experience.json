@@ -1,0 +1,311 @@
+{
+  "schemaVersion": "1.0.0",
+  "version": "1.0.0",
+  "id": "24",
+  "title": "Hello! This Is Me",
+  "description": "“I can greet someone and introduce myself in English.”",
+  "language": "English",
+  "grade": "Grade 3",
+  "subject": "General",
+  "estimatedDuration": 35,
+  "experienceType": "LESSON",
+  "masteryThreshold": 70,
+  "activities": [
+    {
+      "id": "44",
+      "title": "Listening",
+      "description": "",
+      "sequence": 1,
+      "estimatedDuration": 7,
+      "skills": [
+        "Listening"
+      ],
+      "activityType": "LISTENING",
+      "masteryThreshold": 80,
+      "screens": [
+        {
+          "id": "55",
+          "title": "A New Friend!",
+          "type": "text",
+          "content": {
+            "tag": "H1",
+            "font": "Poppins",
+            "size": 48,
+            "text": "Welcome Screen Text",
+            "color": "#1F2937",
+            "steps": [
+              {
+                "name": "Ben",
+                "step": 1,
+                "text": "Hi! What would you like to order?"
+              },
+              {
+                "name": "Anna",
+                "step": 2,
+                "text": "I'd like a cup of coffee, please."
+              }
+            ],
+            "title": "A New Friend!",
+            "layout": "1-column",
+            "weight": "Bold",
+            "elements": [
+              {
+                "id": "block-1787826283374-vniirp51p",
+                "slot": "left",
+                "type": "heading",
+                "styles": {
+                  "top": "0px",
+                  "left": "325px",
+                  "color": "#1F2937",
+                  "fontSize": "32px",
+                  "alignment": "Center",
+                  "blockWidth": "319px",
+                  "fontFamily": "Poppins",
+                  "fontWeight": "Bold"
+                },
+                "content": {
+                  "tag": "H2",
+                  "text": "A New Friend! "
+                }
+              },
+              {
+                "id": "block-1787826567243-03n8kk07j",
+                "slot": "left",
+                "type": "dio_clip",
+                "styles": {
+                  "top": "361.59999990463257px",
+                  "left": "891.8000030517578px"
+                },
+                "content": {}
+              },
+              {
+                "id": "block-1787827141047-q22kr9myk",
+                "slot": "right",
+                "type": "video",
+                "styles": {
+                  "top": "152px",
+                  "left": "0px",
+                  "minHeight": "386px"
+                },
+                "content": {
+                  "url": "/media/media_library/1ddce4062f7b470f9b27497c51ddd6de.mp4",
+                  "media_id": 87,
+                  "media_type": "VIDEO"
+                }
+              }
+            ],
+            "media_id": 87,
+            "alignment": "Center",
+            "media_url": "/media/media_library/1ddce4062f7b470f9b27497c51ddd6de.mp4",
+            "media_type": "VIDEO",
+            "columnRatio": "50-50",
+            "quiz_options": [
+              "",
+              "",
+              "",
+              ""
+            ],
+            "quiz_question": "",
+            "quiz_correct_index": 0,
+            "video": "assets/video/1ddce4062f7b470f9b27497c51ddd6de.mp4"
+          },
+          "resolvedMedia": [
+            {
+              "media_id": 87,
+              "type": "VIDEO",
+              "url": "assets/video/1ddce4062f7b470f9b27497c51ddd6de.mp4",
+              "missing": false
+            },
+            {
+              "media_id": 87,
+              "type": "VIDEO",
+              "url": "assets/video/1ddce4062f7b470f9b27497c51ddd6de.mp4",
+              "missing": false
+            }
+          ]
+        },
+        {
+          "id": "56",
+          "title": "LISTEN & WRITE",
+          "type": "text",
+          "content": {
+            "tag": "H1",
+            "font": "Poppins",
+            "size": 48,
+            "text": "New text block body...",
+            "color": "#1F2937",
+            "steps": [
+              {
+                "name": "Ben",
+                "step": 1,
+                "text": "Hi! What would you like to order?"
+              },
+              {
+                "name": "Anna",
+                "step": 2,
+                "text": "I'd like a cup of coffee, please."
+              }
+            ],
+            "title": "LISTEN & WRITE",
+            "layout": "1-column",
+            "weight": "Bold",
+            "elements": [
+              {
+                "id": "block-1787827456624-u0ju49162",
+                "slot": "right",
+                "type": "image",
+                "styles": {
+                  "top": "0px",
+                  "left": "0px",
+                  "minHeight": "318px"
+                },
+                "content": {
+                  "url": "/media/media_library/bc019dd317a34aaa9c56cdc2099e2829.png",
+                  "caption": "IN THE CLASSROOM",
+                  "media_id": 89,
+                  "media_type": "IMAGE"
+                }
+              },
+              {
+                "id": "block-1787827718341-az5slv5pk",
+                "slot": "left",
+                "type": "text",
+                "styles": {
+                  "top": "336px",
+                  "left": "0px",
+                  "color": "#334155",
+                  "fontSize": "16px",
+                  "alignment": "Left",
+                  "minHeight": "123px",
+                  "fontFamily": "Poppins",
+                  "fontWeight": "Normal"
+                },
+                "content": {
+                  "text": "New text block body..."
+                }
+              }
+            ],
+            "media_id": 89,
+            "alignment": "Center",
+            "media_url": "/media/media_library/bc019dd317a34aaa9c56cdc2099e2829.png",
+            "media_type": "IMAGE",
+            "columnRatio": "50-50",
+            "quiz_options": [
+              "",
+              "",
+              "",
+              ""
+            ],
+            "quiz_question": "",
+            "quiz_correct_index": 0,
+            "image": "assets/images/bc019dd317a34aaa9c56cdc2099e2829.png"
+          },
+          "resolvedMedia": [
+            {
+              "media_id": 89,
+              "type": "IMAGE",
+              "url": "assets/images/bc019dd317a34aaa9c56cdc2099e2829.png",
+              "missing": false
+            },
+            {
+              "media_id": 89,
+              "type": "IMAGE",
+              "url": "assets/images/bc019dd317a34aaa9c56cdc2099e2829.png",
+              "missing": false
+            }
+          ]
+        },
+        {
+          "id": "57",
+          "title": "Choose the Right Response",
+          "type": "text",
+          "content": {
+            "tag": "H1",
+            "font": "Poppins",
+            "size": 48,
+            "text": "Welcome Screen Text",
+            "color": "#1F2937",
+            "steps": [
+              {
+                "name": "Ben",
+                "step": 1,
+                "text": "Hi! What would you like to order?"
+              },
+              {
+                "name": "Anna",
+                "step": 2,
+                "text": "I'd like a cup of coffee, please."
+              }
+            ],
+            "title": "Choose the Right Response",
+            "layout": "1-column",
+            "weight": "Bold",
+            "elements": [
+              {
+                "id": "block-1787827845696-njp06vglg",
+                "type": "fill_blank",
+                "styles": {
+                  "top": "20px",
+                  "left": "20px"
+                },
+                "content": {
+                  "items": [
+                    {
+                      "id": "item-1",
+                      "text": "what is your friend's name [ ]."
+                    },
+                    {
+                      "id": "item-1787828015538",
+                      "text": "where are we[       ]."
+                    }
+                  ],
+                  "question": "Complete the sentence by filling in the blanks."
+                },
+                "enableRemedial": false,
+                "remedialConfig": {
+                  "mode": "manual",
+                  "hintText": "",
+                  "foundationOptions": [],
+                  "foundationQuestion": ""
+                }
+              },
+              {
+                "id": "block-1787828224022-6ny8zz9w3",
+                "type": "match",
+                "styles": {
+                  "top": "249px",
+                  "left": "0px"
+                },
+                "content": {
+                  "question": "Match the items in Column A with Column B.",
+                  "leftItems": [
+                    "Classroom",
+                    "pencil"
+                  ],
+                  "rightItems": [
+                    "Eraser",
+                    "Teacher"
+                  ]
+                }
+              }
+            ],
+            "media_id": "",
+            "alignment": "Center",
+            "media_url": "",
+            "media_type": "",
+            "columnRatio": "50-50",
+            "quiz_options": [
+              "",
+              "",
+              "",
+              ""
+            ],
+            "quiz_question": "",
+            "quiz_correct_index": 0
+          },
+          "resolvedMedia": []
+        }
+      ]
+    }
+  ]
+}

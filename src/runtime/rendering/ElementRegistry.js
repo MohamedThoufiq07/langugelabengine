@@ -44,7 +44,12 @@ const registry = {
 
     // Listening
     audio: AudioBlock,
+    audio_clip: AudioBlock,
+    dio_clip: AudioBlock,
+    audioclip: AudioBlock,
     video: VideoBlock,
+    video_clip: VideoBlock,
+    videoclip: VideoBlock,
     sequence: SequenceBlock,
     dictation: DictationBlock,
     audio_mystery: AudioMysteryBlock,
@@ -55,6 +60,7 @@ const registry = {
     voice_recorder: VoiceRecorderBlock,
     pronunciation: PronunciationBlock,
     role_play: RolePlayBlock,
+    roleplay: RolePlayBlock,
     you_ask: YouAskBlock,
     roleplay_simulation: RoleplaySimulationBlock,
 
@@ -62,8 +68,11 @@ const registry = {
     text: TextBlock,
     heading: HeadingBlock,
     image: ImageBlock,
+    image_clip: ImageBlock,
+    imageclip: ImageBlock,
     quiz: QuizBlock,
     mcq: QuizBlock,
+    multiple_choice: QuizBlock,
     match: MatchBlock,
     flashcard: FlashcardBlock,
     memory: MemoryBlock,
@@ -75,6 +84,7 @@ const registry = {
 
     // Writing
     fill_blank: FillBlankBlock,
+    fill_in_the_blanks: FillBlankBlock,
     sentence_builder: SentenceBuilderBlock,
     writing_prompt: WritingBlock,
 

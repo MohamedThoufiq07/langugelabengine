@@ -1,0 +1,36 @@
+{
+  "package_name": "hello-this-is-me",
+  "experience_id": 24,
+  "experience_title": "Hello! This Is Me",
+  "version": "1",
+  "build_number": 1,
+  "created_at": "2026-08-27T11:01:56.777399+00:00",
+  "published_by": "super_admin",
+  "runtime_version": "1.0.0",
+  "files": [
+    {
+      "path": "experience.json",
+      "size": 9372,
+      "checksum": "a5004de03fea4a76470d836c44046a83319bcee697f1506308587ed040e956aa"
+    },
+    {
+      "path": "metadata.json",
+      "size": 188,
+      "checksum": "1087ca0b4d75290939b4c32213d66c39bd2872801bd75a59131841f791a3495b"
+    },
+    {
+      "path": "assets/video/1ddce4062f7b470f9b27497c51ddd6de.mp4",
+      "size": 37807361,
+      "checksum": "e845818dc8a9113653f06120d0eb4389687ffd3a994395f661075e7c47f1656a"
+    },
+    {
+      "path": "assets/images/bc019dd317a34aaa9c56cdc2099e2829.png",
+      "size": 1936835,
+      "checksum": "27089516a90d18a5ccd499a6f9c7d1aeecb09260372534e78148fbfcf43b488e"
+    }
+  ],
+  "checksums": {
+    "experience_json": "a5004de03fea4a76470d836c44046a83319bcee697f1506308587ed040e956aa",
+    "metadata_json": "1087ca0b4d75290939b4c32213d66c39bd2872801bd75a59131841f791a3495b"
+  }
+}
