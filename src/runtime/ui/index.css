@@ -1030,7 +1030,7 @@ ol {
 .runtime-shell[data-experience-type="experience"] .elab-block-card,
 .runtime-shell[data-experience-type="lesson"] .elab-block-card,
 .elab-block-card {
-    background: url('/summer bg board.png') no-repeat !important;
+    background: var(--theme-card-bg, url('/summer season/summer bg board.png')) no-repeat !important;
     background-size: 100% 100% !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
@@ -3368,7 +3368,7 @@ ol {
 
 .runtime-shell .elab-block-card,
 .elab-block-card {
-    background: url('/summer bg board.png') no-repeat center / 100% 100% !important;
+    background: var(--theme-card-bg, url('/summer season/summer bg board.png')) no-repeat center / 100% 100% !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
     border: none !important;
@@ -6465,8 +6465,8 @@ ol {
 /* Media cards must fit between the board heading and the floating navigation. */
 .elab-block-card.elab-media-card {
     gap: 8px;
-    padding: clamp(3.5rem, 8vh, 4.5rem) clamp(3rem, 7vw, 5.5rem)
-        clamp(4rem, 9vh, 5.5rem) !important;
+    padding: clamp(4.5rem, 9vh, 5rem) clamp(4rem, 7vw, 5.5rem)
+        clamp(4.5rem, 9vh, 5.5rem) !important;
 }
 
 .elab-media-card .elab-block-header {
@@ -6504,6 +6504,10 @@ ol {
 .elab-block-card.elab-media-card[data-type="video"] .elab-media-card-element {
     max-height: none !important;
     aspect-ratio: auto;
+}
+
+video::-webkit-media-controls-overflow-button {
+    display: none !important;
 }
 
 .elab-media-card-caption {
@@ -7173,7 +7177,7 @@ ol {
     align-items: center;
     justify-content: center;
     padding: 20px;
-    background: url('/bg1.png') no-repeat center / 100% 100%;
+    background: var(--theme-bg, url('/summer season/bg1.png')) no-repeat center / 100% 100%;
 }
 
 .activity-complete-board {
@@ -7187,7 +7191,7 @@ ol {
     align-items: center;
     justify-content: center;
     text-align: center;
-    background: url('/summer bg board.png') no-repeat center / 100% 100%;
+    background: var(--theme-card-bg, url('/summer season/summer bg board.png')) no-repeat center / 100% 100%;
     filter: drop-shadow(0 18px 24px rgba(15, 40, 25, 0.35));
     animation: activityCompletePop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
@@ -7334,12 +7338,12 @@ ol {
 .elab-block-card.elab-media-card {
     gap: 10px;
     min-height: 0 !important;
-    padding: 3rem 4rem 3.5rem !important;
+    padding: 4.5rem 5.5rem 4.5rem 5.5rem !important;
 }
 
 .elab-block-card.elab-media-card > .elab-block-header,
 .elab-block-card.elab-media-card[data-type="video"] > .elab-block-header {
-    margin: 0 !important;
+    margin: 0 0 0.5rem 0 !important;
     padding: 0 !important;
 }
 

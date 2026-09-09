@@ -15,7 +15,7 @@
   background-repeat: no-repeat;
 }
 .congrats-backdrop {
-  background-image: url('/bg1.png');
+  background-image: var(--theme-bg, url('/summer season/bg1.png'));
   display: flex;
   align-items: center;
   justify-content: center;

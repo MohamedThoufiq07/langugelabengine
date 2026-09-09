@@ -5,7 +5,7 @@ import SceneBackdrop from "../backdrop/SceneBackdrop";
 import ProctoringGuard from "../proctoring/ProctoringGuard";
 
 const BACKDROP_STYLE = {
-    backgroundImage: "url('/bg1.png')",
+    backgroundImage: "url('/summer season/bg1.png')",
     backgroundSize: "100% 100%",
     backgroundPosition: "center center",
     backgroundRepeat: "no-repeat",
@@ -69,7 +69,18 @@ function RuntimeShell({
 
     const isTimeLow = timeLeft < 60; // 1 minute
 
-    const dynamicBackdropStyle = BACKDROP_STYLE;
+    const seasonTheme = experience?.seasonTheme || {
+        name: "Summer Season",
+        bg: "/summer season/bg1.png",
+        cardBg: "/summer season/summer bg board.png"
+    };
+
+    const dynamicBackdropStyle = {
+        backgroundImage: `url('${seasonTheme.bg}')`,
+        backgroundSize: "100% 100%",
+        backgroundPosition: "center center",
+        backgroundRepeat: "no-repeat",
+    };
 
     const currentExperienceTypeString = (experience?.experienceType || experience?.experience_type || experience?.lessonType || experience?.lesson_type || "").toLowerCase();
 
@@ -79,7 +90,11 @@ function RuntimeShell({
                 className="runtime-shell"
                 data-grade-band={gradeBand}
                 data-experience-type={currentExperienceTypeString}
-                style={theme}
+                style={{
+                    ...theme,
+                    "--theme-bg": `url('${seasonTheme.bg}')`,
+                    "--theme-card-bg": `url('${seasonTheme.cardBg}')`
+                }}
             >
                 <main className="scene-backdrop" style={dynamicBackdropStyle}>
                     <SceneBackdrop runtime={runtime} />

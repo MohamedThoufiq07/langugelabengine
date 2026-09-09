@@ -119,7 +119,8 @@ function VideoBlock({ block }) {
                 <video
                     ref={videoRef}
                     controls
-                    controlsList="nodownload"
+                    controlsList="nodownload noremoteplayback noplaybackrate"
+                    disablePictureInPicture
                     src={block.content.url || null}
                     onPlay={handlePlay}
                     onPause={handlePause}

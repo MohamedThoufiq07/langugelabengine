@@ -8,123 +8,71 @@ import pronunciationBadge from "../../../../assets/images/speaking_pronunciation
 import orangeButtonBg from "../../../../assets/images/speaking_orange_button_bg.png";
 
 const VERDICT_META = {
-
     excellent: { emoji: "🌟", label: "Excellent!", tone: "success" },
     good: { emoji: "🙂", label: "Good — close!", tone: "warning" },
     try_again: { emoji: "🔁", label: "Try again", tone: "error" }
-
 };
 
 function PronunciationBlock({ block }) {
-
     const {
-
         word,
-
         hint,
-
         referenceAudio
-
     } = block.content;
 
     const [recording, setRecording] = useState(false);
-
     const [audio, setAudio] = useState(null);
-
     const [error, setError] = useState("");
-
     const [analyzing, setAnalyzing] = useState(false);
-
     const [modelProgress, setModelProgress] = useState(null);
-
     const [feedback, setFeedback] = useState(null);
-
     const completion = useScreenCompletion();
 
     async function startRecording() {
-
         try {
-
             await RecordingService.startRecording();
-
             setRecording(true);
-
             setError("");
-
             setFeedback(null);
-
         }
-
         catch (err) {
-
             setError(err.message);
-
         }
-
     }
 
     async function stopRecording() {
-
-        const result =
-
-            await RecordingService.stopRecording();
-
+        const result = await RecordingService.stopRecording();
         setRecording(false);
-
         setAudio(result.url);
-
         completion?.reportAnswered(block.id);
-
         setAnalyzing(true);
-
         setModelProgress(null);
 
         try {
-
             const heardText = await PronunciationService.transcribe(
-
                 result.blob,
-
                 progress => {
-
                     if (progress?.status === "progress" && typeof progress.progress === "number") {
-
                         setModelProgress(Math.round(progress.progress));
-
                     }
-
                 }
-
             );
 
             setFeedback(
-
                 PronunciationService.scorePronunciation(heardText, word)
-
             );
-
         }
-
         catch (err) {
-
             setError("Couldn't analyze that recording — " + err.message);
-
         }
-
         finally {
-
             setAnalyzing(false);
-
             setModelProgress(null);
-
         }
-
     }
 
     return (
-
         <BlockCard type="pronunciation">
-
             <div className="speaking-custom-card-content">
                 <div className="speaking-custom-interactive">
                     <div className="speaking-card-header">
@@ -218,17 +166,13 @@ function PronunciationBlock({ block }) {
 
                 <div className="speaking-custom-illustration">
                     <img
-                        src="/pronounciation boy image.png"
+                        src="/listen carefully boy.png"
                         alt="Boy practicing pronunciation"
                     />
                 </div>
             </div>
-
         </BlockCard>
-
     );
-
 }
 
 export default PronunciationBlock;
-

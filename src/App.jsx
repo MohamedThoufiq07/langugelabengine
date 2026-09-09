@@ -61,11 +61,44 @@ function useLocalSampleAssets(rawExperience) {
 
 }
 
+const SEASONS = [
+    {
+        name: "Summer Season",
+        bg: "/summer season/bg1.png",
+        cardBg: "/summer season/summer bg board.png"
+    },
+    {
+        name: "Winter Season",
+        bg: "/winter season/winter season bg.jpg",
+        cardBg: "/winter season/winter cards bg.png"
+    },
+    {
+        name: "Spring Season",
+        bg: "/spring season/spring season bg.png",
+        cardBg: "/spring season/spring card frame.png"
+    },
+    {
+        name: "Desert Season",
+        bg: "/desert season/desert season bg.jpg",
+        cardBg: "/desert season/desert card bg.png"
+    },
+    {
+        name: "Lava Season",
+        bg: "/lava season/lava bg.jpg",
+        cardBg: "/lava season/lava card bg.png"
+    },
+    {
+        name: "Marine Season",
+        bg: "/marine season/marine season bg.png",
+        cardBg: "/marine season/marine card bg.png"
+    }
+];
+
 function App() {
 
     const experiencesList = useMemo(() => {
 
-        return Object.entries(experienceModules).map(([filePath, expData]) => {
+        return Object.entries(experienceModules).map(([filePath, expData], idx) => {
 
             const parts = filePath.split("/");
             const folderName = parts[parts.length - 2] || "Sample";
@@ -73,10 +106,14 @@ function App() {
                 ? expData.title
                 : folderName.replace(/_/g, " ").replace(/\.\.\./g, "").trim();
 
+            const seasonIndex = Math.floor(idx / 6) % SEASONS.length;
+            const season = SEASONS[seasonIndex];
+
             return {
                 id: (expData && expData.id) || folderName,
                 folderName,
                 title: cleanTitle,
+                season,
                 data: expData
             };
 
@@ -91,6 +128,18 @@ function App() {
     const currentRawExp = experiencesList[selectedExpIndex]?.data || null;
     const resolvedExperience = useLocalSampleAssets(currentRawExp);
 
+    const experienceWithSeason = useMemo(() => {
+        if (!resolvedExperience) return null;
+
+        const seasonIndex = Math.floor(selectedExpIndex / 6) % SEASONS.length;
+        const seasonTheme = SEASONS[seasonIndex];
+
+        return {
+            ...resolvedExperience,
+            seasonTheme
+        };
+    }, [resolvedExperience, selectedExpIndex]);
+
     const [runtime, setRuntime] = useState(() => new RuntimeEngine());
 
     useEffect(() => {
@@ -99,7 +148,7 @@ function App() {
 
         async function initializeRuntime() {
 
-            if (!resolvedExperience) {
+            if (!experienceWithSeason) {
 
                 setReady(false);
 
@@ -111,7 +160,7 @@ function App() {
 
             const newRuntime = new RuntimeEngine();
 
-            await newRuntime.start(resolvedExperience);
+            await newRuntime.start(experienceWithSeason);
 
             if (isMounted) {
 
@@ -131,7 +180,13 @@ function App() {
 
         };
 
-    }, [resolvedExperience]);
+    }, [experienceWithSeason]);
+
+    function handleNextLesson() {
+        if (experiencesList.length > 0) {
+            setSelectedExpIndex((prev) => (prev + 1) % experiencesList.length);
+        }
+    }
 
     function handleExit() {
 
@@ -157,68 +212,6 @@ function App() {
 
         <div style={{ display: 'flex', flexDirection: 'column', width: '100vw', height: '100vh', overflow: 'hidden' }}>
 
-            {experiencesList.length > 0 && (
-
-                <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    padding: '8px 16px',
-                    background: '#0f172a',
-                    color: '#fff',
-                    zIndex: 9999,
-                    boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
-                    flexShrink: 0
-                }}>
-
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-
-                        <span style={{ fontWeight: '600', fontSize: '14px', color: '#94a3b8' }}>📚 Experience Package:</span>
-
-                        <select
-
-                            value={selectedExpIndex}
-
-                            onChange={(e) => setSelectedExpIndex(Number(e.target.value))}
-
-                            style={{
-                                padding: '6px 12px',
-                                borderRadius: '6px',
-                                background: '#1e293b',
-                                color: '#f8fafc',
-                                border: '1px solid #475569',
-                                fontSize: '14px',
-                                fontWeight: '500',
-                                cursor: 'pointer',
-                                outline: 'none'
-                            }}
-
-                        >
-
-                            {experiencesList.map((exp, idx) => (
-
-                                <option key={exp.id + idx} value={idx}>
-
-                                    {idx + 1}. {exp.title} ({exp.folderName})
-
-                                </option>
-
-                            ))}
-
-                        </select>
-
-                    </div>
-
-                    <span style={{ fontSize: '12px', color: '#64748b' }}>
-
-                        {selectedExpIndex + 1} of {experiencesList.length} packages available
-
-                    </span>
-
-                </div>
-
-            )}
-
             <div style={{ flex: 1, position: 'relative', width: '100%', height: '100%', overflow: 'hidden' }}>
 
                 {!ready ? (
@@ -232,6 +225,8 @@ function App() {
                         key={experiencesList[selectedExpIndex]?.id || selectedExpIndex}
 
                         runtime={runtime}
+
+                        onNextLesson={handleNextLesson}
 
                         onExit={handleExit}
 

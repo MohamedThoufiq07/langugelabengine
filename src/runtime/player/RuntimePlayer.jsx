@@ -22,7 +22,7 @@ import RuntimeShell from "../ui/RuntimeShell";
 
 import LoadingScreen from "./LoadingScreen";
 
-function RuntimePlayer({ runtime, onExit }) {
+function RuntimePlayer({ runtime, onNextLesson, onExit }) {
     const registry = useMemo(() => new RendererRegistry(), []);
 
     const [loading, setLoading] = useState(true);
@@ -205,7 +205,11 @@ function RuntimePlayer({ runtime, onExit }) {
                             onClick={() => {
                                 setShowCongrats(false);
                                 setJustFinishedActivityIndex(null);
-                                if (onExit) onExit();
+                                if (onNextLesson) {
+                                    onNextLesson();
+                                } else if (onExit) {
+                                    onExit();
+                                }
                             }}
                         >
                             Continue Learning <span aria-hidden="true">→</span>
