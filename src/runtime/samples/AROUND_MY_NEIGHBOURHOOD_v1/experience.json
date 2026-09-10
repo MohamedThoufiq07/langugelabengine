@@ -1,0 +1,271 @@
+{
+  "schemaVersion": "1.0.0",
+  "version": "1.0.0",
+  "id": "51",
+  "title": "AROUND MY NEIGHBOURHOOD",
+  "description": "in my  NEIGHBOURHOOD",
+  "language": "English",
+  "grade": "Grade 3",
+  "subject": "General",
+  "estimatedDuration": 15,
+  "experienceType": "LESSON",
+  "masteryThreshold": 70,
+  "activities": [
+    {
+      "id": "140",
+      "title": "Speaking",
+      "description": "",
+      "sequence": 1,
+      "estimatedDuration": 5,
+      "skills": [
+        "Speaking"
+      ],
+      "activityType": "SPEAKING",
+      "masteryThreshold": 80,
+      "screens": [
+        {
+          "id": "147",
+          "title": "My Neighbourhood",
+          "type": "text",
+          "content": {
+            "tag": "H1",
+            "font": "Poppins",
+            "size": 48,
+            "text": "Welcome Screen Text",
+            "color": "#1F2937",
+            "steps": [],
+            "title": "My Neighbourhood",
+            "layout": "1-column",
+            "weight": "Bold",
+            "elements": [
+              {
+                "id": "block-1789015406253-we9a4a91w",
+                "type": "image",
+                "styles": {
+                  "top": "20px",
+                  "left": "20px"
+                },
+                "content": {
+                  "url": "/media/media_library/d0777ff400fd43399c5bc2da9b4f7919.png",
+                  "caption": "",
+                  "media_id": 171,
+                  "media_type": "IMAGE"
+                }
+              },
+              {
+                "id": "block-1789015473482-yh9xhu8zd",
+                "type": "voice_recorder",
+                "styles": {
+                  "top": "706px",
+                  "left": "0px",
+                  "blockWidth": "934px"
+                },
+                "content": {
+                  "prompt": "",
+                  "maxDuration": 10
+                }
+              }
+            ],
+            "media_id": 171,
+            "alignment": "Center",
+            "media_url": "/media/media_library/d0777ff400fd43399c5bc2da9b4f7919.png",
+            "media_type": "IMAGE",
+            "columnRatio": "50-50",
+            "quiz_options": [
+              "",
+              "",
+              "",
+              ""
+            ],
+            "quiz_question": "",
+            "quiz_correct_index": 0,
+            "image": "assets/images/d0777ff400fd43399c5bc2da9b4f7919.png"
+          },
+          "resolvedMedia": [
+            {
+              "media_id": 171,
+              "type": "IMAGE",
+              "url": "assets/images/d0777ff400fd43399c5bc2da9b4f7919.png",
+              "missing": false
+            },
+            {
+              "media_id": 171,
+              "type": "IMAGE",
+              "url": "assets/images/d0777ff400fd43399c5bc2da9b4f7919.png",
+              "missing": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "141",
+      "title": "Listening",
+      "description": "",
+      "sequence": 2,
+      "estimatedDuration": 5,
+      "skills": [
+        "Listening"
+      ],
+      "activityType": "LISTENING",
+      "masteryThreshold": 80,
+      "screens": [
+        {
+          "id": "148",
+          "title": "Follow the Way",
+          "type": "text",
+          "content": {
+            "tag": "H1",
+            "font": "Poppins",
+            "size": 48,
+            "text": "Welcome Screen Text",
+            "color": "#1F2937",
+            "steps": [],
+            "title": "Follow the Way",
+            "layout": "1-column",
+            "weight": "Bold",
+            "elements": [
+              {
+                "id": "block-1789015669704-co01h58ut",
+                "type": "audio",
+                "styles": {
+                  "top": "20px",
+                  "left": "20px"
+                },
+                "content": {
+                  "url": "/media/media_library/9f013548a96749d8bedcf6f59740a7d1.mp3",
+                  "title": "Audio Clip",
+                  "media_id": 172,
+                  "media_type": "AUDIO"
+                }
+              },
+              {
+                "id": "block-1789015709453-7evapfxcs",
+                "type": "sequence",
+                "styles": {
+                  "top": "176px",
+                  "left": "0px",
+                  "minHeight": "243px",
+                  "blockWidth": "934px"
+                },
+                "content": {
+                  "items": [
+                    "Riya starts at the school.",
+                    "Riya walks straight along the road.",
+                    "Riya turns left at the park.",
+                    "The library is next to the park.",
+                    "Riya reaches the library."
+                  ],
+                  "question": "Arrange the items in the correct order."
+                }
+              }
+            ],
+            "media_id": 172,
+            "alignment": "Center",
+            "media_url": "/media/media_library/9f013548a96749d8bedcf6f59740a7d1.mp3",
+            "media_type": "AUDIO",
+            "columnRatio": "50-50",
+            "quiz_options": [
+              "",
+              "",
+              "",
+              ""
+            ],
+            "quiz_question": "",
+            "quiz_correct_index": 0,
+            "audio": "assets/audio/9f013548a96749d8bedcf6f59740a7d1.mp3"
+          },
+          "resolvedMedia": [
+            {
+              "media_id": 172,
+              "type": "AUDIO",
+              "url": "assets/audio/9f013548a96749d8bedcf6f59740a7d1.mp3",
+              "missing": false
+            },
+            {
+              "media_id": 172,
+              "type": "AUDIO",
+              "url": "assets/audio/9f013548a96749d8bedcf6f59740a7d1.mp3",
+              "missing": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "142",
+      "title": "Writing",
+      "description": "",
+      "sequence": 3,
+      "estimatedDuration": 5,
+      "skills": [
+        "writing"
+      ],
+      "activityType": "WRITING",
+      "masteryThreshold": 80,
+      "screens": [
+        {
+          "id": "149",
+          "title": "Neighbourhood",
+          "type": "text",
+          "content": {
+            "tag": "H1",
+            "font": "Poppins",
+            "size": 48,
+            "text": "Welcome Screen Text",
+            "color": "#1F2937",
+            "steps": [],
+            "title": "Neighbourhood",
+            "layout": "1-column",
+            "weight": "Bold",
+            "elements": [
+              {
+                "id": "block-1789015809634-568cwpvka",
+                "type": "fill_blank",
+                "styles": {
+                  "top": "20px",
+                  "left": "20px"
+                },
+                "content": {
+                  "items": [
+                    {
+                      "id": "item-1",
+                      "text": "There is a [ ] near my home."
+                    },
+                    {
+                      "id": "item-1789015829422",
+                      "text": "I can [ ] in the park."
+                    },
+                    {
+                      "id": "item-1789015842494",
+                      "text": "I can buy [ ] at the shop."
+                    },
+                    {
+                      "id": "item-1789015847279",
+                      "text": "I can read books at the [ ]."
+                    }
+                  ],
+                  "question": "Complete the sentence by filling in the blanks."
+                }
+              }
+            ],
+            "media_id": "",
+            "alignment": "Center",
+            "media_url": "",
+            "media_type": "",
+            "columnRatio": "50-50",
+            "quiz_options": [
+              "",
+              "",
+              "",
+              ""
+            ],
+            "quiz_question": "",
+            "quiz_correct_index": 0
+          },
+          "resolvedMedia": []
+        }
+      ]
+    }
+  ]
+}

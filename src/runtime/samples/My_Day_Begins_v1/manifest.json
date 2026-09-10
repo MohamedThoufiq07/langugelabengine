@@ -1,0 +1,36 @@
+{
+  "package_name": "my-day-begins",
+  "experience_id": 41,
+  "experience_title": "My Day Begins",
+  "version": "1",
+  "build_number": 1,
+  "created_at": "2026-09-10T07:30:39.301044+00:00",
+  "published_by": "super_admin",
+  "runtime_version": "1.0.0",
+  "files": [
+    {
+      "path": "experience.json",
+      "size": 10155,
+      "checksum": "d113b3fb20d6a7603d93fc58d5b7f26555bd1df9a61774dc2e72bd743f6f202c"
+    },
+    {
+      "path": "metadata.json",
+      "size": 188,
+      "checksum": "975ce3ff31f176926c81ca04b3fdf6b0aa0e3127e60085d40782764a1773682f"
+    },
+    {
+      "path": "assets/audio/0b1513ff761642ed947753a29c8a061b.mp3",
+      "size": 98150,
+      "checksum": "c9262320e7133ae3aa832dbc273e486420718235f454f3794d132cb867b08991"
+    },
+    {
+      "path": "assets/images/eb71642b16c04df7a666b9c3b7de3b02.png",
+      "size": 2019784,
+      "checksum": "167af16154df8998e261f051e0f215337666ce7806020b1fc4d8fc36ad08c064"
+    }
+  ],
+  "checksums": {
+    "experience_json": "d113b3fb20d6a7603d93fc58d5b7f26555bd1df9a61774dc2e72bd743f6f202c",
+    "metadata_json": "975ce3ff31f176926c81ca04b3fdf6b0aa0e3127e60085d40782764a1773682f"
+  }
+}

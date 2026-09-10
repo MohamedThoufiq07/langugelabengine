@@ -1,0 +1,168 @@
+{
+  "schemaVersion": "1.0.0",
+  "version": "1.0.0",
+  "id": "53",
+  "title": "My Everyday Life",
+  "description": "This assessment is heavily grammar-based, with grammar integrated into Listening, Speaking, Reading and Writing.",
+  "language": "English",
+  "grade": "Grade 3",
+  "subject": "General",
+  "estimatedDuration": 15,
+  "experienceType": "ASSESSMENT",
+  "masteryThreshold": 70,
+  "activities": [
+    {
+      "id": "147",
+      "title": "Activity",
+      "description": "Default assessment activity",
+      "sequence": 1,
+      "estimatedDuration": 15,
+      "skills": [],
+      "activityType": "ASSESSMENT",
+      "masteryThreshold": 70,
+      "screens": [
+        {
+          "id": "154",
+          "title": "Test",
+          "type": "text",
+          "content": {
+            "tag": "H1",
+            "font": "Poppins",
+            "size": 48,
+            "text": "Welcome Screen Text",
+            "color": "#1F2937",
+            "steps": [],
+            "title": "Test",
+            "layout": "1-column",
+            "weight": "Bold",
+            "elements": [
+              {
+                "id": "block-1789017176939-na4oqg2cc",
+                "slot": "left",
+                "type": "functional_reading",
+                "styles": {
+                  "top": "20px",
+                  "left": "20px",
+                  "minHeight": "384px"
+                },
+                "content": {
+                  "scenario": "Read the document and answer the questions",
+                  "questions": [
+                    {
+                      "id": "q1",
+                      "type": "text",
+                      "options": [
+                        "Option A",
+                        "Option B"
+                      ],
+                      "question": "What does the child do every day?",
+                      "targetAnswer": "He brushes his teeth.",
+                      "correctAnswer": "He brushes his teeth."
+                    },
+                    {
+                      "id": "q_1789017201483",
+                      "type": "text",
+                      "question": "What is he doing today?",
+                      "targetAnswer": "He is eating a banana.",
+                      "correctAnswer": "He is eating a banana."
+                    }
+                  ],
+                  "documentUrl": "",
+                  "documentText": "“I wake up at seven o’clock every day. I brush my teeth and eat breakfast. My mother makes breakfast for me. I like milk and bananas.\n\nToday, I am sitting at the table. I am eating a banana and drinking milk.\n\nYesterday, I played with my friends. We walked to the park and played football. We were very happy.”",
+                  "documentType": "text"
+                }
+              },
+              {
+                "id": "block-1789017486636-lj3b4ogob",
+                "slot": "left",
+                "type": "fill_blank",
+                "styles": {
+                  "top": "514px",
+                  "left": "0px",
+                  "blockWidth": "934px"
+                },
+                "content": {
+                  "items": [
+                    {
+                      "id": "item-1",
+                      "text": "She [plays] football every day."
+                    },
+                    {
+                      "id": "item-1789017500840",
+                      "text": "They [are] (are\\is) eating lunch."
+                    },
+                    {
+                      "id": "item-1789017533682",
+                      "text": "He [is] (are\\is) reading a book."
+                    }
+                  ],
+                  "question": "Complete the sentence by filling in the blanks."
+                }
+              },
+              {
+                "id": "block-1789017584607-0ho9171cd",
+                "slot": "left",
+                "type": "sentence_builder",
+                "styles": {
+                  "top": "777px",
+                  "left": "0px",
+                  "minHeight": "232px",
+                  "blockWidth": "934px"
+                },
+                "content": {
+                  "sentences": [
+                    {
+                      "words": [
+                        "I",
+                        "play",
+                        "football",
+                        "every",
+                        "day."
+                      ],
+                      "question": "Reorder the words to make a correct sentence.",
+                      "sentence": "I play football every day."
+                    },
+                    {
+                      "words": [
+                        "She",
+                        "is",
+                        "reading",
+                        "now."
+                      ],
+                      "question": "",
+                      "sentence": "She is reading now."
+                    },
+                    {
+                      "words": [
+                        "I",
+                        "played",
+                        "football",
+                        "yesterday."
+                      ],
+                      "question": "",
+                      "sentence": "I played football yesterday."
+                    }
+                  ]
+                }
+              }
+            ],
+            "media_id": "",
+            "alignment": "Center",
+            "media_url": "",
+            "media_type": "",
+            "columnRatio": "50-50",
+            "quiz_options": [
+              "",
+              "",
+              "",
+              ""
+            ],
+            "quiz_question": "",
+            "quiz_correct_index": 0
+          },
+          "resolvedMedia": []
+        }
+      ]
+    }
+  ]
+}

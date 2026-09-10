@@ -6,11 +6,16 @@
  *
  * Offline speech-to-text pronunciation feedback.
  *
- * Runs a small (~40MB) Whisper ASR model fully client-side via
+ * Runs Whisper ASR model fully client-side via
  * @xenova/transformers (ONNX Runtime + WASM) — no network calls per
  * attempt. The model itself is fetched from the Hugging Face CDN and
  * cached in the browser (IndexedDB) the first time it's used; every
  * transcription after that runs completely offline.
+ *
+ * Model: Xenova/whisper-base.en (~290MB)
+ * - Better accuracy than tiny model
+ * - Good balance between accuracy and performance
+ * - Suitable for real-world speech recognition
  *
  * This gives feedback by transcribing what the student said and
  * comparing it to the target word/phrase — a practical proxy for
@@ -35,7 +40,7 @@ function getTranscriber(onProgress) {
 
                 return pipeline(
                     "automatic-speech-recognition",
-                    "Xenova/whisper-tiny.en",
+                    "Xenova/whisper-base.en",
                     { progress_callback: onProgress }
                 );
 

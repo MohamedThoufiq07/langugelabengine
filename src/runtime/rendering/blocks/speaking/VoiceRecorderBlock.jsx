@@ -11,9 +11,13 @@ function VoiceRecorderBlock({ block }) {
 
     const { 
         prompt,
-        audio = null,
+        referenceAudio = null,
+        audio = null,  // Legacy fallback for backward compatibility
         audioFirst = false
     } = block.content;
+
+    // Support both referenceAudio (new) and audio (legacy)
+    const resolvedAudio = referenceAudio || audio;
 
     const [recording, setRecording] = useState(false);
     const [paused, setPaused] = useState(false);
@@ -30,6 +34,7 @@ function VoiceRecorderBlock({ block }) {
     
     const [audioPlayed, setAudioPlayed] = useState(false);
     const [useAudioMode, setUseAudioMode] = useState(audioFirst);
+    const [feedback, setFeedback] = useState(""); // Add feedback message
 
     const completion = useScreenCompletion();
 
@@ -72,6 +77,7 @@ function VoiceRecorderBlock({ block }) {
         setHeardText(null);
 
         completion?.reportAnswered(block.id);
+        setFeedback("✓ Recording saved successfully!");
 
         setAnalyzing(true);
 
@@ -134,11 +140,11 @@ function VoiceRecorderBlock({ block }) {
 
                     <div className="speaking-divider-line" />
 
-                    {audio && (
+                    {resolvedAudio && (
                         <div className="voice-audio-section">
                             <div className="elab-media-frame">
                                 <audio 
-                                    src={audio} 
+                                    src={resolvedAudio} 
                                     controls 
                                     className="elab-media-player"
                                     onPlay={() => setAudioPlayed(true)}
@@ -174,6 +180,21 @@ function VoiceRecorderBlock({ block }) {
 
                     {error && (
                         <div className="elab-feedback error">{error}</div>
+                    )}
+
+                    {feedback && (
+                        <div style={{
+                            padding: "12px 14px",
+                            backgroundColor: "#dcfce7",
+                            border: "2px solid #22c55e",
+                            borderRadius: "6px",
+                            color: "#15803d",
+                            fontWeight: "600",
+                            marginBottom: "12px",
+                            textAlign: "center"
+                        }}>
+                            {feedback}
+                        </div>
                     )}
 
                     <div className="elab-chip-row">

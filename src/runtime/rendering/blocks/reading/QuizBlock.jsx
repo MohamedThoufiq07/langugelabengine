@@ -70,6 +70,7 @@ function QuizBlock({ block }) {
     const [confetti, setConfetti] = useState([]);
     const [audioPlayed, setAudioPlayed] = useState(false);
     const [useAudioMode, setUseAudioMode] = useState(audioFirst);
+    const [feedback, setFeedback] = useState(""); // Add feedback message
 
     // Pre-report answered state ONLY if there is an actual saved answer loaded on mount
     useEffect(() => {
@@ -89,6 +90,15 @@ function QuizBlock({ block }) {
         });
 
         completion?.reportAnswered(block.id);
+
+        // Set feedback message (non-assessment mode only)
+        if (!window.__isAssessment) {
+            if (index === correctAnswerIndex) {
+                setFeedback("✓ Correct! Excellent!");
+            } else {
+                setFeedback("✗ Incorrect. Try again!");
+            }
+        }
 
         if (!window.__isAssessment && index === correctAnswerIndex) {
 
@@ -194,6 +204,24 @@ function QuizBlock({ block }) {
 
                         })}
                     </div>
+
+                    {/* Feedback Message */}
+                    {feedback && (
+                        <div style={{
+                            marginTop: "16px",
+                            padding: "12px 14px",
+                            borderRadius: "6px",
+                            fontSize: "16px",
+                            fontWeight: "600",
+                            backgroundColor: feedback.includes("✓") ? "#dcfce7" : "#fee2e2",
+                            color: feedback.includes("✓") ? "#15803d" : "#dc2626",
+                            border: `2px solid ${feedback.includes("✓") ? "#22c55e" : "#ef4444"}`,
+                            textAlign: "center",
+                            animation: "slideIn 0.3s ease-out"
+                        }}>
+                            {feedback}
+                        </div>
+                    )}
                 </div>
 
                 {/* Right Side: Illustration */}

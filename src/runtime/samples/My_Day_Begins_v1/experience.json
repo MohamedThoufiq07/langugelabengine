@@ -1,0 +1,345 @@
+{
+  "schemaVersion": "1.0.0",
+  "version": "1.0.0",
+  "id": "41",
+  "title": "My Day Begins",
+  "description": "Talk about morning routines, understand sequence words, and read/write simple sentences about what happens each morning.",
+  "language": "English",
+  "grade": "Grade 3",
+  "subject": "General",
+  "estimatedDuration": 15,
+  "experienceType": "LESSON",
+  "masteryThreshold": 70,
+  "activities": [
+    {
+      "id": "102",
+      "title": "Listening",
+      "description": "",
+      "sequence": 1,
+      "estimatedDuration": 3,
+      "skills": [
+        "Listening"
+      ],
+      "activityType": "LISTENING",
+      "masteryThreshold": 80,
+      "screens": [
+        {
+          "id": "110",
+          "title": "My Morning Adventure",
+          "type": "text",
+          "content": {
+            "tag": "H1",
+            "font": "Poppins",
+            "size": 48,
+            "text": "Welcome Screen Text",
+            "color": "#1F2937",
+            "steps": [],
+            "title": "My Morning Adventure",
+            "layout": "1-column",
+            "weight": "Bold",
+            "elements": [
+              {
+                "id": "block-1788930849707-lgjtxfxos",
+                "type": "audio_mystery",
+                "styles": {
+                  "top": "20px",
+                  "left": "20px"
+                },
+                "content": {
+                  "clues": [
+                    {
+                      "audio": "/media/media_library/0b1513ff761642ed947753a29c8a061b.mp3",
+                      "duration": 5,
+                      "description": "Short introductory sound"
+                    }
+                  ],
+                  "hints": {
+                    "replay": "Listen again carefully",
+                    "visualClue": "Look at the pattern in the sound",
+                    "modelAnswer": "The correct answer is Option A",
+                    "sentenceStarter": "The sound indicates..."
+                  },
+                  "options": [
+                    "Sleeping",
+                    "Brushing my teeth",
+                    "Eating breakfast"
+                  ],
+                  "question": "am doing?",
+                  "correctAnswer": 1
+                }
+              }
+            ],
+            "media_id": "",
+            "alignment": "Center",
+            "media_url": "",
+            "media_type": "",
+            "columnRatio": "50-50",
+            "quiz_options": [
+              "",
+              "",
+              "",
+              ""
+            ],
+            "quiz_question": "",
+            "quiz_correct_index": 0,
+            "audio": "assets/audio/0b1513ff761642ed947753a29c8a061b.mp3"
+          },
+          "resolvedMedia": [
+            {
+              "media_id": 141,
+              "type": "AUDIO",
+              "url": "assets/audio/0b1513ff761642ed947753a29c8a061b.mp3",
+              "missing": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "103",
+      "title": "Speaking",
+      "description": "",
+      "sequence": 2,
+      "estimatedDuration": 3,
+      "skills": [
+        "Speaking"
+      ],
+      "activityType": "SPEAKING",
+      "masteryThreshold": 80,
+      "screens": [
+        {
+          "id": "111",
+          "title": "My Morning Choices",
+          "type": "text",
+          "content": {
+            "tag": "H1",
+            "font": "Poppins",
+            "size": 48,
+            "text": "I want to know about your morning. Ask me a question!”",
+            "color": "#1F2937",
+            "steps": [],
+            "title": "My Morning Choices",
+            "layout": "1-column",
+            "weight": "Bold",
+            "elements": [
+              {
+                "id": "block-1788931184036-8769kriti",
+                "type": "text",
+                "styles": {
+                  "top": "20px",
+                  "left": "20px",
+                  "color": "#334155",
+                  "fontSize": "32px",
+                  "alignment": "Center",
+                  "fontFamily": "Poppins",
+                  "fontWeight": "Normal"
+                },
+                "content": {
+                  "text": "I want to know about your morning. Ask me a question!”"
+                }
+              },
+              {
+                "id": "block-1788931215746-ngn92d4kw",
+                "type": "voice_recorder",
+                "styles": {
+                  "top": "136px",
+                  "left": "20px"
+                },
+                "content": {
+                  "prompt": "Ask Questions?"
+                }
+              }
+            ],
+            "media_id": "",
+            "alignment": "Center",
+            "media_url": "",
+            "media_type": "",
+            "columnRatio": "50-50",
+            "quiz_options": [
+              "",
+              "",
+              "",
+              ""
+            ],
+            "quiz_question": "",
+            "quiz_correct_index": 0
+          },
+          "resolvedMedia": []
+        }
+      ]
+    },
+    {
+      "id": "104",
+      "title": "Reading",
+      "description": "",
+      "sequence": 3,
+      "estimatedDuration": 5,
+      "skills": [
+        "reading"
+      ],
+      "activityType": "READING",
+      "masteryThreshold": 80,
+      "screens": [
+        {
+          "id": "112",
+          "title": "A Busy Morning",
+          "type": "text",
+          "content": {
+            "tag": "H1",
+            "font": "Poppins",
+            "size": 48,
+            "text": "Welcome Screen Text",
+            "color": "#1F2937",
+            "steps": [],
+            "title": "A Busy Morning",
+            "layout": "1-column",
+            "weight": "Bold",
+            "elements": [
+              {
+                "id": "block-1788931336547-zi78fro7j",
+                "type": "functional_reading",
+                "styles": {
+                  "top": "20px",
+                  "left": "20px"
+                },
+                "content": {
+                  "scenario": "Read the document and answer the questions",
+                  "questions": [
+                    {
+                      "id": "q1",
+                      "type": "text",
+                      "options": [
+                        "Option A",
+                        "Option B"
+                      ],
+                      "question": "What does the child do at 7:00 AM?",
+                      "correctAnswer": 0
+                    },
+                    {
+                      "id": "q_1788931474913",
+                      "type": "text",
+                      "question": "What does the child do at 7:10 AM?"
+                    },
+                    {
+                      "id": "q_1788931509578",
+                      "type": "text",
+                      "question": "What does he eat at 8:00 AM?"
+                    },
+                    {
+                      "id": "q_1788931514903",
+                      "type": "text",
+                      "question": "What does he pack at 8:20 AM?"
+                    }
+                  ],
+                  "documentUrl": "/media/media_library/eb71642b16c04df7a666b9c3b7de3b02.png",
+                  "documentType": "form"
+                }
+              }
+            ],
+            "media_id": "",
+            "alignment": "Center",
+            "media_url": "",
+            "media_type": "",
+            "columnRatio": "50-50",
+            "quiz_options": [
+              "",
+              "",
+              "",
+              ""
+            ],
+            "quiz_question": "",
+            "quiz_correct_index": 0,
+            "image": "assets/images/eb71642b16c04df7a666b9c3b7de3b02.png"
+          },
+          "resolvedMedia": [
+            {
+              "media_id": 142,
+              "type": "IMAGE",
+              "url": "assets/images/eb71642b16c04df7a666b9c3b7de3b02.png",
+              "missing": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "105",
+      "title": "Writing",
+      "description": "",
+      "sequence": 4,
+      "estimatedDuration": 4,
+      "skills": [
+        "writing"
+      ],
+      "activityType": "WRITING",
+      "masteryThreshold": 80,
+      "screens": [
+        {
+          "id": "113",
+          "title": "Finish My Morning",
+          "type": "text",
+          "content": {
+            "tag": "H1",
+            "font": "Poppins",
+            "size": 48,
+            "text": "Welcome Screen Text",
+            "color": "#1F2937",
+            "steps": [],
+            "title": "Finish My Morning",
+            "layout": "1-column",
+            "weight": "Bold",
+            "elements": [
+              {
+                "id": "block-1788931602174-kaivib30d",
+                "type": "fill_blank",
+                "styles": {
+                  "top": "20px",
+                  "left": "20px"
+                },
+                "content": {
+                  "items": [
+                    {
+                      "id": "item-1",
+                      "text": "I[ ] up in the morning."
+                    },
+                    {
+                      "id": "item-1788931689497",
+                      "text": "I brush my [ ]."
+                    },
+                    {
+                      "id": "item-1788931709850",
+                      "text": "I get [ ] for school."
+                    },
+                    {
+                      "id": "item-1788931732342",
+                      "text": "I eat [ ] with my family."
+                    },
+                    {
+                      "id": "item-1788931746599",
+                      "text": "I go to [ ]."
+                    }
+                  ],
+                  "question": "Complete the sentence by filling in the blanks."
+                }
+              }
+            ],
+            "media_id": "",
+            "alignment": "Center",
+            "media_url": "",
+            "media_type": "",
+            "columnRatio": "50-50",
+            "quiz_options": [
+              "",
+              "",
+              "",
+              ""
+            ],
+            "quiz_question": "",
+            "quiz_correct_index": 0
+          },
+          "resolvedMedia": []
+        }
+      ]
+    }
+  ]
+}
