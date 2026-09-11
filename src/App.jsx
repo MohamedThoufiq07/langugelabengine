@@ -69,8 +69,10 @@ const SEASONS = [
     },
     {
         name: "Winter Season",
-        bg: "/winter season/winter season bg.jpg",
-        cardBg: "/winter season/winter cards bg.png"
+        bg: "/winter season/winter season bg.png",
+        cardBg: "/winter season/winter cards bg.png",
+        headingBoard: "/winter season/winter heading board.png",
+        arrowSign: "/winter season/winter arrow sign.png"
     },
     {
         name: "Spring Season",
@@ -79,13 +81,15 @@ const SEASONS = [
     },
     {
         name: "Desert Season",
-        bg: "/desert season/desert season bg.jpg",
+        bg: "/desert season/desert season bg.png",
         cardBg: "/desert season/desert card bg.png"
     },
     {
         name: "Lava Season",
-        bg: "/lava season/lava bg.jpg",
-        cardBg: "/lava season/lava card bg.png"
+        bg: "/lava season/lava bg.png",
+        cardBg: "/lava season/lava card bg.png",
+        headingBoard: "/lava season/lava heading bg.png",
+        arrowSign: "/lava season/lava season arrow.png"
     },
     {
         name: "Marine Season",
@@ -106,6 +110,13 @@ function App() {
                 ? expData.title
                 : folderName.replace(/_/g, " ").replace(/\.\.\./g, "").trim();
 
+            // Group 6 lessons per season:
+            // Lessons 1-6 (idx 0..5): Summer Season
+            // Lessons 7-12 (idx 6..11): Winter Season
+            // Lessons 13-18 (idx 12..17): Spring Season
+            // Lessons 19-24 (idx 18..23): Desert Season
+            // Lessons 25-30 (idx 24..29): Lava Season
+            // Lessons 31-36 (idx 30..35): Marine Season
             const seasonIndex = Math.floor(idx / 6) % SEASONS.length;
             const season = SEASONS[seasonIndex];
 
@@ -131,14 +142,14 @@ function App() {
     const experienceWithSeason = useMemo(() => {
         if (!resolvedExperience) return null;
 
-        const seasonIndex = Math.floor(selectedExpIndex / 6) % SEASONS.length;
-        const seasonTheme = SEASONS[seasonIndex];
+        const currentExp = experiencesList[selectedExpIndex];
+        const seasonTheme = currentExp?.season || SEASONS[Math.floor(selectedExpIndex / 6) % SEASONS.length];
 
         return {
             ...resolvedExperience,
             seasonTheme
         };
-    }, [resolvedExperience, selectedExpIndex]);
+    }, [resolvedExperience, selectedExpIndex, experiencesList]);
 
     const [runtime, setRuntime] = useState(() => new RuntimeEngine());
 
@@ -210,7 +221,49 @@ function App() {
 
     return (
 
-        <div style={{ display: 'flex', flexDirection: 'column', width: '100vw', height: '100vh', overflow: 'hidden' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', width: '100vw', height: '100vh', overflow: 'hidden', position: 'relative' }}>
+            {/* Temporary lesson picker for testing */}
+            <div style={{
+                position: 'absolute',
+                top: 12,
+                left: 12,
+                zIndex: 9999,
+                background: 'rgba(15, 23, 42, 0.85)',
+                WebkitBackdropFilter: 'blur(8px)',
+                backdropFilter: 'blur(8px)',
+                padding: '6px 12px',
+                borderRadius: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+                border: '1px solid rgba(255,255,255,0.2)'
+            }}>
+                <label style={{ color: '#fff', fontSize: '13px', fontWeight: '600', fontFamily: 'sans-serif' }}>
+                    Select Lesson:
+                </label>
+                <select
+                    value={selectedExpIndex}
+                    onChange={(e) => setSelectedExpIndex(Number(e.target.value))}
+                    style={{
+                        padding: '4px 8px',
+                        borderRadius: '6px',
+                        border: 'none',
+                        background: '#ffffff',
+                        color: '#0f172a',
+                        fontWeight: '700',
+                        fontSize: '13px',
+                        cursor: 'pointer',
+                        outline: 'none'
+                    }}
+                >
+                    {experiencesList.map((exp, idx) => (
+                        <option key={exp.id || idx} value={idx}>
+                            Lesson {idx + 1}: {exp.title} ({exp.season?.name || 'Default'})
+                        </option>
+                    ))}
+                </select>
+            </div>
 
             <div style={{ flex: 1, position: 'relative', width: '100%', height: '100%', overflow: 'hidden' }}>
 

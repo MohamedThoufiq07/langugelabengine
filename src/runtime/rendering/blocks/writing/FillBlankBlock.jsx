@@ -153,7 +153,7 @@ function FillBlankBlock({ block }) {
 
                 <div className="grammar-custom-interactive" style={{ display: "flex", flexDirection: "column", gap: "16px", paddingLeft: "12px", paddingTop: "12px" }}>
                     <div className="grammar-header" style={{ marginBottom: "8px" }}>
-                        <div className="elab-block-title" style={{ display: "inline-flex", background: "url('/purple board.png') no-repeat", backgroundSize: "100% 100%", padding: "10px 32px", color: "#ffffff", height: "52px", alignItems: "center", justifyContent: "center" }}>
+                        <div className="elab-block-title" style={{ display: "inline-flex", background: "var(--theme-heading-board, url('/purple board.png')) no-repeat", backgroundSize: "100% 100%", padding: "10px 32px", color: "#ffffff", height: "52px", alignItems: "center", justifyContent: "center" }}>
                             FILL IN THE BLANK
                         </div>
                     </div>

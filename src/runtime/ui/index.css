@@ -3384,7 +3384,7 @@ ol {
     letter-spacing: 0.02em;
     margin: 0 !important;
     text-transform: capitalize !important;
-    background: url('/purple board.png') no-repeat !important;
+    background: var(--theme-heading-board, url('/purple board.png')) no-repeat !important;
     background-size: 100% 100% !important;
     color: #ffffff !important;
     padding: 10px 32px !important;
@@ -5300,7 +5300,7 @@ ol {
     align-items: center;
     justify-content: center;
     text-transform: capitalize !important;
-    background: url('/purple board.png') no-repeat !important;
+    background: var(--theme-heading-board, url('/purple board.png')) no-repeat !important;
     background-size: 100% 100% !important;
     color: #ffffff !important;
     padding: 10px 32px !important;
@@ -5316,7 +5316,7 @@ ol {
 .speaking-badge-tag.voice,
 .speaking-badge-tag.pronunciation,
 .speaking-badge-tag.input {
-    background: url('/purple board.png') no-repeat !important;
+    background: var(--theme-heading-board, url('/purple board.png')) no-repeat !important;
     background-size: 100% 100% !important;
     color: #ffffff !important;
     border: none !important;
@@ -5775,7 +5775,7 @@ ol {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: url('/purple board.png') no-repeat center / 100% 100%;
+    background: var(--theme-heading-board, url('/purple board.png')) no-repeat center / 100% 100%;
     color: #ffffff !important;
     font-family: 'Poppins', sans-serif;
     font-weight: 800;
@@ -5791,11 +5791,11 @@ ol {
     box-sizing: border-box;
 }
 
-/* All variants now share the same purple board — override any gradient */
+/* All variants now share the dynamic heading board */
 .grammar-title-banner.writing,
 .grammar-title-banner.fill-blank,
 .grammar-title-banner.sentence-builder {
-    background: url('/purple board.png') no-repeat center / 100% 100% !important;
+    background: var(--theme-heading-board, url('/purple board.png')) no-repeat center / 100% 100% !important;
 }
 
 .grammar-subtitle {
@@ -6713,7 +6713,7 @@ video::-webkit-media-controls-overflow-button {
 }
 
 .quiz-custom-badge {
-    background: url('/purple board.png') no-repeat center center;
+    background: var(--theme-heading-board, url('/purple board.png')) no-repeat center center;
     background-size: 100% 100%;
     color: white !important;
     padding: 6px 18px 8px 18px !important;
@@ -6933,7 +6933,7 @@ video::-webkit-media-controls-overflow-button {
     display: inline-flex !important;
     align-items: center;
     justify-content: center;
-    background: url('/purple board.png') no-repeat center / 100% 100% !important;
+    background: var(--theme-heading-board, url('/purple board.png')) no-repeat center / 100% 100% !important;
     color: #ffffff !important;
     font-family: 'Poppins', sans-serif !important;
     font-size: 1.05rem !important;
@@ -7494,7 +7494,7 @@ video::-webkit-media-controls-overflow-button {
     min-height: 38px;
     margin: 0 0 6px !important;
     padding: 6px 22px 9px;
-    background: url('/purple board.png') no-repeat center / 100% 100%;
+    background: var(--theme-heading-board, url('/purple board.png')) no-repeat center / 100% 100%;
     color: #fff !important;
     font-family: Georgia, "Times New Roman", serif;
     font-size: 16px !important;

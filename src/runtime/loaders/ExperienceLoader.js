@@ -41,6 +41,8 @@ class ExperienceLoader {
 
         experience.experienceType = data.experienceType ?? data.experience_type ?? data.lessonType ?? data.lesson_type ?? "lesson";
 
+        experience.seasonTheme = data.seasonTheme ?? null;
+
         const getTopValue = (el) => {
             if (el.order !== undefined && el.order !== null) return Number(el.order);
             if (el.sequence !== undefined && el.sequence !== null) return Number(el.sequence);

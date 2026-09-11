@@ -93,7 +93,9 @@ function RuntimeShell({
                 style={{
                     ...theme,
                     "--theme-bg": `url('${seasonTheme.bg}')`,
-                    "--theme-card-bg": `url('${seasonTheme.cardBg}')`
+                    "--theme-card-bg": `url('${seasonTheme.cardBg}')`,
+                    "--theme-heading-board": `url('${seasonTheme.headingBoard || "/purple board.png"}')`,
+                    "--theme-arrow-sign": `url('${seasonTheme.arrowSign || "/arrrow.png"}')`
                 }}
             >
                 <main className="scene-backdrop" style={dynamicBackdropStyle}>
@@ -151,7 +153,7 @@ function RuntimeShell({
                                 title="Previous"
                             >
                                 <img 
-                                    src="/arrrow.png" 
+                                    src={seasonTheme.arrowSign || "/arrrow.png"} 
                                     style={{ 
                                         width: "80px", 
                                         height: "auto", 
@@ -196,7 +198,7 @@ function RuntimeShell({
                                 title="Next"
                             >
                                 <img 
-                                    src="/arrrow.png" 
+                                    src={seasonTheme.arrowSign || "/arrrow.png"} 
                                     style={{ 
                                         width: "80px", 
                                         height: "auto", 

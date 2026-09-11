@@ -61,7 +61,7 @@ function AudioBlock({ block }) {
                     {/* Header */}
                     <div className="elab-custom-header">
                         <div className="elab-header-content">
-                            <h3 className="elab-block-title" style={{ display: "inline-flex", background: "url('/purple board.png') no-repeat", backgroundSize: "100% 100%", padding: "10px 32px", color: "#ffffff", height: "52px", alignItems: "center", justifyContent: "center" }}>
+                            <h3 className="elab-block-title" style={{ display: "inline-flex", background: "var(--theme-heading-board, url('/purple board.png')) no-repeat", backgroundSize: "100% 100%", padding: "10px 32px", color: "#ffffff", height: "52px", alignItems: "center", justifyContent: "center" }}>
                                 Listen <span style={{ color: "#ff8ab4", marginLeft: "6px" }}>Carefully</span>
                             </h3>
                             <p className="elab-custom-subtitle" style={{ marginTop: "16px" }}>Listen to the audio and answer the question</p>
