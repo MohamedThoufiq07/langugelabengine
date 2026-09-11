@@ -90,6 +90,7 @@ function RuntimeShell({
                 className="runtime-shell"
                 data-grade-band={gradeBand}
                 data-experience-type={currentExperienceTypeString}
+                data-season-name={seasonTheme?.name || "Summer Season"}
                 style={{
                     ...theme,
                     "--theme-bg": `url('${seasonTheme.bg}')`,

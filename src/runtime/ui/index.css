@@ -3368,12 +3368,52 @@ ol {
 
 .runtime-shell .elab-block-card,
 .elab-block-card {
-    background: var(--theme-card-bg, url('/summer season/summer bg board.png')) no-repeat center / 100% 100% !important;
+    background: var(--theme-card-bg, url('/summer season/summer bg board.png')) no-repeat center center / 100% 100% !important;
+    background-size: 100% 100% !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
     border: none !important;
     box-shadow: none !important;
-    padding: 4.5rem 5.5rem 5.5rem 5.5rem !important;
+    padding: 4.5rem 5.5rem 5rem 5.5rem !important;
+    box-sizing: border-box !important;
+    max-width: 100% !important;
+}
+
+/* ☀️ Summer Season Card Frame Padding ☀️ */
+.runtime-shell[data-season-name="Summer Season"] .elab-block-card {
+    padding: 5.2rem 5.0rem 5.2rem 5.0rem !important;
+}
+
+/* ❄️ Winter Season Card Frame Padding (clears 110px top/bottom ice border) ❄️ */
+.runtime-shell[data-season-name="Winter Season"] .elab-block-card {
+    padding: 6.8rem 5.5rem 6.8rem 5.5rem !important;
+}
+
+/* 🌸 Spring Season Card Frame Padding 🌸 */
+.runtime-shell[data-season-name="Spring Season"] .elab-block-card {
+    padding: 5.8rem 5.0rem 5.8rem 5.0rem !important;
+}
+
+/* 🏜️ Desert Season Card Frame Padding 🏜️ */
+.runtime-shell[data-season-name="Desert Season"] .elab-block-card {
+    padding: 6.2rem 5.2rem 6.2rem 5.2rem !important;
+}
+
+/* 🌋 Lava Season Card Frame Padding 🌋 */
+.runtime-shell[data-season-name="Lava Season"] .elab-block-card {
+    padding: 6.5rem 5.5rem 6.5rem 5.5rem !important;
+}
+
+/* 🌊 Marine Season Card Frame Padding 🌊 */
+.runtime-shell[data-season-name="Marine Season"] .elab-block-card {
+    padding: 5.8rem 5.0rem 5.8rem 5.0rem !important;
+}
+
+.elab-media-card-content,
+.elab-media-card-element,
+.elab-block-card video,
+.elab-block-card img {
+    max-width: 100% !important;
     box-sizing: border-box !important;
 }
 
@@ -6432,12 +6472,12 @@ ol {
 
 /* 9. Force headers and contents to stay inside the wooden frame borders of the summer board */
 .elab-block-card {
-    padding: 4.5rem 5.5rem 5.5rem 5.5rem !important;
+    box-sizing: border-box;
 }
 
 .elab-block-card .elab-block-header,
 .elab-block-card .elab-custom-header {
-    margin-top: 1.25rem !important; /* Push headings down away from the top wooden border */
+    margin-top: 2.2rem !important; /* Push headings down into the usable parchment area */
     padding-left: 1.5rem !important;
     padding-right: 1.5rem !important;
 }
@@ -6457,33 +6497,28 @@ ol {
     max-width: 100%;
 }
 
-.elab-block-card .elab-block-header,
-.elab-block-card .elab-custom-header {
-    margin-top: 0 !important;
-}
-
 /* Media cards must fit between the board heading and the floating navigation. */
 .elab-block-card.elab-media-card {
     gap: 8px;
-    padding: clamp(4.5rem, 9vh, 5rem) clamp(4rem, 7vw, 5.5rem)
-        clamp(4.5rem, 9vh, 5.5rem) !important;
+    box-sizing: border-box;
 }
 
 .elab-media-card .elab-block-header {
     flex: 0 0 auto;
     padding: 0 1.5rem 4px !important;
+    margin-top: 0.5rem !important;
     margin-bottom: 4px !important;
 }
 
 /* Keep the video label clear of the illustrated board's top wooden edge. */
 .elab-block-card.elab-media-card[data-type="video"] > .elab-block-header {
-    margin-top: 1.5rem !important;
+    margin-top: 0.75rem !important;
 }
 
 .elab-block-card.elab-media-card > .elab-media-card-content {
     width: 100%;
     min-height: 0;
-    padding: 0 1.5rem !important;
+    padding: 0 1rem !important;
     margin: 0;
     display: flex;
     flex-direction: column;
@@ -6492,18 +6527,20 @@ ol {
 
 .elab-block-card.elab-media-card .elab-media-card-element {
     display: block;
-    width: 100% !important;
+    width: auto !important;
+    max-width: 100% !important;
     height: auto !important;
-    max-height: min(42dvh, 430px) !important;
+    max-height: clamp(200px, 36vh, 310px) !important;
     object-fit: contain !important;
-    border-radius: 8px !important;
+    border-radius: 10px !important;
+    margin: 0 auto;
 }
 
-/* Let videos preserve their native aspect ratio at full card width. A height
-   cap makes the browser letterbox the picture inside a wide video control. */
+/* Let videos preserve their native aspect ratio at full card width. */
 .elab-block-card.elab-media-card[data-type="video"] .elab-media-card-element {
-    max-height: none !important;
-    aspect-ratio: auto;
+    width: 100% !important;
+    max-height: clamp(200px, 36vh, 310px) !important;
+    object-fit: contain !important;
 }
 
 video::-webkit-media-controls-overflow-button {
@@ -6511,10 +6548,11 @@ video::-webkit-media-controls-overflow-button {
 }
 
 .elab-media-card-caption {
-    margin: 8px 0 0;
+    margin: 6px 0 0;
     font-size: 14px;
+    font-weight: 700;
     line-height: 1.35;
-    color: #64748b;
+    color: #475569;
     text-align: center;
 }
 
@@ -6527,12 +6565,12 @@ video::-webkit-media-controls-overflow-button {
 .elab-block-card.elab-media-card[data-type="image"] {
     min-height: 0 !important;
     gap: 6px;
-    padding: 2.75rem 3rem 3rem !important;
 }
 
 .elab-media-card[data-type="image"] .elab-block-header {
     width: 100%;
-    padding: 0 0 6px !important;
+    padding: 0 0 4px !important;
+    margin-top: 0.5rem !important;
 }
 
 .elab-media-card[data-type="image"] > .elab-media-card-content {
@@ -6542,7 +6580,9 @@ video::-webkit-media-controls-overflow-button {
 .elab-media-card[data-type="image"] .elab-media-card-element {
     width: auto !important;
     max-width: 100% !important;
-    max-height: 190px !important;
+    height: auto !important;
+    max-height: clamp(200px, 36vh, 310px) !important;
+    object-fit: contain !important;
 }
 
 @media (max-width: 768px) {
@@ -6916,14 +6956,14 @@ video::-webkit-media-controls-overflow-button {
     display: flex !important;
     flex-direction: row !important;
     align-items: center !important;
-    gap: 16px !important;
-    margin-bottom: 20px !important;
+    gap: 12px !important;
+    margin-bottom: 8px !important;
     text-align: left !important;
 }
 
 .sequence-custom .elab-header-badge-img {
-    width: 76px !important;
-    height: 76px !important;
+    width: 48px !important;
+    height: 48px !important;
     object-fit: contain;
     flex-shrink: 0;
     display: block !important; /* Override display:none on badges in general */
@@ -6936,18 +6976,18 @@ video::-webkit-media-controls-overflow-button {
     background: var(--theme-heading-board, url('/purple board.png')) no-repeat center / 100% 100% !important;
     color: #ffffff !important;
     font-family: 'Poppins', sans-serif !important;
-    font-size: 1.05rem !important;
+    font-size: 0.92rem !important;
     font-weight: 800 !important;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
     border: none !important;
     border-radius: 0 !important;
     box-shadow: none !important;
-    min-width: 160px;
-    height: 52px;
-    padding: 10px 32px;
+    min-width: 140px;
+    height: 40px;
+    padding: 4px 20px;
     box-sizing: border-box;
-    margin: 0 0 4px 0 !important;
+    margin: 0 0 2px 0 !important;
     gap: 0;
 }
 
@@ -6962,12 +7002,13 @@ video::-webkit-media-controls-overflow-button {
 .elab-seq-option-card {
     background: #fbf4e9 !important; /* Cream/tan background */
     border: 2px solid #e5d6be !important; /* Solid light brown border */
-    border-radius: 16px !important;
-    padding: 12px 18px !important;
+    border-radius: 14px !important;
+    padding: 7px 12px !important;
+    min-height: 44px !important;
     box-shadow: 0 2px 4px rgba(0,0,0,0.02) !important;
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 10px;
     width: 100%;
     box-sizing: border-box;
     transition: all 0.2s ease-in-out;
@@ -6982,7 +7023,7 @@ video::-webkit-media-controls-overflow-button {
 
 .elab-seq-option-text {
     flex: 1;
-    font-size: 16px !important;
+    font-size: 14px !important;
     font-weight: 700 !important;
     color: #5c3818 !important; /* Deep brown */
 }
@@ -7003,8 +7044,6 @@ video::-webkit-media-controls-overflow-button {
 .elab-block-card.elab-sequence-card {
     gap: 0;
     overflow: hidden;
-    padding: clamp(3rem, 7vh, 4rem) clamp(3.75rem, 7vw, 5rem)
-        clamp(4rem, 8vh, 5rem) !important;
 }
 
 .elab-sequence-card .sequence-custom {
@@ -7020,7 +7059,8 @@ video::-webkit-media-controls-overflow-button {
 
 .elab-sequence-card .sequence-custom .elab-custom-header {
     gap: 10px !important;
-    margin: 1.5rem 0 10px !important;
+    margin-top: 2.2rem !important;
+    margin-bottom: 10px !important;
 }
 
 .elab-sequence-card .sequence-custom .elab-header-badge-img {
@@ -7320,7 +7360,6 @@ video::-webkit-media-controls-overflow-button {
 
 .elab-block-card:not(.elab-sequence-card):not(.elab-dictation-card):not(.elab-reading-text-card) {
     gap: 10px;
-    padding: 3rem 4rem 3.5rem !important;
 }
 
 .elab-block-card .elab-block-header,
@@ -7338,7 +7377,6 @@ video::-webkit-media-controls-overflow-button {
 .elab-block-card.elab-media-card {
     gap: 10px;
     min-height: 0 !important;
-    padding: 4.5rem 5.5rem 4.5rem 5.5rem !important;
 }
 
 .elab-block-card.elab-media-card > .elab-block-header,

@@ -7,10 +7,17 @@
 .block-card,
 .elab-block-card {
     width: 100%;
-    background: var(--theme-card-bg, url('/summer season/summer bg board.png')) no-repeat center / 100% 100% !important;
-    border-radius: 0;
-    padding: 4.5rem 5.5rem 5.5rem 5.5rem !important;
-    box-shadow: none;
-    border: none;
-    box-sizing: border-box;
+    min-height: auto;
+    background: var(--theme-card-bg, url('/summer season/summer bg board.png')) no-repeat center center / 100% 100% !important;
+    background-size: 100% 100% !important;
+    border-radius: 0 !important;
+    padding: 3.5rem 4.5rem 4.5rem 4.5rem !important;
+    box-shadow: none !important;
+    border: none !important;
+    box-sizing: border-box !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    max-width: 100% !important;
 }
