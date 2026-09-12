@@ -219,13 +219,16 @@
 
 /* 🌸 Specific alignment override for Spring Season 🌸 */
 .runtime-shell[data-season-name="Spring Season"] .scene-backdrop-content {
-  margin-left: calc(50% - 375px) !important;
+  width: 100% !important;
+  max-width: 1080px !important;
+  margin-left: calc(50% - 430px) !important;
   margin-right: auto !important;
 }
 
 .runtime-shell[data-season-name="Spring Season"] .screen-progress-widget {
-  left: clamp(35px, 4.5vw, 68px) !important;
-  bottom: clamp(175px, 22vh, 205px) !important;
+  left: clamp(55px, 6.8vw, 95px) !important;
+  bottom: clamp(160px, 20vh, 190px) !important;
+  width: 160px !important;
   gap: 2px;
   z-index: 150 !important;
 }
@@ -351,37 +354,41 @@
 
 /* 🌊 Specific alignment override for Marine Season 🌊 */
 .runtime-shell[data-season-name="Marine Season"] .scene-content-area {
-  padding: 1.5rem 1.5rem 6.5rem 1.5rem !important;
+  padding: 5rem 1.5rem 6.5rem 1.5rem !important;
   display: flex !important;
   justify-content: center !important;
-  align-items: center !important;
+  align-items: flex-start !important;
 }
 
 .runtime-shell[data-season-name="Marine Season"] .scene-backdrop-content {
   width: 100% !important;
-  max-width: 840px !important;
-  margin-left: auto !important;
+  max-width: 1080px !important;
+  margin-left: calc(50% - 330px) !important;
   margin-right: auto !important;
 }
 
 .runtime-shell[data-season-name="Marine Season"] .screen-progress-widget {
-  left: clamp(35px, 4.5vw, 65px) !important;
-  bottom: clamp(190px, 24vh, 230px) !important;
-  gap: 2px;
+  left: clamp(60px, 7.5vw, 100px) !important;
+  bottom: clamp(215px, 27vh, 260px) !important;
+  width: 160px !important;
+  gap: 1px;
   z-index: 150 !important;
 }
 
 .runtime-shell[data-season-name="Marine Season"] .screen-progress-board-top {
-  height: 22px;
+  width: 160px !important;
+  height: 24px;
 }
 
 .runtime-shell[data-season-name="Marine Season"] .screen-progress-board-bottom {
-  height: 24px;
+  width: 160px !important;
+  height: 26px;
   margin-top: 0;
 }
 
 .runtime-shell[data-season-name="Marine Season"] .screen-progress-board-top .screen-label {
-  font-size: 16px;
+  font-size: 18px !important;
+  letter-spacing: 4px !important;
   color: #0b1a26 !important;
   text-shadow: 
     -1px -1px 0 #fff,  
@@ -392,7 +399,8 @@
 }
 
 .runtime-shell[data-season-name="Marine Season"] .screen-progress-board-bottom .screen-count {
-  font-size: 20px;
+  font-size: 22px !important;
+  letter-spacing: 3px !important;
   color: #0b1a26 !important;
   text-shadow: 
     -1px -1px 0 #fff,  

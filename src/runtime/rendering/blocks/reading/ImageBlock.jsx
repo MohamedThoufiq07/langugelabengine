@@ -31,7 +31,7 @@ function ImageBlock({ block }) {
                 type="image"
                 title="Image"
             />
-            <div className="elab-media-card-content" style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "100%", padding: "12px 16px 20px", overflow: "hidden" }}>
+            <div className="elab-media-card-content" style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "100%", padding: "0", overflow: "hidden" }}>
                 <img
                     src={imgSrc}
                     alt={caption || "Lesson Content Image"}
@@ -41,10 +41,10 @@ function ImageBlock({ block }) {
                         }
                     }}
                     className="elab-media-card-element"
-                    style={{ width: "100%", maxWidth: "100%", maxHeight: "320px", borderRadius: "12px", objectFit: "contain", display: "block" }}
+                    style={{ width: "100%", maxWidth: "100%", maxHeight: "420px", borderRadius: "14px", objectFit: "contain", display: "block" }}
                 />
                 {caption && (
-                    <p className="elab-media-card-caption" style={{ marginTop: "12px", marginBottom: "6px", textAlign: "center", fontWeight: "700" }}>{caption}</p>
+                    <p className="elab-media-card-caption" style={{ marginTop: "8px", marginBottom: "0", textAlign: "center", fontWeight: "700" }}>{caption}</p>
                 )}
             </div>
         </BlockCard>

@@ -117,7 +117,7 @@ function VideoBlock({ block }) {
                 type="video"
                 title="Video"
             />
-            <div className="elab-media-card-content" style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "100%", overflow: "hidden" }}>
+            <div className="elab-media-card-content" style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "100%", padding: "0" }}>
                 <video
                     ref={videoRef}
                     controls
@@ -130,7 +130,7 @@ function VideoBlock({ block }) {
                     onSeeking={handleSeeking}
                     onEnded={handleEnded}
                     className="elab-media-card-element"
-                    style={{ width: "100%", maxWidth: "100%", borderRadius: "12px", objectFit: "contain" }}
+                    style={{ width: "100%", maxWidth: "560px", height: "auto", aspectRatio: "16 / 9", maxHeight: "220px", borderRadius: "12px", objectFit: "cover", backgroundColor: "transparent" }}
                 />
             </div>
         </BlockCard>

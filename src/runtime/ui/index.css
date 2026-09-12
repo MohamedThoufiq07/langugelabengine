@@ -3391,7 +3391,11 @@ ol {
 
 /* 🌸 Spring Season Card Frame Padding 🌸 */
 .runtime-shell[data-season-name="Spring Season"] .elab-block-card {
-    padding: 5.8rem 5.0rem 5.8rem 5.0rem !important;
+    padding: 5.2rem 8.2rem 5.2rem 4.8rem !important;
+    width: 100% !important;
+    max-width: 1080px !important;
+    margin: 0 auto !important;
+    box-sizing: border-box !important;
 }
 
 /* 🏜️ Desert Season Card Frame Padding 🏜️ */
@@ -3406,11 +3410,12 @@ ol {
 
 /* 🌊 Marine Season Card Frame Padding & Inner Bounds 🌊 */
 .runtime-shell[data-season-name="Marine Season"] .elab-block-card {
-    padding: 5.8rem 5.5rem 5.8rem 5.5rem !important;
+    padding: 3.2rem 9.0rem 3.5rem 4.8rem !important;
     width: 100% !important;
-    max-width: 840px !important;
+    max-width: 1080px !important;
     margin: 0 auto !important;
     box-sizing: border-box !important;
+    overflow: hidden !important;
 }
 
 .runtime-shell[data-season-name="Marine Season"] .elab-custom-subtitle,
@@ -3426,12 +3431,62 @@ ol {
 
 .runtime-shell[data-season-name="Marine Season"] .elab-block-two-column {
     align-items: center !important;
-    gap: 1.2rem !important;
+    gap: 1.0rem !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+.runtime-shell[data-season-name="Marine Season"] .elab-block-interactive-side {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+}
+
+.runtime-shell[data-season-name="Marine Season"] .elab-dictation-play-banner {
+    margin-bottom: 10px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    padding-right: 20px !important;
+}
+
+.runtime-shell[data-season-name="Marine Season"] .elab-dictation-input-container {
+    margin-bottom: 10px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+.runtime-shell[data-season-name="Marine Season"] .elab-dictation-mic-icon {
+    margin-right: 0 !important;
+    height: 52px !important;
+}
+
+.runtime-shell[data-season-name="Marine Season"] .elab-dictation-input-field {
+    padding: 8px 14px !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
 }
 
 .runtime-shell[data-season-name="Marine Season"] .elab-reading-illustration-container,
 .runtime-shell[data-season-name="Marine Season"] .elab-dictation-illustration-container {
-    max-width: 190px !important;
+    max-width: 150px !important;
+    flex-shrink: 0 !important;
+}
+
+.runtime-shell[data-season-name="Marine Season"] .elab-media-card-content {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    padding: 0 !important;
+    background: transparent !important;
+}
+
+.runtime-shell[data-season-name="Marine Season"] video,
+.runtime-shell[data-season-name="Marine Season"] .elab-media-card-element {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    background: transparent !important;
 }
 
 .elab-media-card-content,
@@ -3440,6 +3495,26 @@ ol {
 .elab-block-card img {
     max-width: 100% !important;
     box-sizing: border-box !important;
+}
+
+/* 🖼️ Media Cards (Image & Video) - Header outside board & compact gaps 🖼️ */
+.elab-media-card {
+    position: relative !important;
+    padding-top: 2.2rem !important;
+    padding-bottom: 2.2rem !important;
+}
+
+.elab-media-card .elab-block-header {
+    position: absolute !important;
+    top: -24px !important;
+    left: -12px !important;
+    z-index: 10 !important;
+    margin-bottom: 0 !important;
+}
+
+.elab-media-card .elab-media-card-content {
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
 .elab-block-title {
