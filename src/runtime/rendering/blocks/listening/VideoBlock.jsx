@@ -2,6 +2,7 @@ import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import BlockCard from "../../../ui/components/BlockCard";
 import BlockHeader from "../../../ui/components/BlockHeader";
 import { ScreenCompletionContext } from "../../../screen/ScreenCompletionContext";
+import { resolveMediaUrl } from "../../services/MediaResolver";
 
 function VideoBlock({ block }) {
     const { reportAnswered } = useContext(ScreenCompletionContext) || {};
@@ -122,7 +123,7 @@ function VideoBlock({ block }) {
                     controls
                     controlsList="nodownload noremoteplayback noplaybackrate"
                     disablePictureInPicture
-                    src={block.content.url || null}
+                    src={resolveMediaUrl(block.content) || null}
                     onPlay={handlePlay}
                     onPause={handlePause}
                     onTimeUpdate={handleTimeUpdate}

@@ -173,11 +173,17 @@
     0px -1px 0px rgba(0, 0, 0, 0.2);
 }
 
-/* ❄️ Specific alignment override strictly for Winter Season wooden sign ❄️ */
+/* ❄️ Specific alignment override for Winter Season ❄️ */
+.runtime-shell[data-season-name="Winter Season"] .scene-backdrop-content {
+  margin-left: calc(50% - 370px) !important;
+  margin-right: auto !important;
+}
+
 .runtime-shell[data-season-name="Winter Season"] .screen-progress-widget {
-  left: clamp(48px, 6.2vw, 85px);
-  bottom: clamp(205px, 26vh, 245px);
+  left: clamp(40px, 5.2vw, 75px) !important;
+  bottom: clamp(210px, 26.5vh, 250px) !important;
   gap: 4px;
+  z-index: 150 !important;
 }
 
 .runtime-shell[data-season-name="Winter Season"] .screen-progress-board-top {
@@ -212,10 +218,16 @@
 }
 
 /* 🌸 Specific alignment override for Spring Season 🌸 */
+.runtime-shell[data-season-name="Spring Season"] .scene-backdrop-content {
+  margin-left: calc(50% - 375px) !important;
+  margin-right: auto !important;
+}
+
 .runtime-shell[data-season-name="Spring Season"] .screen-progress-widget {
-  left: clamp(42px, 5.5vw, 75px);
-  bottom: clamp(170px, 21.5vh, 198px);
+  left: clamp(35px, 4.5vw, 68px) !important;
+  bottom: clamp(175px, 22vh, 205px) !important;
   gap: 2px;
+  z-index: 150 !important;
 }
 
 .runtime-shell[data-season-name="Spring Season"] .screen-progress-board-top {
@@ -250,10 +262,16 @@
 }
 
 /* 🏜️ Specific alignment override for Desert Season 🏜️ */
+.runtime-shell[data-season-name="Desert Season"] .scene-backdrop-content {
+  margin-left: calc(50% - 365px) !important;
+  margin-right: auto !important;
+}
+
 .runtime-shell[data-season-name="Desert Season"] .screen-progress-widget {
-  left: clamp(48px, 6.2vw, 85px);
-  bottom: clamp(160px, 20vh, 185px);
+  left: clamp(35px, 4.5vw, 68px) !important;
+  bottom: clamp(165px, 21vh, 195px) !important;
   gap: 2px;
+  z-index: 150 !important;
 }
 
 .runtime-shell[data-season-name="Desert Season"] .screen-progress-board-top {
@@ -287,11 +305,68 @@
      0px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-/* 🌊 Specific alignment override for Marine Season 🌊 */
-.runtime-shell[data-season-name="Marine Season"] .screen-progress-widget {
-  left: clamp(45px, 5.8vw, 78px);
-  bottom: clamp(165px, 20.5vh, 190px);
+/* 🌋 Specific alignment override for Lava Season 🌋 */
+.runtime-shell[data-season-name="Lava Season"] .scene-backdrop-content {
+  margin-left: calc(50% - 370px) !important;
+  margin-right: auto !important;
+}
+
+.runtime-shell[data-season-name="Lava Season"] .screen-progress-widget {
+  left: clamp(40px, 5.0vw, 75px) !important;
+  bottom: clamp(170px, 22vh, 205px) !important;
   gap: 2px;
+  z-index: 150 !important;
+}
+
+.runtime-shell[data-season-name="Lava Season"] .screen-progress-board-top {
+  height: 22px;
+}
+
+.runtime-shell[data-season-name="Lava Season"] .screen-progress-board-bottom {
+  height: 24px;
+  margin-top: 0;
+}
+
+.runtime-shell[data-season-name="Lava Season"] .screen-progress-board-top .screen-label {
+  font-size: 16px;
+  color: #fff !important;
+  text-shadow: 
+    -1px -1px 0 #000,  
+     1px -1px 0 #000,
+    -1px  1px 0 #000,
+     1px  1px 0 #000;
+}
+
+.runtime-shell[data-season-name="Lava Season"] .screen-progress-board-bottom .screen-count {
+  font-size: 20px;
+  color: #fff !important;
+  text-shadow: 
+    -1px -1px 0 #000,  
+     1px -1px 0 #000,
+    -1px  1px 0 #000,
+     1px  1px 0 #000;
+}
+
+/* 🌊 Specific alignment override for Marine Season 🌊 */
+.runtime-shell[data-season-name="Marine Season"] .scene-content-area {
+  padding: 1.5rem 1.5rem 6.5rem 1.5rem !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.runtime-shell[data-season-name="Marine Season"] .scene-backdrop-content {
+  width: 100% !important;
+  max-width: 840px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.runtime-shell[data-season-name="Marine Season"] .screen-progress-widget {
+  left: clamp(35px, 4.5vw, 65px) !important;
+  bottom: clamp(190px, 24vh, 230px) !important;
+  gap: 2px;
+  z-index: 150 !important;
 }
 
 .runtime-shell[data-season-name="Marine Season"] .screen-progress-board-top {

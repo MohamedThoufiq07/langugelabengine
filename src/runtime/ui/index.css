@@ -3404,9 +3404,34 @@ ol {
     padding: 6.5rem 5.5rem 6.5rem 5.5rem !important;
 }
 
-/* 🌊 Marine Season Card Frame Padding 🌊 */
+/* 🌊 Marine Season Card Frame Padding & Inner Bounds 🌊 */
 .runtime-shell[data-season-name="Marine Season"] .elab-block-card {
-    padding: 5.8rem 5.0rem 5.8rem 5.0rem !important;
+    padding: 5.8rem 5.5rem 5.8rem 5.5rem !important;
+    width: 100% !important;
+    max-width: 840px !important;
+    margin: 0 auto !important;
+    box-sizing: border-box !important;
+}
+
+.runtime-shell[data-season-name="Marine Season"] .elab-custom-subtitle,
+.runtime-shell[data-season-name="Marine Season"] .elab-subtitle-row,
+.runtime-shell[data-season-name="Marine Season"] .elab-block-subtitle,
+.runtime-shell[data-season-name="Marine Season"] .elab-block-card div[style*="color: #c0392b"],
+.runtime-shell[data-season-name="Marine Season"] .elab-block-card div[style*="color: #78350f"],
+.runtime-shell[data-season-name="Marine Season"] .elab-block-card div[style*="color: rgb(120, 53, 15)"],
+.runtime-shell[data-season-name="Marine Season"] .elab-block-card div[style*="color: rgb(192, 57, 43)"] {
+    color: #ffffff !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 2px 6px rgba(0, 0, 0, 0.7) !important;
+}
+
+.runtime-shell[data-season-name="Marine Season"] .elab-block-two-column {
+    align-items: center !important;
+    gap: 1.2rem !important;
+}
+
+.runtime-shell[data-season-name="Marine Season"] .elab-reading-illustration-container,
+.runtime-shell[data-season-name="Marine Season"] .elab-dictation-illustration-container {
+    max-width: 190px !important;
 }
 
 .elab-media-card-content,

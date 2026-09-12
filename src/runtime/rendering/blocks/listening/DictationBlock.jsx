@@ -1,12 +1,14 @@
 import { useRef, useState } from "react";
 import BlockCard from "../../../ui/components/BlockCard";
 import { useScreenCompletion } from "../../../screen/ScreenCompletionContext";
+import { resolveMediaUrl } from "../../services/MediaResolver";
 
 import dictationMicUrl from "../../../../assets/images/dictation_mic.png";
 import dictationPlayPurpleUrl from "../../../../assets/images/dictation_play_purple.png";
 
 function DictationBlock({ block }) {
-    const { url, question } = block.content;
+    const { question } = block?.content || {};
+    const resolvedUrl = resolveMediaUrl(block?.content);
     const audioRef = useRef(null);
 
     const [isPlaying, setIsPlaying] = useState(false);
@@ -86,7 +88,7 @@ function DictationBlock({ block }) {
 
             <audio
                 ref={audioRef}
-                src={url}
+                src={resolvedUrl}
                 onEnded={() => setIsPlaying(false)}
                 onError={() => setPlaybackError(true)}
                 style={{ display: "none" }}

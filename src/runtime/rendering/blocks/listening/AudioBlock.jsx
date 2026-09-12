@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import BlockCard from "../../../ui/components/BlockCard";
+import { resolveMediaUrl } from "../../services/MediaResolver";
 
 // Import cutouts
 import badgeAudioUrl from "../../../../assets/images/badge_audio.png";
@@ -131,7 +132,7 @@ function AudioBlock({ block }) {
 
             <audio
                 ref={audioRef}
-                src={block.content.url || null}
+                src={resolveMediaUrl(block.content) || null}
                 onTimeUpdate={e => setCurrentTime(e.target.currentTime)}
                 onLoadedMetadata={e => setDuration(e.target.duration)}
                 onEnded={() => setIsPlaying(false)}
