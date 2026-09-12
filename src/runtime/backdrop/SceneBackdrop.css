@@ -312,8 +312,8 @@
 }
 
 .runtime-shell[data-season-name="Lava Season"] .screen-progress-widget {
-  left: clamp(40px, 5.0vw, 75px) !important;
-  bottom: clamp(170px, 22vh, 205px) !important;
+  left: clamp(30px, 3.8vw, 60px) !important;
+  bottom: clamp(120px, 15vh, 155px) !important;
   gap: 2px;
   z-index: 150 !important;
 }
@@ -329,22 +329,24 @@
 
 .runtime-shell[data-season-name="Lava Season"] .screen-progress-board-top .screen-label {
   font-size: 16px;
-  color: #fff !important;
+  color: #ffeedd !important;
   text-shadow: 
     -1px -1px 0 #000,  
      1px -1px 0 #000,
     -1px  1px 0 #000,
-     1px  1px 0 #000;
+     1px  1px 0 #000,
+     0px 2px 6px rgba(255, 68, 0, 0.8);
 }
 
 .runtime-shell[data-season-name="Lava Season"] .screen-progress-board-bottom .screen-count {
   font-size: 20px;
-  color: #fff !important;
+  color: #ffffff !important;
   text-shadow: 
     -1px -1px 0 #000,  
      1px -1px 0 #000,
     -1px  1px 0 #000,
-     1px  1px 0 #000;
+     1px  1px 0 #000,
+     0px 2px 6px rgba(255, 68, 0, 0.8);
 }
 
 /* 🌊 Specific alignment override for Marine Season 🌊 */
