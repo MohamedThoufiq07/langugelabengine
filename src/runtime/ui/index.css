@@ -3384,9 +3384,17 @@ ol {
     padding: 5.2rem 5.0rem 5.2rem 5.0rem !important;
 }
 
+.runtime-shell[data-season-name="Summer Season"] .elab-block-card[data-type="voice"] {
+    padding: 3.2rem 4.5rem 3.2rem 4.5rem !important;
+}
+
 /* ❄️ Winter Season Card Frame Padding (clears 110px top/bottom ice border) ❄️ */
 .runtime-shell[data-season-name="Winter Season"] .elab-block-card {
     padding: 6.8rem 5.5rem 6.8rem 5.5rem !important;
+}
+
+.runtime-shell[data-season-name="Winter Season"] .elab-block-card[data-type="voice"] {
+    padding: 4.5rem 4.8rem 4.5rem 4.8rem !important;
 }
 
 /* 🌸 Spring Season Card Frame Padding 🌸 */
@@ -3497,17 +3505,47 @@ ol {
     box-sizing: border-box !important;
 }
 
-/* 🖼️ Media Cards (Image & Video) - Header outside board & compact gaps 🖼️ */
+/* 🖼️ Media Cards (Image & Video) - Compact board framing 🖼️ */
 .elab-media-card {
     position: relative !important;
     padding-top: 2.2rem !important;
     padding-bottom: 2.2rem !important;
+    padding-left: 2.2rem !important;
+    padding-right: 2.2rem !important;
+    width: fit-content !important;
+    max-width: fit-content !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.runtime-shell[data-season-name="Summer Season"] .elab-media-card,
+.runtime-shell[data-season-name="Spring Season"] .elab-media-card,
+.runtime-shell[data-season-name="Marine Season"] .elab-media-card,
+.runtime-shell[data-season-name="Desert Season"] .elab-media-card,
+.runtime-shell[data-season-name="Lava Season"] .elab-media-card {
+    padding-top: 4.8rem !important;
+    padding-bottom: 4.5rem !important;
+    padding-left: 2.8rem !important;
+    padding-right: 2.8rem !important;
+    width: fit-content !important;
+    max-width: fit-content !important;
+    margin: 0 auto !important;
+}
+
+.runtime-shell[data-season-name="Winter Season"] .elab-media-card {
+    padding-top: 6.2rem !important;
+    padding-bottom: 5.8rem !important;
+    padding-left: 3.8rem !important;
+    padding-right: 3.8rem !important;
+    width: fit-content !important;
+    max-width: fit-content !important;
+    margin: 0 auto !important;
 }
 
 .elab-media-card .elab-block-header {
     position: absolute !important;
-    top: -24px !important;
-    left: -12px !important;
+    top: -4px !important;
+    left: -4px !important;
     z-index: 10 !important;
     margin-bottom: 0 !important;
 }
@@ -3515,6 +3553,9 @@ ol {
 .elab-media-card .elab-media-card-content {
     padding: 0 !important;
     margin: 0 !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
 }
 
 .elab-block-title {
@@ -6636,10 +6677,11 @@ ol {
     margin: 0 auto;
 }
 
-/* Let videos preserve their native aspect ratio at full card width. */
+/* Let videos preserve their native aspect ratio and fit snugly inside card. */
 .elab-block-card.elab-media-card[data-type="video"] .elab-media-card-element {
-    width: 100% !important;
-    max-height: clamp(200px, 36vh, 310px) !important;
+    width: auto !important;
+    max-width: 540px !important;
+    max-height: clamp(180px, 30vh, 260px) !important;
     object-fit: contain !important;
 }
 
@@ -7144,35 +7186,58 @@ video::-webkit-media-controls-overflow-button {
 .elab-block-card.elab-sequence-card {
     gap: 0;
     overflow: hidden;
+    max-width: 1000px !important;
+    margin: 0 auto !important;
+}
+
+.runtime-shell[data-season-name="Winter Season"] .elab-block-card.elab-sequence-card {
+    padding: 5.5rem 5.0rem 5.5rem 5.0rem !important;
+}
+
+.runtime-shell[data-season-name="Summer Season"] .elab-block-card.elab-sequence-card {
+    padding: 4.8rem 5.2rem 4.8rem 5.2rem !important;
+}
+
+.runtime-shell[data-season-name="Spring Season"] .elab-block-card.elab-sequence-card {
+    padding: 4.8rem 7.5rem 4.8rem 4.8rem !important;
+}
+
+.runtime-shell[data-season-name="Marine Season"] .elab-block-card.elab-sequence-card {
+    padding: 4.2rem 8.5rem 4.5rem 4.8rem !important;
+}
+
+.runtime-shell[data-season-name="Desert Season"] .elab-block-card.elab-sequence-card,
+.runtime-shell[data-season-name="Lava Season"] .elab-block-card.elab-sequence-card {
+    padding: 5.5rem 5.0rem 5.5rem 5.0rem !important;
 }
 
 .elab-sequence-card .sequence-custom {
-    gap: clamp(1rem, 3vw, 2rem);
+    gap: clamp(0.5rem, 1.5vw, 1.25rem);
     align-items: center;
 }
 
 .elab-sequence-card .sequence-custom .elab-block-interactive-side {
-    flex: 1 1 56%;
+    flex: 1 1 58%;
     min-width: 0;
     justify-content: flex-start;
 }
 
 .elab-sequence-card .sequence-custom .elab-custom-header {
-    gap: 10px !important;
-    margin-top: 2.2rem !important;
-    margin-bottom: 10px !important;
+    gap: 6px !important;
+    margin-top: 0 !important;
+    margin-bottom: 4px !important;
 }
 
 .elab-sequence-card .sequence-custom .elab-header-badge-img {
-    width: 50px !important;
-    height: 50px !important;
+    width: 38px !important;
+    height: 38px !important;
 }
 
 .elab-sequence-card .elab-custom-title-seq {
     flex-wrap: nowrap;
     white-space: nowrap;
     font-family: Georgia, "Times New Roman", serif !important;
-    font-size: clamp(16px, 1.7vw, 20px) !important;
+    font-size: clamp(14px, 1.4vw, 17px) !important;
     line-height: 1.05;
     font-weight: 800 !important;
 }
@@ -7188,8 +7253,8 @@ video::-webkit-media-controls-overflow-button {
 .elab-sequence-card .elab-custom-subtitle {
     margin: 0 !important;
     font-family: Georgia, "Times New Roman", serif;
-    font-size: 12px;
-    line-height: 1.35;
+    font-size: 11px;
+    line-height: 1.25;
     font-weight: 600;
     color: #7a2f16 !important;
 }
@@ -7197,16 +7262,16 @@ video::-webkit-media-controls-overflow-button {
 .elab-sequence-card .elab-seq-list-container {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 4px;
 }
 
 .elab-sequence-card .elab-seq-option-card {
-    min-height: 58px;
-    padding: 7px 10px !important;
-    gap: 10px;
+    min-height: 40px;
+    padding: 3px 8px !important;
+    gap: 8px;
     background: rgba(255, 255, 255, 0.06) !important;
     border: 1.5px solid #dc8737 !important;
-    border-radius: 12px !important;
+    border-radius: 10px !important;
     box-shadow: none !important;
 }
 

@@ -130,7 +130,7 @@ function VideoBlock({ block }) {
                     onSeeking={handleSeeking}
                     onEnded={handleEnded}
                     className="elab-media-card-element"
-                    style={{ width: "100%", maxWidth: "560px", height: "auto", aspectRatio: "16 / 9", maxHeight: "220px", borderRadius: "12px", objectFit: "cover", backgroundColor: "transparent" }}
+                    style={{ width: "100%", maxWidth: "100%", height: "auto", maxHeight: "300px", borderRadius: "12px", objectFit: "contain", backgroundColor: "transparent" }}
                 />
             </div>
         </BlockCard>

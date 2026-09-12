@@ -173,6 +173,24 @@
     0px -1px 0px rgba(0, 0, 0, 0.2);
 }
 
+/* ☀️ Specific alignment override for Summer Season ☀️ */
+.runtime-shell[data-season-name="Summer Season"] .screen-progress-widget {
+  left: clamp(38px, 4.5vw, 68px) !important;
+  bottom: clamp(192px, 24.2vh, 222px) !important;
+  width: 160px !important;
+  gap: 0px !important;
+  z-index: 150 !important;
+}
+
+.runtime-shell[data-season-name="Summer Season"] .screen-progress-board-top {
+  height: 28px !important;
+}
+
+.runtime-shell[data-season-name="Summer Season"] .screen-progress-board-bottom {
+  height: 28px !important;
+  margin-top: -2px !important;
+}
+
 /* ❄️ Specific alignment override for Winter Season ❄️ */
 .runtime-shell[data-season-name="Winter Season"] .scene-backdrop-content {
   margin-left: calc(50% - 370px) !important;
@@ -180,8 +198,8 @@
 }
 
 .runtime-shell[data-season-name="Winter Season"] .screen-progress-widget {
-  left: clamp(40px, 5.2vw, 75px) !important;
-  bottom: clamp(210px, 26.5vh, 250px) !important;
+  left: clamp(48px, 5.8vw, 85px) !important;
+  bottom: clamp(218px, 27.5vh, 260px) !important;
   gap: 4px;
   z-index: 150 !important;
 }
