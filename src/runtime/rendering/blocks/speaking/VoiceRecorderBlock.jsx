@@ -23,18 +23,13 @@ function VoiceRecorderBlock({ block }) {
     const [paused, setPaused] = useState(false);
 
     const [userAudio, setUserAudio] = useState(null);
-
     const [duration, setDuration] = useState(0);
-
     const [error, setError] = useState("");
-
     const [analyzing, setAnalyzing] = useState(false);
-
     const [heardText, setHeardText] = useState(null);
     
     const [audioPlayed, setAudioPlayed] = useState(false);
     const [useAudioMode, setUseAudioMode] = useState(audioFirst);
-    const [feedback, setFeedback] = useState(""); // Add feedback message
 
     const completion = useScreenCompletion();
 
@@ -43,11 +38,8 @@ function VoiceRecorderBlock({ block }) {
         try {
 
             await RecordingService.startRecording();
-
             setRecording(true);
-
             setPaused(false);
-
             setError("");
 
         }
@@ -62,29 +54,21 @@ function VoiceRecorderBlock({ block }) {
 
     async function stopRecording() {
 
-        const result =
-
-            await RecordingService.stopRecording();
+        const result = await RecordingService.stopRecording();
 
         setUserAudio(result.url);
-
         setDuration(result.duration);
-
         setRecording(false);
-
         setPaused(false);
-
         setHeardText(null);
 
         completion?.reportAnswered(block.id);
-        setFeedback("✓ Recording saved successfully!");
 
         setAnalyzing(true);
 
         try {
 
             const text = await PronunciationService.transcribe(result.blob);
-
             setHeardText(text || "(nothing recognized)");
 
         }
@@ -106,7 +90,6 @@ function VoiceRecorderBlock({ block }) {
     function pauseRecording() {
 
         RecordingService.pauseRecording();
-
         setPaused(true);
 
     }
@@ -114,7 +97,6 @@ function VoiceRecorderBlock({ block }) {
     function resumeRecording() {
 
         RecordingService.resumeRecording();
-
         setPaused(false);
 
     }
@@ -137,8 +119,6 @@ function VoiceRecorderBlock({ block }) {
                     <p className="elab-block-subtitle" style={{ margin: "0.25rem 0", color: "#475569", fontWeight: 600 }}>
                         {prompt || "Please record your response."}
                     </p>
-
-                    <div className="speaking-divider-line" />
 
                     {resolvedAudio && (
                         <div className="voice-audio-section">
@@ -182,21 +162,6 @@ function VoiceRecorderBlock({ block }) {
                         <div className="elab-feedback error">{error}</div>
                     )}
 
-                    {feedback && (
-                        <div style={{
-                            padding: "12px 14px",
-                            backgroundColor: "#dcfce7",
-                            border: "2px solid #22c55e",
-                            borderRadius: "6px",
-                            color: "#15803d",
-                            fontWeight: "600",
-                            marginBottom: "12px",
-                            textAlign: "center"
-                        }}>
-                            {feedback}
-                        </div>
-                    )}
-
                     <div className="elab-chip-row">
                         {!recording && (
                             <button className="speaking-custom-btn voice" onClick={startRecording}>
@@ -223,25 +188,29 @@ function VoiceRecorderBlock({ block }) {
                         )}
                     </div>
 
-                    {userAudio && (
-                        <div className="elab-media-frame">
-                            <audio controls src={userAudio} />
-                            <p className="elab-caption" style={{ padding: "10px 14px" }}>
-                                Duration: {Math.round(duration / 1000)} sec
-                            </p>
-                        </div>
-                    )}
-
                     {analyzing && (
-                        <div className="elab-feedback" style={{ background: "#F1F5F9", color: "var(--text-secondary)" }}>
+                        <div className="elab-feedback" style={{ background: "#F1F5F9", color: "#475569", marginTop: "12px" }}>
                             <span className="elab-loading-spinner" style={{ width: 16, height: 16, borderWidth: 2 }} />
-                            Transcribing your recording…
+                            Transcribing your response…
                         </div>
                     )}
 
                     {heardText && (
-                        <div className="elab-feedback" style={{ background: "#F1F5F9", color: "var(--text-secondary)" }}>
-                            🗣️ We heard: "{heardText}"
+                        <div style={{
+                            marginTop: "12px",
+                            padding: "12px 16px",
+                            backgroundColor: "#f0f9ff",
+                            border: "1.5px solid #0ea5e9",
+                            borderRadius: "10px",
+                            color: "#0369a1",
+                            fontWeight: "600",
+                            fontSize: "0.95rem",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "8px"
+                        }}>
+                            <span>🗣️</span>
+                            <span>Your Response: <strong>"{heardText}"</strong></span>
                         </div>
                     )}
                 </div>

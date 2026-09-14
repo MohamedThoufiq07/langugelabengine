@@ -85,16 +85,16 @@ const SEASONS = [
         cardBg: "/desert season/desert card bg.png"
     },
     {
+        name: "Marine Season",
+        bg: "/marine season/marine season bg.png",
+        cardBg: "/marine season/marine card bg.png"
+    },
+    {
         name: "Lava Season",
         bg: "/lava season/lava bg.png",
         cardBg: "/lava season/lava card bg.png",
         headingBoard: "/lava season/lava heading bg.png",
         arrowSign: "/lava season/lava season arrow.png"
-    },
-    {
-        name: "Marine Season",
-        bg: "/marine season/marine season bg.png",
-        cardBg: "/marine season/marine card bg.png"
     }
 ];
 
@@ -115,8 +115,8 @@ function App() {
             // Lessons 7-12 (idx 6..11): Winter Season
             // Lessons 13-18 (idx 12..17): Spring Season
             // Lessons 19-24 (idx 18..23): Desert Season
-            // Lessons 25-30 (idx 24..29): Lava Season
-            // Lessons 31-36 (idx 30..35): Marine Season
+            // Lessons 25-30 (idx 24..29): Marine Season
+            // Lessons 31-36 (idx 30..35): Lava Season
             const seasonIndex = Math.floor(idx / 6) % SEASONS.length;
             const season = SEASONS[seasonIndex];
 
