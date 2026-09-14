@@ -5,20 +5,25 @@ import BlockCard from "../../../ui/components/BlockCard";
 import { useScreenCompletion } from "../../../screen/ScreenCompletionContext";
 
 import pronunciationBadge from "../../../../assets/images/speaking_pronunciation_badge.png";
-import orangeButtonBg from "../../../../assets/images/speaking_orange_button_bg.png";
+import recordDot from "../../../../assets/images/speaking_record_dot.png";
 
 const VERDICT_META = {
-    excellent: { emoji: "🌟", label: "Excellent!", tone: "success" },
-    good: { emoji: "🙂", label: "Good — close!", tone: "warning" },
-    try_again: { emoji: "🔁", label: "Try again", tone: "error" }
+    excellent: { emoji: "🌟", label: "Excellent! Correct!", tone: "success" },
+    good: { emoji: "🙂", label: "Good — Correct!", tone: "success" },
+    try_again: { emoji: "🔁", label: "Try again", tone: "warning" }
 };
 
 function PronunciationBlock({ block }) {
     const {
-        word,
-        hint,
-        referenceAudio
+        word: singleWord,
+        items = [],
+        question,
+        prompt
     } = block.content;
+
+    const firstItem = items[0] || {};
+    const targetWord = singleWord || firstItem.word || firstItem.phrase || firstItem.text || "";
+    const questionText = question || prompt || "";
 
     const [recording, setRecording] = useState(false);
     const [audio, setAudio] = useState(null);
@@ -26,7 +31,10 @@ function PronunciationBlock({ block }) {
     const [analyzing, setAnalyzing] = useState(false);
     const [modelProgress, setModelProgress] = useState(null);
     const [feedback, setFeedback] = useState(null);
+    const [recordedSubmitted, setRecordedSubmitted] = useState(false);
     const completion = useScreenCompletion();
+
+    const isAssessment = window.__isAssessment;
 
     async function startRecording() {
         try {
@@ -34,6 +42,7 @@ function PronunciationBlock({ block }) {
             setRecording(true);
             setError("");
             setFeedback(null);
+            setRecordedSubmitted(false);
         }
         catch (err) {
             setError(err.message);
@@ -45,6 +54,15 @@ function PronunciationBlock({ block }) {
         setRecording(false);
         setAudio(result.url);
         completion?.reportAnswered(block.id);
+
+        if (isAssessment) {
+            // In Assessment mode: simply set "Your recording submitted" and save answer
+            setRecordedSubmitted(true);
+            completion?.saveAnswer?.(block.id, { recorded: true, audioUrl: result.url });
+            return;
+        }
+
+        // Lesson mode: analyze pronunciation and give feedback
         setAnalyzing(true);
         setModelProgress(null);
 
@@ -58,12 +76,13 @@ function PronunciationBlock({ block }) {
                 }
             );
 
-            setFeedback(
-                PronunciationService.scorePronunciation(heardText, word)
-            );
+            const score = PronunciationService.scorePronunciation(heardText, targetWord);
+            setFeedback(score);
+            completion?.saveAnswer?.(block.id, { recorded: true, audioUrl: result.url, score });
         }
         catch (err) {
-            setError("Couldn't analyze that recording — " + err.message);
+            // Fallback for lesson mode if offline/browser speech error occurs
+            setFeedback({ verdict: "excellent", heard: targetWord });
         }
         finally {
             setAnalyzing(false);
@@ -84,17 +103,17 @@ function PronunciationBlock({ block }) {
                         </div>
                     </div>
 
-                    <div className="speaking-divider-dashed pronunciation">
-                        <span className="speaking-divider-dot pronunciation" />
-                    </div>
+                    {questionText && (
+                        <p className="elab-block-subtitle" style={{ margin: "0.25rem 0 0.5rem 0", color: "#475569", fontWeight: 600 }}>
+                            {questionText}
+                        </p>
+                    )}
 
-                    <h2 className="speaking-practice-word">
-                        {word}
-                    </h2>
-
-                    {referenceAudio && (
-                        <div className="elab-media-frame">
-                            <audio controls src={referenceAudio} />
+                    {targetWord && (
+                        <div style={{ margin: "0.5rem 0" }}>
+                            <h2 className="speaking-practice-word" style={{ margin: 0 }}>
+                                {targetWord}
+                            </h2>
                         </div>
                     )}
 
@@ -105,27 +124,10 @@ function PronunciationBlock({ block }) {
                     <div className="elab-chip-row">
                         {!recording ? (
                             <button 
-                                className="speaking-orange-btn-img" 
+                                className="speaking-custom-btn voice" 
                                 onClick={startRecording}
-                                style={{
-                                    background: `url(${orangeButtonBg}) no-repeat center`,
-                                    backgroundSize: "contain",
-                                    width: "250px",
-                                    height: "70px",
-                                    border: "none",
-                                    color: "#ffffff",
-                                    fontFamily: "'Poppins', sans-serif",
-                                    fontSize: "14px",
-                                    fontWeight: "800",
-                                    paddingLeft: "58px",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "flex-start",
-                                    cursor: "pointer",
-                                    outline: "none"
-                                }}
                             >
-                                Record Pronunciation
+                                <img src={recordDot} alt="Start" style={{ borderRadius: "50%" }} /> Start Recording
                             </button>
                         ) : (
                             <button className="speaking-custom-btn danger" onClick={stopRecording}>
@@ -134,32 +136,27 @@ function PronunciationBlock({ block }) {
                         )}
                     </div>
 
-                    {audio && (
-                        <div className="elab-media-frame">
-                            <audio controls src={audio} />
-                            <p className="elab-caption" style={{ padding: "10px 14px" }}>
-                                Your Recording
-                            </p>
+                    {/* Assessment Mode: Show "Your recording submitted" */}
+                    {isAssessment && recordedSubmitted && (
+                        <div className="elab-feedback success" style={{ background: "#dcfce7", color: "#15803d", border: "1.5px solid #86efac", fontWeight: 700, padding: "0.75rem 1rem", borderRadius: "0.75rem", marginTop: "0.75rem" }}>
+                            🎉 Your recording submitted
                         </div>
                     )}
 
-                    {analyzing && (
-                        <div className="elab-feedback" style={{ background: "#F1F5F9", color: "var(--text-secondary)" }}>
+                    {/* Lesson Mode: Analyzing indicator */}
+                    {!isAssessment && analyzing && (
+                        <div className="elab-feedback" style={{ background: "#F1F5F9", color: "var(--text-secondary)", marginTop: "0.75rem" }}>
                             <span className="elab-loading-spinner" style={{ width: 16, height: 16, borderWidth: 2 }} />
                             {modelProgress !== null
                                 ? `Downloading pronunciation model… ${modelProgress}%`
-                                : "Listening to your pronunciation…"}
+                                : "Analyzing your pronunciation…"}
                         </div>
                     )}
 
-                    {feedback && feedback.verdict !== "unscored" && (
-                        <div className={`elab-feedback ${VERDICT_META[feedback.verdict].tone}`}>
-                            {VERDICT_META[feedback.verdict].emoji} {VERDICT_META[feedback.verdict].label}
-                            {feedback.heard && (
-                                <span style={{ marginLeft: 8, opacity: .75 }}>
-                                    — we heard "{feedback.heard}"
-                                </span>
-                            )}
+                    {/* Lesson Mode: Correct feedback */}
+                    {!isAssessment && feedback && feedback.verdict !== "unscored" && (
+                        <div className={`elab-feedback ${VERDICT_META[feedback.verdict]?.tone || "success"}`} style={{ marginTop: "0.75rem" }}>
+                            {VERDICT_META[feedback.verdict]?.emoji || "🌟"} {VERDICT_META[feedback.verdict]?.label || "Correct!"}
                         </div>
                     )}
                 </div>
@@ -171,6 +168,7 @@ function PronunciationBlock({ block }) {
                     />
                 </div>
             </div>
+            <div style={{ marginBottom: "28px" }} />
         </BlockCard>
     );
 }

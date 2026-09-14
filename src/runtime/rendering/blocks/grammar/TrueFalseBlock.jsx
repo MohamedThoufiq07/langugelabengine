@@ -194,8 +194,8 @@ function TrueFalseBlock({ block }) {
                                         onClick={() => handleSelect(idx, true)}
                                         className={`elab-tf-btn true-btn ${currentSelection === true ? "is-selected" : ""}`}
                                         style={{
-                                            borderColor: correctness[idx] === true ? "#22c55e" : correctness[idx] === false && currentSelection === true ? "#ef4444" : undefined,
-                                            backgroundColor: correctness[idx] === true && currentSelection === true ? "#dcfce7" : correctness[idx] === false && currentSelection === true ? "#fee2e2" : undefined
+                                            borderColor: !isAssessment && correctness[idx] === true ? "#22c55e" : !isAssessment && correctness[idx] === false && currentSelection === true ? "#ef4444" : undefined,
+                                            backgroundColor: !isAssessment && correctness[idx] === true && currentSelection === true ? "#dcfce7" : !isAssessment && correctness[idx] === false && currentSelection === true ? "#fee2e2" : undefined
                                         }}
                                     >
                                         <img src={iconCheckUrl} className="elab-tf-btn-icon" alt="Check" />
@@ -206,8 +206,8 @@ function TrueFalseBlock({ block }) {
                                         onClick={() => handleSelect(idx, false)}
                                         className={`elab-tf-btn false-btn ${currentSelection === false ? "is-selected" : ""}`}
                                         style={{
-                                            borderColor: correctness[idx] === true ? "#22c55e" : correctness[idx] === false && currentSelection === false ? "#ef4444" : undefined,
-                                            backgroundColor: correctness[idx] === true && currentSelection === false ? "#dcfce7" : correctness[idx] === false && currentSelection === false ? "#fee2e2" : undefined
+                                            borderColor: !isAssessment && correctness[idx] === true ? "#22c55e" : !isAssessment && correctness[idx] === false && currentSelection === false ? "#ef4444" : undefined,
+                                            backgroundColor: !isAssessment && correctness[idx] === true && currentSelection === false ? "#dcfce7" : !isAssessment && correctness[idx] === false && currentSelection === false ? "#fee2e2" : undefined
                                         }}
                                     >
                                         <img src={iconCrossUrl} className="elab-tf-btn-icon" alt="Cross" />
@@ -215,8 +215,8 @@ function TrueFalseBlock({ block }) {
                                     </button>
                                 </div>
 
-                                {/* Feedback Message */}
-                                {feedback[idx] && (
+                                {/* Feedback Message (non-assessment mode only) */}
+                                {!isAssessment && feedback[idx] && (
                                     <div style={{
                                         marginTop: "8px",
                                         padding: "8px 12px",

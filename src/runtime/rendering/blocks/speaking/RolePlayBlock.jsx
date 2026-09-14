@@ -85,7 +85,7 @@ function RolePlayBlock({ block }) {
 
                     {referenceAudio && (
                         <div className="elab-media-frame">
-                            <audio controls src={referenceAudio} />
+                            <audio controls controlsList="nodownload noplaybackrate" disablePictureInPicture src={referenceAudio} />
                         </div>
                     )}
 
@@ -107,7 +107,7 @@ function RolePlayBlock({ block }) {
 
                     {audio && (
                         <div className="elab-media-frame">
-                            <audio controls src={audio} />
+                            <audio controls controlsList="nodownload noplaybackrate" disablePictureInPicture src={audio} />
                             <p className="elab-caption" style={{ padding: "10px 14px" }}>
                                 My Response
                             </p>

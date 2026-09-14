@@ -38,7 +38,7 @@ function DragDropBlock({ block }) {
         });
         finalZones = pairs.map(p => {
             const rawText = typeof p === "object" ? p.target : p;
-            const imgSrc = typeof p === "object" ? resolveMediaUrl(p.targetImage || p.target_image || p) : null;
+            const imgSrc = typeof p === "object" ? resolveMediaUrl(p.targetImage || p.target_image) : null;
             return {
                 text: rawText,
                 image: imgSrc
@@ -239,13 +239,6 @@ function DragDropBlock({ block }) {
                                 className="elab-drop-zone-box"
                             >
                                 <div className="elab-drop-zone-dest">
-                                    {zoneObj.image && (
-                                        <img
-                                            src={zoneObj.image}
-                                            alt={zoneObj.text}
-                                            style={{ width: "32px", height: "32px", objectFit: "cover", borderRadius: "6px", display: "block", margin: "0 auto 0.25rem auto" }}
-                                        />
-                                    )}
                                     <span>{zoneObj.text}</span>
                                 </div>
                                 <div className={`elab-drop-zone-target-box ${filled ? "is-filled" : ""} ${wrongZone === zoneIndex ? "is-wrong" : ""}`}>
@@ -254,16 +247,9 @@ function DragDropBlock({ block }) {
                                             type="button"
                                             onClick={(e) => handleRemovePlaced(zoneIndex, e)}
                                             className="elab-drag-chip" 
-                                            style={{ cursor: "pointer", border: "none", display: "inline-flex", alignItems: "center", gap: "0.5rem" }}
+                                            style={{ cursor: "pointer", border: "none" }}
                                             title="Click to remove / undo"
                                         >
-                                            {placedObj?.image && (
-                                                <img
-                                                    src={placedObj.image}
-                                                    alt={placedObj.text}
-                                                    style={{ width: "24px", height: "24px", objectFit: "cover", borderRadius: "4px" }}
-                                                />
-                                            )}
                                             <span>{placedObj?.text}</span>
                                         </button>
                                     ) : (

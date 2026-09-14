@@ -26,6 +26,7 @@ function shuffleIndices(n) {
 function MatchBlock({ block }) {
 
     const { leftItems = [], rightItems = [], question } = block.content;
+    const isAssessment = !!window.__isAssessment;
 
     const completion = useScreenCompletion();
 
@@ -45,7 +46,9 @@ function MatchBlock({ block }) {
     const allMatched = total > 0 && matchColors.size === total;
 
     useEffect(() => {
-        if (allMatched) completion?.reportAnswered(block.id);
+        if (allMatched) {
+            completion?.reportAnswered(block.id);
+        }
     }, [allMatched]);
 
     function chooseLeft(index) {
@@ -59,6 +62,19 @@ function MatchBlock({ block }) {
         const originalIndex = rightOrder[rightIdx];
 
         if (matchColors.has(originalIndex)) return;
+
+        if (isAssessment) {
+            // In assessment mode, pair them up regardless of right/wrong without showing correct/incorrect feedback
+            const colorIndex = colorCounter % PAIR_COLORS.length;
+            setMatchColors(prev => {
+                const next = new Map(prev).set(selectedLeft, colorIndex);
+                completion?.saveAnswer?.(block.id, Object.fromEntries(next));
+                return next;
+            });
+            setColorCounter(prev => prev + 1);
+            setSelectedLeft(null);
+            return;
+        }
 
         if (originalIndex === selectedLeft) {
             // Correct pair — assign the next colour
@@ -122,7 +138,7 @@ function MatchBlock({ block }) {
                 <div className="elab-chip-row" style={{ flexDirection: "column", gap: "10px" }}>
                     {rightOrder.map((originalIndex, rightIdx) => {
                         const isMatched = matchColors.has(originalIndex);
-                        const isWrong = wrongRight === rightIdx;
+                        const isWrong = !isAssessment && wrongRight === rightIdx;
                         return (
                             <button
                                 key={rightIdx}
@@ -140,10 +156,11 @@ function MatchBlock({ block }) {
             </div>
 
             {allMatched && (
-                <div className="elab-feedback success" style={{ marginTop: "16px" }}>
+                <div className="elab-feedback success" style={{ marginTop: "16px", marginBottom: "28px" }}>
                     ✅ All matched!
                 </div>
             )}
+            {!allMatched && <div style={{ marginBottom: "28px" }} />}
 
         </BlockCard>
 

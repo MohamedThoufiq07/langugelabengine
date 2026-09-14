@@ -102,7 +102,7 @@ function YouAskBlock({ block }) {
 
                     {referenceAudio && (
                         <div className="elab-media-frame you-ask-audio-frame">
-                            <audio src={referenceAudio} controls className="elab-media-player" />
+                            <audio src={referenceAudio} controls controlsList="nodownload noplaybackrate" disablePictureInPicture className="elab-media-player" />
                         </div>
                     )}
 
@@ -129,7 +129,7 @@ function YouAskBlock({ block }) {
                                         Recording ready
                                     </div>
                                     <div className="elab-media-frame you-ask-audio-frame">
-                                        <audio src={audio} controls className="elab-media-player" />
+                                        <audio src={audio} controls controlsList="nodownload noplaybackrate" disablePictureInPicture className="elab-media-player" />
                                     </div>
                                     {transcript && (
                                         <div className="speaking-transcript">

@@ -183,7 +183,7 @@ function SentenceBuilderBlock({ block }) {
 
     return (
         <BlockCard type="sentence">
-            <div className="grammar-custom-card-content">
+            <div className="grammar-custom-card-content" style={{ marginTop: "1rem", marginBottom: "2rem" }}>
                 {/* Illustration */}
                 <div className="grammar-custom-illustration">
                     <img src={grammarBoyPuzzle} alt="Sentence Builder Illustration" />
@@ -224,6 +224,7 @@ function SentenceBuilderBlock({ block }) {
                     ))}
                 </div>
             </div>
+            <div style={{ marginBottom: "28px" }} />
         </BlockCard>
     );
 }

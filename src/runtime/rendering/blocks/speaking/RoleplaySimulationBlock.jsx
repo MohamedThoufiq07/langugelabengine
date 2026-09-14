@@ -3,303 +3,219 @@ import BlockCard from "../../../ui/components/BlockCard";
 import BlockHeader from "../../../ui/components/BlockHeader";
 import { useScreenCompletion } from "../../../screen/ScreenCompletionContext";
 import RecordingService from "../../services/recording/RecordingService";
+import { resolveMediaUrl } from "../../services/MediaResolver";
 
-import badgeUrl from "../../../../assets/images/speaking_masks_badge.png";
-import illustrationUrl from "../../../../assets/images/speaking_puppet_show.png";
+import roleplayBoyGirlImg from "/role play boy and girl.png";
+import recordDot from "../../../../assets/images/speaking_record_dot.png";
 
 function RoleplaySimulationBlock({ block }) {
     const {
         title = "Roleplay",
         scenario = "Have a conversation",
-        character1Name = "Person A",
-        character2Name = "Person B",
-        character1Role = "Speaker",
-        character2Role = "You",
+        character1Name,
+        character2Name,
+        character1Role,
+        character2Role,
+        npcCharacter,
+        userRole,
+        speakerAName,
+        speakerBName,
+        npcAvatarUrl,
+        userAvatarUrl,
+        speakerAAvatarUrl,
+        speakerBAvatarUrl,
         conversationTurns,
         conversation = [],
-        instructions = "Listen and respond as indicated"
+        instructions
     } = block.content;
 
     const displayTitle = (title === "2-Way Roleplay" || title === "2-Way Role Play" || !title) ? "Roleplay" : title;
     const turns = conversationTurns || conversation;
 
-    const [currentTurnIndex, setCurrentTurnIndex] = useState(0);
-    const [recording, setRecording] = useState(false);
-    const [responses, setResponses] = useState([]);
-    const [conversationHistory, setConversationHistory] = useState([]);
-    const [error, setError] = useState("");
-    const [completed, setCompleted] = useState(false);
+    // Resolve speaker names and avatars
+    const nameA = speakerAName || npcCharacter || character1Name || "Speaker A";
+    const nameB = speakerBName || userRole || character2Name || "Speaker B";
 
+    const avatarA = resolveMediaUrl(speakerAAvatarUrl || npcAvatarUrl);
+    const avatarB = resolveMediaUrl(speakerBAvatarUrl || userAvatarUrl);
+
+    const [responses, setResponses] = useState({});
+    const [recordingTurnIndex, setRecordingTurnIndex] = useState(null);
+    const [error, setError] = useState("");
     const completion = useScreenCompletion();
 
-    async function startRecording() {
+    async function startRecording(turnIdx) {
         try {
             await RecordingService.startRecording();
-            setRecording(true);
+            setRecordingTurnIndex(turnIdx);
             setError("");
         } catch (err) {
             setError(err.message);
         }
     }
 
-    async function stopRecording() {
+    async function stopRecording(turnIdx) {
         try {
             const result = await RecordingService.stopRecording();
-            setRecording(false);
+            setRecordingTurnIndex(null);
 
-            const newResponse = {
-                turnIndex: currentTurnIndex,
-                audio: result.url,
-                transcript: result.transcript || "",
-                timestamp: new Date().toISOString()
-            };
-
-            setResponses([...responses, newResponse]);
-            setConversationHistory([
-                ...conversationHistory,
-                {
-                    speaker: character2Name,
-                    role: character2Role,
-                    audio: result.url,
-                    transcript: result.transcript || ""
-                }
-            ]);
-
-            // Move to next turn
-            if (currentTurnIndex < turns.length - 1) {
-                setCurrentTurnIndex(currentTurnIndex + 1);
-            } else {
-                setCompleted(true);
+            setResponses(prev => {
+                const next = {
+                    ...prev,
+                    [turnIdx]: {
+                        audio: result.url,
+                        transcript: result.transcript || ""
+                    }
+                };
+                completion?.saveAnswer?.(block.id, next);
                 completion?.reportAnswered(block.id);
-            }
+                return next;
+            });
         } catch (err) {
             setError(err.message);
+            setRecordingTurnIndex(null);
         }
     }
-
-    function handleSkipTurn() {
-        if (currentTurnIndex < turns.length - 1) {
-            setCurrentTurnIndex(currentTurnIndex + 1);
-        } else {
-            setCompleted(true);
-            completion?.reportAnswered(block.id);
-        }
-    }
-
-    function handleRestart() {
-        setCurrentTurnIndex(0);
-        setResponses([]);
-        setConversationHistory([]);
-        setError("");
-        setCompleted(false);
-    }
-
-    const currentTurn = turns[currentTurnIndex];
-    const progress = Math.round(
-        ((currentTurnIndex + 1) / Math.max(turns.length, 1)) * 100
-    );
 
     return (
         <BlockCard type="roleplay_simulation">
-            <div className="elab-block-two-column">
-                <div className="elab-block-interactive-side">
+            <div className="elab-block-two-column roleplay-redesign" style={{ marginTop: "1rem", marginBottom: "2rem" }}>
+                <div className="elab-block-interactive-side" style={{ flex: 1 }}>
                     <BlockHeader
                         type="roleplay_simulation"
                         title={displayTitle}
                         subtitle={scenario}
                     />
 
-                    <div className="roleplay-progress">
-                        <span className="progress-text">
-                            Turn {currentTurnIndex + 1} of {turns.length}
-                        </span>
-                        <div className="progress-bar">
-                            <div
-                                className="progress-fill"
-                                style={{ width: `${progress}%` }}
-                            />
-                        </div>
-                    </div>
-
-                    <div className="roleplay-characters">
-                        <div className="character-badge">
-                            <div className="character-name">
-                                {character1Name}
-                            </div>
-                            <div className="character-role">
-                                {character1Role}
-                            </div>
-                        </div>
-                        <div className="roleplay-divider">↔️</div>
-                        <div className="character-badge your-role">
-                            <div className="character-name">
-                                {character2Name}
-                            </div>
-                            <div className="character-role">
-                                {character2Role}
-                            </div>
-                        </div>
-                    </div>
-
-                    {!completed ? (
-                        <div className="roleplay-turn-section">
-                            <div className="turn-label">
-                                Turn {currentTurnIndex + 1} -{" "}
-                                {currentTurn?.speaker}
-                            </div>
-
-                            {currentTurn && (
-                                <>
-                                    {currentTurn.audio ? (
-                                        <div className="elab-media-frame">
-                                            <audio
-                                                src={currentTurn.audio}
-                                                controls
-                                                className="elab-media-player"
-                                            />
-                                        </div>
-                                    ) : (
-                                        <div className="roleplay-text-display">
-                                            "{currentTurn.text}"
-                                        </div>
-                                    )}
-
-                                    {(currentTurn.expectedResponse || currentTurn.expectedStudentResponses?.[0]?.text) && (
-                                        <div className="roleplay-instructions">
-                                            <strong>📝 Your task:</strong>
-                                            <p>{currentTurn.expectedResponse || currentTurn.expectedStudentResponses[0].text}</p>
-                                        </div>
-                                    )}
-                                </>
-                            )}
-
-                            <div className="recording-section">
-                                {!recording ? (
-                                    <button
-                                        onClick={startRecording}
-                                        className="elab-recording-btn"
-                                    >
-                                        🎤 Record Your Response
-                                    </button>
-                                ) : (
-                                    <button
-                                        onClick={stopRecording}
-                                        className="elab-recording-btn is-recording"
-                                    >
-                                        ⏹️ Stop Recording
-                                    </button>
-                                )}
-
-                                <button
-                                    onClick={handleSkipTurn}
-                                    className="elab-skip-btn"
-                                >
-                                    Skip This Turn
-                                </button>
-                            </div>
-
-                            {error && (
-                                <div className="elab-error-message">
-                                    {error}
-                                </div>
-                            )}
-                        </div>
-                    ) : (
-                        <div className="roleplay-completion">
-                            <div className="completion-header">
-                                ✅ Roleplay Completed!
-                            </div>
-                            <div className="completion-stats">
-                                <div className="stat-item">
-                                    <span className="stat-label">
-                                        Total Turns:
-                                    </span>
-                                    <span className="stat-value">
-                                        {turns.length}
-                                    </span>
-                                </div>
-                                <div className="stat-item">
-                                    <span className="stat-label">
-                                        Your Responses:
-                                    </span>
-                                    <span className="stat-value">
-                                        {responses.length}
-                                    </span>
-                                </div>
-                            </div>
-                            <button
-                                onClick={handleRestart}
-                                className="elab-btn elab-btn-secondary"
-                            >
-                                Try Again
-                            </button>
+                    {error && (
+                        <div className="elab-feedback error" style={{ marginBottom: "1rem" }}>
+                            {error}
                         </div>
                     )}
-                </div>
 
-                <div className="elab-block-content-side">
-                    <div className="conversation-history">
-                        <h4>Conversation History</h4>
+                    {/* Chat Bubble Stream */}
+                    <div className="roleplay-chat-stream" style={{ display: "flex", flexDirection: "column", gap: "1.25rem", marginTop: "1rem" }}>
+                        {turns.map((turn, idx) => {
+                            const isSpeakerA = turn.speaker === "npc" || turn.speaker === "speakerA" || turn.speaker === nameA || idx % 2 === 0;
+                            const currentName = isSpeakerA ? nameA : nameB;
+                            const currentAvatar = isSpeakerA ? avatarA : avatarB;
+                            const turnText = turn.text || turn.prompt || turn.dialogue || "";
+                            const turnAudio = resolveMediaUrl(turn.audio || turn.audioUrl);
+                            const allowRecord = turn.allowAudioRecord !== false && (turn.speaker === "user" || turn.speaker === "speakerB" || !isSpeakerA || turn.recordingRequired);
+                            const userRecording = responses[idx];
 
-                        {conversationHistory.length === 0 ? (
-                            <div className="history-empty">
-                                Conversation will appear here
-                            </div>
-                        ) : (
-                            <div className="history-list">
-                                {turns.map((turn, idx) => (
-                                    <div
-                                        key={idx}
-                                        className="history-turn"
-                                    >
-                                        <div className="turn-speaker">
-                                            <strong>{turn.speaker}</strong>
+                            return (
+                                <div
+                                    key={idx}
+                                    style={{
+                                        display: "flex",
+                                        flexDirection: isSpeakerA ? "row" : "row-reverse",
+                                        alignItems: "flex-start",
+                                        gap: "0.75rem",
+                                        maxWidth: "100%"
+                                    }}
+                                >
+                                    {/* Avatar */}
+                                    <div style={{ flexShrink: 0, textAlign: "center" }}>
+                                        {currentAvatar ? (
+                                            <img
+                                                src={currentAvatar}
+                                                alt={currentName}
+                                                style={{ width: "44px", height: "44px", borderRadius: "50%", objectFit: "cover", border: "2px solid #ffffff", boxShadow: "0 2px 8px rgba(0, 0, 0, 0.12)" }}
+                                            />
+                                        ) : (
+                                            <div style={{
+                                                width: "44px",
+                                                height: "44px",
+                                                borderRadius: "50%",
+                                                background: isSpeakerA ? "linear-gradient(135deg, #a855f7 0%, #7e22ce 100%)" : "linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)",
+                                                color: "#ffffff",
+                                                fontWeight: 800,
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                fontSize: "1.1rem"
+                                            }}>
+                                                {currentName.charAt(0).toUpperCase()}
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {/* Bubble Content */}
+                                    <div style={{
+                                        maxWidth: "75%",
+                                        background: isSpeakerA ? "#ffffff" : "#2563eb",
+                                        color: isSpeakerA ? "#1e293b" : "#ffffff",
+                                        borderRadius: isSpeakerA ? "0 1.25rem 1.25rem 1.25rem" : "1.25rem 0 1.25rem 1.25rem",
+                                        padding: "0.85rem 1.15rem",
+                                        boxShadow: "0 4px 14px rgba(0, 0, 0, 0.08)",
+                                        border: isSpeakerA ? "1px solid #e2e8f0" : "none"
+                                    }}>
+                                        <div style={{ fontSize: "0.8rem", fontWeight: 700, color: isSpeakerA ? "#7c3aed" : "#93c5fd", marginBottom: "0.25rem" }}>
+                                            {currentName}
                                         </div>
-                                        <div className="turn-text">
-                                            {turn.text || "Audio response"}
-                                        </div>
 
-                                        {responses.some(r => r.turnIndex === idx) && (
-                                            <div className="your-response">
-                                                <strong>
-                                                    {character2Name}
-                                                    (You)
-                                                </strong>
-                                                <div className="response-audio">
-                                                    <audio
-                                                        src={
-                                                            responses.find(
-                                                                r =>
-                                                                    r.turnIndex ===
-                                                                    idx
-                                                            )?.audio
-                                                        }
-                                                        controls
-                                                        className="elab-media-player"
-                                                    />
-                                                </div>
-                                                {responses.find(
-                                                    r => r.turnIndex === idx
-                                                )?.transcript && (
-                                                    <div className="response-transcript">
-                                                        {
-                                                            responses.find(
-                                                                r =>
-                                                                    r.turnIndex ===
-                                                                    idx
-                                                            )?.transcript
-                                                        }
+                                        {turnText && (
+                                            <div style={{ fontSize: "0.98rem", lineHeight: "1.5", fontWeight: 500 }}>
+                                                "{turnText}"
+                                            </div>
+                                        )}
+
+                                        {/* Audio playback for turn audio */}
+                                        {turnAudio && (
+                                            <div style={{ marginTop: "0.5rem" }}>
+                                                <audio controls controlsList="nodownload noplaybackrate" disablePictureInPicture src={turnAudio} style={{ width: "100%", height: "36px" }} />
+                                            </div>
+                                        )}
+
+                                        {/* Recording controls for student response */}
+                                        {allowRecord && (
+                                            <div style={{ marginTop: "0.75rem", paddingTop: "0.5rem", borderTop: isSpeakerA ? "1px solid #f1f5f9" : "1px solid rgba(255,255,255,0.2)" }}>
+                                                {recordingTurnIndex !== idx ? (
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => startRecording(idx)}
+                                                        className="speaking-custom-btn voice"
+                                                        style={{ fontSize: "0.85rem", padding: "0.4rem 1rem" }}
+                                                    >
+                                                        <img src={recordDot} alt="Start" style={{ borderRadius: "50%", width: "14px", height: "14px" }} />
+                                                        {userRecording ? "Re-record Answer" : "Record Answer"}
+                                                    </button>
+                                                ) : (
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => stopRecording(idx)}
+                                                        className="speaking-custom-btn danger"
+                                                        style={{ fontSize: "0.85rem", padding: "0.4rem 1rem" }}
+                                                    >
+                                                        ⏹ Stop Recording
+                                                    </button>
+                                                )}
+
+                                                {userRecording?.audio && (
+                                                    <div style={{ marginTop: "0.5rem" }}>
+                                                        <audio controls controlsList="nodownload noplaybackrate" disablePictureInPicture src={userRecording.audio} style={{ width: "100%", height: "32px" }} />
                                                     </div>
                                                 )}
                                             </div>
                                         )}
                                     </div>
-                                ))}
-                            </div>
-                        )}
+                                </div>
+                            );
+                        })}
                     </div>
                 </div>
+
+                {/* Right Side Illustration */}
+                <div className="elab-block-content-side" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                    <img
+                        src={roleplayBoyGirlImg}
+                        alt="Roleplay Illustration"
+                        style={{ maxWidth: "260px", width: "100%", height: "auto", objectFit: "contain" }}
+                    />
+                </div>
             </div>
+            <div style={{ marginBottom: "28px" }} />
         </BlockCard>
     );
 }

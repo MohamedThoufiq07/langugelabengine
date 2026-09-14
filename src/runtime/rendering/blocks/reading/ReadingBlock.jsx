@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
 import BlockCard from "../../../ui/components/BlockCard";
+import BlockHeader from "../../../ui/components/BlockHeader";
 import { useScreenCompletion } from "../../../screen/ScreenCompletionContext";
 
 // Import cutouts
-import badgeReadingUrl from "../../../../assets/images/badge_reading.png";
 import readingGirlUrl from "../../../../assets/images/reading_girl.png";
-import readingBalloonUrl from "../../../../assets/images/reading_balloon.png";
 import readingThoughtUrl from "../../../../assets/images/reading_thought.png";
 import readingBooksUrl from "../../../../assets/images/reading_books.png";
 
@@ -14,7 +13,6 @@ function ReadingBlock({ block }) {
     const passagesList = Array.isArray(content.passages) ? content.passages : [];
     const activePassage = passagesList[0] || {};
 
-    const title = content.title || activePassage.title || activePassage.passageTitle || "";
     const rawPassage = content.passage || activePassage.passage || activePassage.content || "";
     const question = content.question || activePassage.question || activePassage.followUpQuestion || "";
 
@@ -38,24 +36,14 @@ function ReadingBlock({ block }) {
 
     return (
         <BlockCard type="reading_passage">
-            <div className="elab-block-two-column reading-custom">
+            <div className="elab-block-two-column reading-custom" style={{ marginTop: "1rem", marginBottom: "2rem" }}>
                 <div className="elab-block-interactive-side">
-                    {/* Header */}
-                    <div className="elab-custom-header">
-                        <img src={badgeReadingUrl} className="elab-header-badge-img" alt="Badge" />
-                        <div className="elab-header-content">
-                            <h3 className="elab-custom-title" style={{ fontFamily }}>
-                                {title ? title : "READING PASSAGE"}
-                            </h3>
-                            <div className="elab-subtitle-row">
-                                <span className="elab-custom-subtitle">
-                                    {question ? `Question: ${question}` : "Read the passage carefully"}
-                                </span>
-                                <span className="elab-header-stars">✨</span>
-                                <img src={readingBalloonUrl} className="elab-header-balloon" alt="Balloon" />
-                            </div>
-                        </div>
-                    </div>
+                    {/* Standard Season Theme Header */}
+                    <BlockHeader
+                        type="reading_passage"
+                        title="READING PASSAGE"
+                        subtitle={question ? `Question: ${question}` : "Read the passage carefully"}
+                    />
 
                     {/* Passage Box */}
                     <div className="elab-reading-passage-box" style={{ padding: "16px", borderRadius: "12px", background: "#ffffff", border: "1.5px solid #cbd5e1", marginTop: "12px" }}>
@@ -78,7 +66,7 @@ function ReadingBlock({ block }) {
                         className={`elab-reading-confirm-btn ${confirmed ? "is-confirmed" : ""}`}
                         disabled={confirmed}
                         onClick={handleConfirm}
-                        style={{ marginTop: "16px" }}
+                        style={{ marginTop: "16px", marginBottom: "28px" }}
                     >
                         <div className="elab-reading-confirm-left">
                             <span className="elab-reading-check-circle">✔</span>
@@ -97,6 +85,7 @@ function ReadingBlock({ block }) {
                     <img src={readingBooksUrl} className="elab-reading-books" alt="Books" />
                 </div>
             </div>
+            <div style={{ marginBottom: "28px" }} />
         </BlockCard>
     );
 }

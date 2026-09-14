@@ -3,7 +3,7 @@ import BlockCard from "../../../ui/components/BlockCard";
 import { useScreenCompletion } from "../../../screen/ScreenCompletionContext";
 
 import grammarBadgePencil from "../../../../assets/images/grammar_badge_pencil.png";
-import grammarGirlReading from "../../../../assets/images/grammar_girl_reading_new.png";
+import grammarGirlReading from "/fill in the blanks img.png";
 
 // Fuzzy string matching for fill-in-the-blank answers
 function fuzzyMatch(userInput, expectedAnswer, tolerance = 0.85) {
@@ -136,13 +136,17 @@ function FillBlankBlock({ block }) {
         setCorrectness(newCorrectness);
         setFeedback(newFeedback);
 
-        // Only mark submitted if all blanks are correct
-        if (correctCount === totalBlanks && totalBlanks > 0) {
+        const isAssessment = !!window.__isAssessment;
+
+        // In assessment mode or if all correct, mark submitted and save answers without showing right/wrong indicators
+        if (isAssessment || (correctCount === totalBlanks && totalBlanks > 0)) {
             setSubmitted(true);
-            completion?.saveAnswer?.(block.id, { ...answers, correct: true, totalCorrect: correctCount, total: totalBlanks });
+            completion?.saveAnswer?.(block.id, { ...answers, correct: isAssessment ? true : correctCount === totalBlanks, totalCorrect: correctCount, total: totalBlanks });
             completion?.reportAnswered(block.id);
         }
     }
+
+    const isAssessment = !!window.__isAssessment;
 
     return (
         <BlockCard type="fill_blank">
@@ -188,7 +192,7 @@ function FillBlankBlock({ block }) {
                                             return <span key={i} style={{ fontWeight: 500 }}>{part.content}</span>;
                                         } else {
                                             const key = `${item.id}-${part.index}`;
-                                            const isCorrect = correctness[key];
+                                            const isCorrect = isAssessment ? null : correctness[key];
                                             return (
                                                 <div key={i} style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
                                                     <input
@@ -220,7 +224,7 @@ function FillBlankBlock({ block }) {
                                                         }}
                                                         disabled={submitted}
                                                     />
-                                                    {feedback[key] && (
+                                                    {!isAssessment && feedback[key] && (
                                                         <span style={{ fontSize: "12px", fontWeight: "700", color: feedback[key] === "✓" ? "#15803d" : "#dc2626" }}>
                                                             {feedback[key]}
                                                         </span>
@@ -234,12 +238,13 @@ function FillBlankBlock({ block }) {
                         })}
                     </div>
 
-                    {/* Check Answers Button */}
+                    {/* Check Answers / Submit Button */}
                     {!submitted && (
                         <button
                             onClick={handleCheckAnswers}
                             style={{
                                 marginTop: "16px",
+                                marginBottom: "28px",
                                 padding: "10px 24px",
                                 backgroundColor: "#4f46e5",
                                 color: "white",
@@ -253,14 +258,15 @@ function FillBlankBlock({ block }) {
                             onMouseOver={(e) => e.target.style.backgroundColor = "#4338ca"}
                             onMouseOut={(e) => e.target.style.backgroundColor = "#4f46e5"}
                         >
-                            Check Answers
+                            {isAssessment ? "Submit" : "Check Answers"}
                         </button>
                     )}
 
-                    {/* Success Message */}
+                    {/* Success / Submitted Message */}
                     {submitted && (
                         <div style={{
                             marginTop: "16px",
+                            marginBottom: "28px",
                             padding: "12px 16px",
                             backgroundColor: "#dcfce7",
                             border: "2px solid #22c55e",
@@ -269,7 +275,7 @@ function FillBlankBlock({ block }) {
                             fontWeight: "600",
                             textAlign: "center"
                         }}>
-                            🎉 All answers are correct!
+                            {isAssessment ? "🎉 Your response has been submitted!" : "🎉 All answers are correct!"}
                         </div>
                     )}
                 </div>

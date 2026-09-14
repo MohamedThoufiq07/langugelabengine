@@ -2,18 +2,17 @@ import { useState } from "react";
 import BlockCard from "../../../ui/components/BlockCard";
 import BlockHeader from "../../../ui/components/BlockHeader";
 import { useScreenCompletion } from "../../../screen/ScreenCompletionContext";
-
-import badgeUrl from "../../../../assets/images/badge_reading.png";
+import { resolveMediaUrl } from "../../services/MediaResolver";
 
 // Fuzzy string matching for text answers (case-insensitive, whitespace-tolerant)
 function fuzzyMatch(userInput, expectedAnswer, tolerance = 0.8) {
-    const clean = (str) => str.toLowerCase().trim().replace(/\s+/g, " ");
+    if (!userInput || !expectedAnswer) return false;
+    const clean = (str) => String(str).toLowerCase().trim().replace(/\s+/g, " ");
     const user = clean(userInput);
     const expected = clean(expectedAnswer);
     
     if (user === expected) return true;
     
-    // Calculate Levenshtein distance
     const maxLen = Math.max(user.length, expected.length);
     if (maxLen === 0) return true;
     
@@ -44,21 +43,24 @@ function levenshteinDistance(a, b) {
 
 function FunctionalReadingBlock({ block }) {
     const {
-        documentType = "poster", // poster, ticket, notice, flyer, menu, form
-        title = "Read the Document",
+        documentType = "poster",
+        title = "Read The Document",
         documentImage,
         documentUrl,
-        instructions = "Read and answer the following questions",
-        sections = [],
+        image,
+        imageUrl,
+        scenario,
+        instructions = scenario || "Read the document and answer the questions",
         questions = [],
-        fuzzyMatching = true  // Use fuzzy matching for text answers
+        fuzzyMatching = true
     } = block.content;
-    const resolvedDocumentImage = documentImage || documentUrl;
 
-    const [expandedSection, setExpandedSection] = useState(null);
+    const rawDocImage = documentImage || documentUrl || image || imageUrl;
+    const resolvedDocumentImage = resolveMediaUrl(rawDocImage);
+
     const [answers, setAnswers] = useState({});
     const [submitted, setSubmitted] = useState(false);
-    const [correctness, setCorrectness] = useState({}); // Track which answers are correct
+    const [correctness, setCorrectness] = useState({});
     const [feedback, setFeedback] = useState({});
     const completion = useScreenCompletion();
 
@@ -67,7 +69,6 @@ function FunctionalReadingBlock({ block }) {
             ...prev,
             [questionId]: value
         }));
-        // Clear feedback for this question when user changes answer
         setFeedback(prev => {
             const next = { ...prev };
             delete next[questionId];
@@ -80,83 +81,54 @@ function FunctionalReadingBlock({ block }) {
         });
     }
 
-    /**
-     * Validate a single answer based on question type
-     * Returns { isCorrect: boolean, message: string }
-     */
     function validateAnswer(question, userAnswer) {
-        const qType = question.type?.toLowerCase() || "text";
-        
-        // MCQ/Multiple Choice
-        if (qType === "mcq" || qType === "multiple_choice") {
-            const correctIdx = question.correctAnswerIndex ?? question.correctAnswer;
-            const correctOption = question.options?.[correctIdx];
-            const isCorrect = userAnswer === correctOption;
-            return {
-                isCorrect,
-                message: isCorrect ? "✓ Correct!" : "✗ Incorrect. Try again."
-            };
-        }
-        
-        // True/False
-        if (qType === "true_false" || qType === "boolean") {
-            const correct = question.correctAnswer;
-            const userValue = userAnswer === "true" || userAnswer === true;
-            const isCorrect = userValue === correct;
-            return {
-                isCorrect,
-                message: isCorrect ? "✓ Correct!" : "✗ Incorrect. Try again."
-            };
-        }
-        
-        // Text Answer (default)
-        const expected = question.expectedAnswer || question.correctAnswer || "";
+        const expected = question.targetAnswer || question.expectedAnswer || question.correctAnswer || question.target || "";
         const isCorrect = fuzzyMatching
             ? fuzzyMatch(userAnswer, expected)
-            : userAnswer.toLowerCase().trim() === expected.toLowerCase().trim();
+            : String(userAnswer || "").toLowerCase().trim() === String(expected || "").toLowerCase().trim();
         
         return {
             isCorrect,
             message: isCorrect 
                 ? "✓ Correct!" 
-                : `Expected: "${expected}" or similar`
+                : (expected ? `Expected: "${expected}" or similar` : "✓ Submitted")
         };
     }
 
     function handleSubmit() {
-        const allAnswered = questions.every(q => answers[q.id]);
+        const allAnswered = questions.every(q => answers[q.id || `q-${questions.indexOf(q)}`] && String(answers[q.id || `q-${questions.indexOf(q)}`]).trim().length > 0);
         if (!allAnswered) return;
 
-        // Validate all answers
+        const isAssessment = window.__isAssessment;
         const newCorrectness = {};
         const newFeedback = {};
         let allCorrect = true;
 
-        questions.forEach(question => {
-            const userAnswer = answers[question.id];
+        questions.forEach((question, idx) => {
+            const qId = question.id || `q-${idx}`;
+            const userAnswer = answers[qId];
             const validation = validateAnswer(question, userAnswer);
-            newCorrectness[question.id] = validation.isCorrect;
-            newFeedback[question.id] = validation.message;
+            newCorrectness[qId] = validation.isCorrect;
+            newFeedback[qId] = isAssessment ? "" : validation.message;
             if (!validation.isCorrect) allCorrect = false;
         });
 
-        setCorrectness(newCorrectness);
-        setFeedback(newFeedback);
+        if (!isAssessment) {
+            setCorrectness(newCorrectness);
+            setFeedback(newFeedback);
+        }
 
-        // Only mark submitted if all answers are correct (per spec requirement)
-        if (allCorrect) {
+        if (allCorrect || isAssessment) {
             setSubmitted(true);
-            
-            // Prepare answer data with correctness info
             const answerData = {};
-            questions.forEach(question => {
-                answerData[question.id] = {
-                    type: question.type || "text",
-                    answer: answers[question.id],
-                    correct: newCorrectness[question.id]
+            questions.forEach((question, idx) => {
+                const qId = question.id || `q-${idx}`;
+                answerData[qId] = {
+                    type: "text",
+                    answer: answers[qId],
+                    correct: newCorrectness[qId]
                 };
             });
-
             completion?.saveAnswer?.(block.id, answerData);
             completion?.reportAnswered(block.id);
         }
@@ -164,263 +136,128 @@ function FunctionalReadingBlock({ block }) {
 
     const getDocumentTypeLabel = () => {
         const labels = {
-            poster: "📰 Poster",
-            ticket: "🎫 Ticket",
-            notice: "📌 Notice Board",
-            flyer: "📄 Flyer",
-            menu: "🍽️ Menu",
-            form: "📋 Form"
+            poster: "Poster",
+            ticket: "Ticket",
+            notice: "Notice Board",
+            flyer: "Flyer",
+            menu: "Menu",
+            form: "Form"
         };
-        return labels[documentType] || "Document";
+        const docLabel = labels[documentType.toLowerCase()] || documentType;
+        return docLabel.charAt(0).toUpperCase() + docLabel.slice(1);
     };
 
     return (
         <BlockCard type="functional_reading">
-            <div className="elab-block-two-column">
-                <div className="elab-block-interactive-side">
-                    <BlockHeader
-                        type="functional_reading"
-                        title={title}
-                        subtitle={getDocumentTypeLabel()}
-                    />
+            <div className="elab-functional-reading-container" style={{ display: "flex", flexDirection: "column", gap: "1.25rem", marginTop: "1rem", marginBottom: "2rem" }}>
+                <BlockHeader
+                    type="functional_reading"
+                    title={title}
+                    subtitle={getDocumentTypeLabel()}
+                />
 
-                    {resolvedDocumentImage && (
-                        <div className="functional-document-container">
-                            <img
-                                src={resolvedDocumentImage}
-                                alt={title}
-                                className="functional-document-image"
-                            />
-                        </div>
-                    )}
-
-                    {sections.length > 0 && (
-                        <div className="functional-sections">
-                            <h4 className="functional-subtitle">Document Sections</h4>
-                            {sections.map((section, idx) => (
-                                <div
-                                    key={idx}
-                                    className="functional-section-item"
-                                >
-                                    <button
-                                        className="functional-section-header"
-                                        onClick={() =>
-                                            setExpandedSection(
-                                                expandedSection === idx ? null : idx
-                                            )
-                                        }
-                                    >
-                                        <span className="section-title">
-                                            {section.title}
-                                        </span>
-                                        <span className="section-toggle">
-                                            {expandedSection === idx ? "▼" : "▶"}
-                                        </span>
-                                    </button>
-                                    {expandedSection === idx && (
-                                        <div className="functional-section-content">
-                                            <p>{section.content}</p>
-                                            {section.details && (
-                                                <ul className="section-details">
-                                                    {section.details.map((detail, i) => (
-                                                        <li key={i}>{detail}</li>
-                                                    ))}
-                                                </ul>
-                                            )}
-                                        </div>
-                                    )}
-                                </div>
-                            ))}
-                        </div>
-                    )}
-                </div>
-
-                <div className="elab-block-content-side">
-                    <div className="functional-questions-section">
-                        <h4 className="functional-questions-title">
-                            {instructions}
-                        </h4>
-
-                        {questions.map((question, idx) => (
-                            <div
-                                key={question.id || idx}
-                                className="functional-question-item"
-                                style={{
-                                    borderLeft: correctness[question.id] === true 
-                                        ? "4px solid #22c55e" 
-                                        : correctness[question.id] === false
-                                        ? "4px solid #ef4444"
-                                        : "4px solid #e2e8f0",
-                                    paddingLeft: "12px",
-                                    transition: "all 0.3s ease"
-                                }}
-                            >
-                                <label className="question-label">
-                                    <span className="question-number">
-                                        {idx + 1}.
-                                    </span>
-                                    <span className="question-text">
-                                        {question.text || question.question}
-                                    </span>
-                                </label>
-
-                                {(question.type === "multiple_choice" || question.type === "mcq") ? (
-                                    <div className="question-options">
-                                        {(question.options || []).map((option, oIdx) => (
-                                            <label
-                                                key={oIdx}
-                                                className="option-label"
-                                                style={{
-                                                    opacity: submitted ? 0.7 : 1,
-                                                    backgroundColor: correctness[question.id] === true && answers[question.id] === option
-                                                        ? "#dcfce7"
-                                                        : correctness[question.id] === false && answers[question.id] === option
-                                                        ? "#fee2e2"
-                                                        : "transparent"
-                                                }}
-                                            >
-                                                <input
-                                                    type="radio"
-                                                    name={question.id || `q-${idx}`}
-                                                    value={option}
-                                                    checked={
-                                                        answers[question.id || `q-${idx}`] ===
-                                                        option
-                                                    }
-                                                    onChange={(e) =>
-                                                        handleAnswerChange(
-                                                            question.id || `q-${idx}`,
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                    disabled={submitted}
-                                                />
-                                                {typeof option === "object" ? (option.text || option.label) : option}
-                                            </label>
-                                        ))}
-                                    </div>
-                                ) : question.type === "true_false" || question.type === "boolean" ? (
-                                    <div className="question-true-false">
-                                        {[true, false].map((value) => (
-                                            <label key={value} className="tf-label">
-                                                <input
-                                                    type="radio"
-                                                    name={question.id || `q-${idx}`}
-                                                    value={value}
-                                                    checked={answers[question.id] === String(value) || answers[question.id] === value}
-                                                    onChange={(e) =>
-                                                        handleAnswerChange(
-                                                            question.id,
-                                                            e.target.value === "true"
-                                                        )
-                                                    }
-                                                    disabled={submitted}
-                                                />
-                                                <span style={{
-                                                    padding: "6px 12px",
-                                                    borderRadius: "4px",
-                                                    backgroundColor: answers[question.id] === value
-                                                        ? correctness[question.id] === true && value === question.correctAnswer
-                                                            ? "#dcfce7"
-                                                            : correctness[question.id] === false
-                                                            ? "#fee2e2"
-                                                            : "#e0e7ff"
-                                                        : "#f3f4f6",
-                                                    cursor: submitted ? "not-allowed" : "pointer"
-                                                }}>
-                                                    {value ? "TRUE" : "FALSE"}
-                                                </span>
-                                            </label>
-                                        ))}
-                                    </div>
-                                ) : (
-                                    <input
-                                        type="text"
-                                        className="question-input"
-                                        placeholder="Enter your answer"
-                                        value={answers[question.id] || ""}
-                                        onChange={(e) =>
-                                            handleAnswerChange(
-                                                question.id,
-                                                e.target.value
-                                            )
-                                        }
-                                        disabled={submitted}
-                                        style={{
-                                            borderColor: correctness[question.id] === true
-                                                ? "#22c55e"
-                                                : correctness[question.id] === false
-                                                ? "#ef4444"
-                                                : "#e5e7eb"
-                                        }}
-                                    />
-                                )}
-
-                                {/* Show feedback message */}
-                                {feedback[question.id] && (
-                                    <div style={{
-                                        marginTop: "8px",
-                                        fontSize: "14px",
-                                        fontWeight: "500",
-                                        color: correctness[question.id] ? "#15803d" : "#dc2626"
-                                    }}>
-                                        {feedback[question.id]}
-                                    </div>
-                                )}
-                            </div>
-                        ))}
-
-                        {!submitted ? (
-                            <>
-                                <button
-                                    onClick={handleSubmit}
-                                    className="functional-submit-btn"
-                                    disabled={
-                                        !questions.every(q => answers[q.id])
-                                    }
-                                    style={{
-                                        opacity: questions.every(q => answers[q.id]) ? 1 : 0.5,
-                                        cursor: questions.every(q => answers[q.id]) ? "pointer" : "not-allowed"
-                                    }}
-                                >
-                                    Check Answers
-                                </button>
-                                
-                                {/* Show error message if user tried submitting with wrong answers */}
-                                {Object.keys(feedback).length > 0 && !submitted && (
-                                    <div style={{
-                                        marginTop: "12px",
-                                        padding: "12px",
-                                        backgroundColor: "#fee2e2",
-                                        border: "1px solid #fca5a5",
-                                        borderRadius: "6px",
-                                        color: "#991b1b",
-                                        fontSize: "14px",
-                                        fontWeight: "500"
-                                    }}>
-                                        ❌ Some answers are incorrect. Please review and try again.
-                                    </div>
-                                )}
-                            </>
-                        ) : (
-                            <div className="elab-submission-success" style={{
-                                backgroundColor: "#dcfce7",
-                                border: "2px solid #22c55e",
-                                borderRadius: "8px",
-                                padding: "16px",
-                                textAlign: "center"
-                            }}>
-                                <div className="elab-success-icon" style={{ fontSize: "32px", marginBottom: "8px" }}>
-                                    🎉
-                                </div>
-                                <p style={{ color: "#15803d", fontWeight: "600", margin: 0 }}>
-                                    All answers correct! Excellent work!
-                                </p>
-                            </div>
-                        )}
+                {/* Main Document Image Box */}
+                {resolvedDocumentImage && (
+                    <div style={{
+                        width: "100%",
+                        borderRadius: "1rem",
+                        overflow: "hidden",
+                        border: "2px solid #e2e8f0",
+                        backgroundColor: "#ffffff",
+                        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.05)",
+                        padding: "0.5rem"
+                    }}>
+                        <img
+                            src={resolvedDocumentImage}
+                            alt={title}
+                            style={{
+                                width: "100%",
+                                height: "auto",
+                                display: "block",
+                                maxHeight: "360px",
+                                objectFit: "contain",
+                                borderRadius: "0.75rem",
+                                margin: "0 auto"
+                            }}
+                        />
                     </div>
+                )}
+
+                {/* Questions Section - ALWAYS text input box ("Write answer here...") matching CMS */}
+                <div style={{ display: "flex", flexDirection: "column", gap: "1rem", backgroundColor: "#f8fafc", padding: "1.25rem", borderRadius: "1rem", border: "1.5px solid #e2e8f0" }}>
+                    <div style={{ fontSize: "1rem", fontWeight: 700, color: "#1e293b", fontFamily: "'Poppins', sans-serif" }}>
+                        {instructions}
+                    </div>
+
+                    {questions.map((question, idx) => {
+                        const qId = question.id || `q-${idx}`;
+
+                        return (
+                            <div key={qId} style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+                                <div style={{ fontWeight: 700, fontSize: "0.95rem", color: "#334155", fontFamily: "'Poppins', sans-serif" }}>
+                                    {idx + 1}. {question.question || question.text || question.prompt}
+                                </div>
+
+                                {/* Text Input Field ("Write answer here...") matching CMS exactly */}
+                                <input
+                                    type="text"
+                                    placeholder="Write answer here..."
+                                    value={answers[qId] || ""}
+                                    onChange={(e) => handleAnswerChange(qId, e.target.value)}
+                                    disabled={submitted}
+                                    style={{
+                                        width: "100%",
+                                        padding: "0.75rem 1rem",
+                                        borderRadius: "0.75rem",
+                                        border: correctness[qId] === true ? "2px solid #22c55e" : (correctness[qId] === false ? "2px solid #ef4444" : "1.5px solid #cbd5e1"),
+                                        backgroundColor: "#ffffff",
+                                        fontSize: "0.95rem",
+                                        color: "#1e293b",
+                                        outline: "none",
+                                        fontFamily: "'Poppins', sans-serif"
+                                    }}
+                                />
+
+                                {feedback[qId] && (
+                                    <div style={{ fontSize: "0.85rem", fontWeight: 600, color: correctness[qId] ? "#16a34a" : "#dc2626" }}>
+                                        {feedback[qId]}
+                                    </div>
+                                )}
+                            </div>
+                        );
+                    })}
+
+                    {/* Submit / Check answers button */}
+                    {!submitted ? (
+                        <button
+                            type="button"
+                            onClick={handleSubmit}
+                            disabled={!questions.every(q => answers[q.id || `q-${questions.indexOf(q)}`] && String(answers[q.id || `q-${questions.indexOf(q)}`]).trim().length > 0)}
+                            style={{
+                                marginTop: "0.5rem",
+                                alignSelf: "flex-start",
+                                padding: "0.6rem 1.5rem",
+                                borderRadius: "0.75rem",
+                                background: "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)",
+                                color: "#ffffff",
+                                border: "none",
+                                fontWeight: 700,
+                                fontSize: "0.95rem",
+                                cursor: "pointer",
+                                boxShadow: "0 4px 12px rgba(37, 99, 235, 0.25)",
+                                opacity: questions.every(q => answers[q.id || `q-${questions.indexOf(q)}`] && String(answers[q.id || `q-${questions.indexOf(q)}`]).trim().length > 0) ? 1 : 0.5
+                            }}
+                        >
+                            Submit Answer
+                        </button>
+                    ) : (
+                        <div style={{ color: window.__isAssessment ? "#2563eb" : "#16a34a", fontWeight: 800, fontSize: "1rem" }}>
+                            {window.__isAssessment ? "🎉 Your answer has been submitted!" : "🎉 Great job! Correct!"}
+                        </div>
+                    )}
                 </div>
             </div>
+            <div style={{ marginBottom: "28px" }} />
         </BlockCard>
     );
 }

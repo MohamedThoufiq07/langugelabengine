@@ -233,7 +233,7 @@ function QuizBlock({ block }) {
                     />
                 </div>
             </div>
-
+            <div style={{ marginBottom: "28px" }} />
         </BlockCard>
 
     );

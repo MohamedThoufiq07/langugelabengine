@@ -1,16 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap');
+
 /* ==========================================================
    EnglishLab Runtime
    Global Styles
 ========================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap');
+/* Hide download & playback speed options across all native media elements */
+audio::-webkit-media-controls-enclosure,
+video::-webkit-media-controls-enclosure {
+    overflow: hidden;
+}
+
+audio::-webkit-media-controls-panel,
+video::-webkit-media-controls-panel {
+    overflow: hidden;
+}
+
+audio::-internal-media-controls-overflow-button,
+video::-internal-media-controls-overflow-button,
+audio::-webkit-media-controls-overflow-button,
+video::-webkit-media-controls-overflow-button {
+    display: none !important;
+}
 
 :root {
-
-    /* ==========================================================
-       Typography
-    ========================================================== */
-
     --font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     --font-display: "Poppins", var(--font-family);
 
@@ -3571,11 +3584,6 @@ ol {
     box-sizing: border-box;
 }
 
-.elab-block-card[data-type="reading_passage"] .elab-block-title {
-    color: #1E6BFF !important;
-}
-
-.elab-block-card[data-type="flashcard"] .elab-block-title,
 .elab-block-card[data-type="memory"] .elab-block-title {
     color: #7E5BE2 !important;
 }
