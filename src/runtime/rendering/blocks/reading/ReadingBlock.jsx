@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import BlockCard from "../../../ui/components/BlockCard";
 import { useScreenCompletion } from "../../../screen/ScreenCompletionContext";
 
@@ -10,10 +10,26 @@ import readingThoughtUrl from "../../../../assets/images/reading_thought.png";
 import readingBooksUrl from "../../../../assets/images/reading_books.png";
 
 function ReadingBlock({ block }) {
-    const { title, passage, question } = block.content;
-    const [passageText, setPassageText] = useState(passage || "");
+    const content = block?.content || {};
+    const passagesList = Array.isArray(content.passages) ? content.passages : [];
+    const activePassage = passagesList[0] || {};
+
+    const title = content.title || activePassage.title || activePassage.passageTitle || "";
+    const rawPassage = content.passage || activePassage.passage || activePassage.content || "";
+    const question = content.question || activePassage.question || activePassage.followUpQuestion || "";
+
+    const styles = block?.styles || {};
+    const fontFamily = styles.fontFamily || "inherit";
+    const fontSize = styles.fontSize || "1.05rem";
+    const textColor = styles.color || styles.textColor || "#334155";
+
+    const [passageText, setPassageText] = useState(rawPassage);
     const [confirmed, setConfirmed] = useState(false);
     const completion = useScreenCompletion();
+
+    useEffect(() => {
+        setPassageText(rawPassage);
+    }, [rawPassage]);
 
     function handleConfirm() {
         setConfirmed(true);
@@ -28,9 +44,13 @@ function ReadingBlock({ block }) {
                     <div className="elab-custom-header">
                         <img src={badgeReadingUrl} className="elab-header-badge-img" alt="Badge" />
                         <div className="elab-header-content">
-                            <h3 className="elab-custom-title">{title || "THE FOX AND LIONS"}</h3>
+                            <h3 className="elab-custom-title" style={{ fontFamily }}>
+                                {title ? title : "READING PASSAGE"}
+                            </h3>
                             <div className="elab-subtitle-row">
-                                <span className="elab-custom-subtitle">{question || "Read the passage carefully"}</span>
+                                <span className="elab-custom-subtitle">
+                                    {question ? `Question: ${question}` : "Read the passage carefully"}
+                                </span>
                                 <span className="elab-header-stars">✨</span>
                                 <img src={readingBalloonUrl} className="elab-header-balloon" alt="Balloon" />
                             </div>
@@ -38,13 +58,19 @@ function ReadingBlock({ block }) {
                     </div>
 
                     {/* Passage Box */}
-                    <div className="elab-reading-passage-box">
-                        <textarea
-                            className="elab-reading-passage-text-input"
-                            value={passageText}
-                            onChange={(e) => setPassageText(e.target.value)}
-                            placeholder="Type or edit the passage here..."
-                        />
+                    <div className="elab-reading-passage-box" style={{ padding: "16px", borderRadius: "12px", background: "#ffffff", border: "1.5px solid #cbd5e1", marginTop: "12px" }}>
+                        <div
+                            style={{
+                                fontFamily: fontFamily,
+                                fontSize: fontSize,
+                                color: textColor,
+                                lineHeight: 1.7,
+                                whiteSpace: "pre-wrap",
+                                minHeight: "70px"
+                            }}
+                        >
+                            {passageText || "(No passage content provided)"}
+                        </div>
                     </div>
 
                     {/* Button */}
@@ -52,6 +78,7 @@ function ReadingBlock({ block }) {
                         className={`elab-reading-confirm-btn ${confirmed ? "is-confirmed" : ""}`}
                         disabled={confirmed}
                         onClick={handleConfirm}
+                        style={{ marginTop: "16px" }}
                     >
                         <div className="elab-reading-confirm-left">
                             <span className="elab-reading-check-circle">✔</span>

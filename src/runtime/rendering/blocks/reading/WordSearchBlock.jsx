@@ -331,7 +331,7 @@ function WordSearchBlock({ block }) {
                         className="wordsearch-grid-container"
                         style={{
                             gridTemplateColumns: `repeat(${size}, 1fr)`,
-                            maxWidth: `${size * 48}px`
+                            maxWidth: `${Math.min(size * 34, 300)}px`
                         }}
                     >
                         {
@@ -378,6 +378,19 @@ function WordSearchBlock({ block }) {
                         }
                     </div>
 
+                    {allFound && (
+                        <div className="elab-feedback success" style={{ width: "100%", maxWidth: `${size * 48}px`, boxSizing: "border-box" }}>
+                            ✅ All words found!
+                        </div>
+                    )}
+                </div>
+
+                <div className="wordsearch-custom-illustration">
+                    <img 
+                        src={boyMagnifyingImg} 
+                        alt="Word Search Illustration" 
+                    />
+
                     <div className="wordsearch-pills-row">
                         {
                             words.map(word => {
@@ -401,19 +414,6 @@ function WordSearchBlock({ block }) {
                             })
                         }
                     </div>
-
-                    {allFound && (
-                        <div className="elab-feedback success" style={{ width: "100%", maxWidth: `${size * 48}px`, boxSizing: "border-box" }}>
-                            ✅ All words found!
-                        </div>
-                    )}
-                </div>
-
-                <div className="wordsearch-custom-illustration">
-                    <img 
-                        src={boyMagnifyingImg} 
-                        alt="Word Search Illustration" 
-                    />
                 </div>
             </div>
 

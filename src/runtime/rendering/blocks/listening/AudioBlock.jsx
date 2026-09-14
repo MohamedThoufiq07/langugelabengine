@@ -42,15 +42,15 @@ function AudioBlock({ block }) {
         setIsPlaying(true);
     }
 
-    function handleProgressClick(e) {
+    function handleSeek(e) {
         const audio = audioRef.current;
-        if (!audio || !duration) return;
-        const rect = e.currentTarget.getBoundingClientRect();
-        const clickX = e.clientX - rect.left;
-        const width = rect.width;
-        const newTime = (clickX / width) * duration;
-        audio.currentTime = newTime;
-        setCurrentTime(newTime);
+        const newTime = parseFloat(e.target.value);
+        if (Number.isFinite(newTime)) {
+            setCurrentTime(newTime);
+            if (audio) {
+                audio.currentTime = newTime;
+            }
+        }
     }
 
     const progressPct = duration > 0 ? (currentTime / duration) * 100 : 0;
@@ -110,15 +110,30 @@ function AudioBlock({ block }) {
                         {/* Full Width Seek Bar Container */}
                         <div className="elab-audio-control-bar" style={{ width: "100%", display: "flex", alignItems: "center", gap: "16px" }}>
                             {/* Slider Seek Bar */}
-                            <div className="elab-audio-slider-container" onClick={handleProgressClick}>
-                                <div className="elab-audio-slider-track">
-                                    <div className="elab-audio-slider-fill" style={{ width: `${progressPct}%` }} />
-                                    <div className="elab-audio-slider-handle" style={{ left: `calc(${progressPct}% - 6px)` }} />
-                                </div>
+                            <div className="elab-audio-slider-container" style={{ flex: 1, position: "relative", display: "flex", alignItems: "center" }}>
+                                <input
+                                    type="range"
+                                    min={0}
+                                    max={duration || 100}
+                                    step={0.1}
+                                    value={currentTime}
+                                    onChange={handleSeek}
+                                    onInput={handleSeek}
+                                    aria-label="Audio progress"
+                                    style={{
+                                        width: "100%",
+                                        height: "8px",
+                                        borderRadius: "4px",
+                                        accentColor: "#1E6BFF",
+                                        cursor: "pointer",
+                                        outline: "none",
+                                        background: `linear-gradient(to right, #1E6BFF ${progressPct}%, #E2ECFA ${progressPct}%)`
+                                    }}
+                                />
                             </div>
 
-                            <span className="elab-audio-duration-text">
-                                {formatTime(currentTime)} / {formatTime(duration || 268)}
+                            <span className="elab-audio-duration-text" style={{ whiteSpace: "nowrap" }}>
+                                {formatTime(currentTime)} / {formatTime(duration)}
                             </span>
                         </div>
                     </div>
@@ -135,6 +150,7 @@ function AudioBlock({ block }) {
                 src={resolveMediaUrl(block.content) || null}
                 onTimeUpdate={e => setCurrentTime(e.target.currentTime)}
                 onLoadedMetadata={e => setDuration(e.target.duration)}
+                onDurationChange={e => setDuration(e.target.duration)}
                 onEnded={() => setIsPlaying(false)}
                 style={{ display: "none" }}
             />

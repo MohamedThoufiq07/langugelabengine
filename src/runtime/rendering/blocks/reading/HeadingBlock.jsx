@@ -4,27 +4,30 @@ import BlockHeader from "../../../ui/components/BlockHeader";
 function HeadingBlock({ block }) {
 
     const {
-
         text,
         tag = "H2"
-
-    } = block.content;
+    } = block?.content || {};
 
     const Tag = (tag || "H2").toLowerCase();
+    const styles = block?.styles || {};
 
     // Determine width and alignment based on block.styles if available
-    const blockWidth = block.styles?.blockWidth || "auto";
-    const alignment = (block.styles?.alignment || "Center").toLowerCase();
+    const alignment = (styles.alignment || "Center").toLowerCase();
     
     // Map text alignment to flex alignments for container
     const justifyValue = alignment === "left" ? "flex-start" : alignment === "right" ? "flex-end" : "center";
+
+    const fontFamily = styles.fontFamily || "inherit";
+    const fontSize = styles.fontSize || "24px";
+    const fontWeight = styles.fontWeight || "bold";
+    const color = styles.color || styles.textColor || "#ffffff";
 
     return (
         <div 
             className="elab-heading-block-wooden-board" 
             style={{ 
                 width: "100%", 
-                margin: "4px 0 10px 0",
+                margin: "8px 0 14px 0",
                 padding: 0,
                 display: "flex",
                 justifyContent: justifyValue
@@ -33,24 +36,26 @@ function HeadingBlock({ block }) {
             <Tag 
                 style={{ 
                     margin: 0, 
-                    fontWeight: block.styles?.fontWeight || "bold", 
+                    fontWeight: fontWeight, 
+                    fontFamily: fontFamily,
                     backgroundImage: "var(--theme-heading-board, url('/locked board.png'))",
                     backgroundSize: "100% 100%",
                     backgroundRepeat: "no-repeat",
                     backgroundPosition: "center",
-                    color: "#ffffff", 
+                    color: color, 
                     border: "none", 
                     boxShadow: "none",
-                    fontSize: block.styles?.fontSize || "20px",
-                    textAlign: "center",
+                    fontSize: fontSize,
+                    textAlign: alignment,
                     width: "fit-content",
-                    maxWidth: "90%",
-                    minWidth: "150px",
-                    height: "48px",
+                    maxWidth: "95%",
+                    minWidth: "240px",
+                    minHeight: "56px",
+                    height: "auto",
                     display: "inline-flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    padding: "6px 30px",
+                    padding: "10px 48px",
                     boxSizing: "border-box",
                     whiteSpace: "nowrap"
                 }}

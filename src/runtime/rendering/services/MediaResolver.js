@@ -15,15 +15,46 @@ export function resolveMediaUrl(contentOrUrl) {
     if (typeof contentOrUrl === "string") {
         rawUrl = contentOrUrl;
     } else if (typeof contentOrUrl === "object") {
+        const firstItem = (Array.isArray(contentOrUrl.items) && contentOrUrl.items[0]) || 
+                          (Array.isArray(contentOrUrl.clips) && contentOrUrl.clips[0]) || 
+                          (Array.isArray(contentOrUrl.passages) && contentOrUrl.passages[0]) || 
+                          (Array.isArray(contentOrUrl.audioClips) && contentOrUrl.audioClips[0]) ||
+                          null;
+
         rawUrl = contentOrUrl.url ||
-                 contentOrUrl.image ||
+                 contentOrUrl.audioUrl ||
+                 contentOrUrl.audio ||
                  contentOrUrl.media_url ||
                  contentOrUrl.mediaUrl ||
                  contentOrUrl.src ||
                  contentOrUrl.video ||
-                 contentOrUrl.audio ||
-                 contentOrUrl.documentImage ||
-                 contentOrUrl.documentUrl ||
+                 contentOrUrl.image ||
+                 contentOrUrl.imageUrl ||
+                 contentOrUrl.image_url ||
+                 contentOrUrl.sourceImage ||
+                 contentOrUrl.source_image ||
+                 contentOrUrl.targetImage ||
+                 contentOrUrl.target_image ||
+                 contentOrUrl.referenceAudio ||
+                 contentOrUrl.clipUrl ||
+                 contentOrUrl.file ||
+                 contentOrUrl.sound ||
+                 contentOrUrl.audio_url ||
+                 contentOrUrl.video_url ||
+                 (firstItem && (
+                     firstItem.url || 
+                     firstItem.audioUrl || 
+                     firstItem.audio || 
+                     firstItem.media_url || 
+                     firstItem.mediaUrl || 
+                     firstItem.src || 
+                     firstItem.image ||
+                     firstItem.imageUrl ||
+                     firstItem.sourceImage ||
+                     firstItem.source_image ||
+                     firstItem.file ||
+                     firstItem.clipUrl
+                 )) ||
                  "";
     }
 

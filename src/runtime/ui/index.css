@@ -2876,14 +2876,6 @@ ol {
 }
 
 /* Two-way roleplay */
-.elab-block-card[data-type="roleplay_simulation"] {
-    border: 1px solid #fed7aa;
-    border-top: 5px solid #f97316;
-    border-radius: 1.25rem;
-    background: linear-gradient(135deg, #ffffff 0%, #fffaf5 100%);
-    box-shadow: 0 16px 34px rgba(234, 88, 12, 0.1);
-}
-
 .roleplay-progress,
 .roleplay-characters,
 .roleplay-turn-section,
@@ -3388,18 +3380,18 @@ ol {
     padding: 3.2rem 4.5rem 3.2rem 4.5rem !important;
 }
 
-/* ❄️ Winter Season Card Frame Padding (clears 110px top/bottom ice border) ❄️ */
+/* ❄️ Winter Season Card Frame Padding ❄️ */
 .runtime-shell[data-season-name="Winter Season"] .elab-block-card {
-    padding: 6.8rem 5.5rem 6.8rem 5.5rem !important;
+    padding: 3.8rem 5.5rem 4.2rem 5.5rem !important;
 }
 
 .runtime-shell[data-season-name="Winter Season"] .elab-block-card[data-type="voice"] {
-    padding: 4.5rem 4.8rem 4.5rem 4.8rem !important;
+    padding: 3.5rem 4.8rem 3.5rem 4.8rem !important;
 }
 
 /* 🌸 Spring Season Card Frame Padding 🌸 */
 .runtime-shell[data-season-name="Spring Season"] .elab-block-card {
-    padding: 5.2rem 8.2rem 5.2rem 4.8rem !important;
+    padding: 3.2rem 8.2rem 3.5rem 4.8rem !important;
     width: 100% !important;
     max-width: 1080px !important;
     margin: 0 auto !important;
@@ -3408,12 +3400,13 @@ ol {
 
 /* 🏜️ Desert Season Card Frame Padding 🏜️ */
 .runtime-shell[data-season-name="Desert Season"] .elab-block-card {
-    padding: 6.2rem 5.2rem 6.2rem 5.2rem !important;
+    padding: 3.2rem 5.2rem 3.5rem 5.2rem !important;
 }
 
 /* 🌋 Lava Season Card Frame Padding 🌋 */
 .runtime-shell[data-season-name="Lava Season"] .elab-block-card {
-    padding: 6.5rem 5.5rem 6.5rem 5.5rem !important;
+    padding: 3.8rem 5.0rem 4.0rem 5.0rem !important;
+    min-height: auto !important;
 }
 
 /* 🌊 Marine Season Card Frame Padding & Inner Bounds 🌊 */
@@ -5279,13 +5272,7 @@ ol {
 }
 
 /* Two-way roleplay */
-.elab-block-card[data-type="roleplay_simulation"] {
-    border: none !important;
-    border-top: none !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    background: transparent !important;
-}
+/* Block background inherits standard themed wooden frame board (.elab-block-card) */
 
 .you-ask-prompt-panel {
     padding: 1.35rem 1.5rem;
@@ -5303,7 +5290,6 @@ ol {
     padding: 0.55rem;
     border: 2px solid #f5b4d8;
     border-radius: 1.25rem;
-    background: linear-gradient(135deg, #fff7fb 0%, #f5f3ff 100%);
     box-shadow: 0 8px 18px rgba(168, 85, 247, 0.12);
 }
 
@@ -5724,20 +5710,21 @@ ol {
 }
 
 .wordsearch-custom-interactive {
-    flex: 1.15;
+    flex: 0 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
-    width: 100%;
-    padding-top: 2rem;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding-top: 0;
 }
 
 .wordsearch-custom-illustration {
-    flex: 0.85;
+    flex: 0 0 auto;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    max-height: 420px;
+    gap: 1rem;
     background: transparent;
     border: none !important;
     box-shadow: none !important;
@@ -5747,20 +5734,50 @@ ol {
 
 .wordsearch-custom-illustration img {
     max-width: 100%;
-    max-height: 400px;
+    max-height: 220px;
     object-fit: contain;
 }
 
 .wordsearch-custom-card-content {
     display: flex;
+    justify-content: center;
+    align-items: center;
     gap: 2.5rem;
-    align-items: flex-start;
     width: 100%;
 }
 
 /* Wordsearch card padding override */
+.runtime-shell .elab-block-card[data-type="wordsearch"],
 .elab-block-card[data-type="wordsearch"] {
-    padding: 0.75rem 1.25rem;
+    padding: 4.2rem 4.8rem 5.2rem 4.8rem !important;
+    min-height: 540px !important;
+}
+
+/* Card Frame Fit Overrides for Interactive & Content Blocks */
+.runtime-shell .elab-block-card[data-type="sentence"],
+.elab-block-card[data-type="sentence"],
+.runtime-shell .elab-block-card[data-type="sentence_builder"],
+.elab-block-card[data-type="sentence_builder"],
+.runtime-shell .elab-block-card[data-type="roleplay"],
+.elab-block-card[data-type="roleplay"],
+.runtime-shell .elab-block-card[data-type="role_play"],
+.elab-block-card[data-type="role_play"],
+.runtime-shell .elab-block-card[data-type="roleplay_simulation"],
+.elab-block-card[data-type="roleplay_simulation"],
+.runtime-shell .elab-block-card[data-type="flashcard"],
+.elab-block-card[data-type="flashcard"],
+.runtime-shell .elab-block-card[data-type="hotspot_explorer"],
+.elab-block-card[data-type="hotspot_explorer"],
+.runtime-shell .elab-block-card[data-type="match"],
+.elab-block-card[data-type="match"],
+.runtime-shell .elab-block-card[data-type="fill_blank"],
+.elab-block-card[data-type="fill_blank"],
+.runtime-shell .elab-block-card[data-type="fill_in_the_blanks"],
+.elab-block-card[data-type="fill_in_the_blanks"] {
+    padding: 3.8rem 4.8rem 4.5rem 4.8rem !important;
+    box-sizing: border-box !important;
+    min-height: auto !important;
+    overflow: visible !important;
 }
 
 /* Badge and Header */
@@ -5822,20 +5839,20 @@ ol {
 /* Custom Grid */
 .wordsearch-grid-container {
     display: grid;
-    gap: 12px;
+    gap: 6px;
     width: 100%;
 }
 
 .wordsearch-grid-cell {
     aspect-ratio: 1;
-    border-radius: 10px;
+    border-radius: 6px;
     background: #ffffff;
     border: 1.5px solid #e2e8f0;
     display: flex;
     align-items: center;
     justify-content: center;
     font-family: 'Poppins', sans-serif;
-    font-size: 1.5rem;
+    font-size: 1.15rem;
     font-weight: 700;
     color: #1e293b;
     cursor: pointer;
@@ -5864,8 +5881,11 @@ ol {
 /* Word Pills Row */
 .wordsearch-pills-row {
     display: flex;
-    flex-wrap: nowrap;
-    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
     margin-top: 0.5rem;
 }
 

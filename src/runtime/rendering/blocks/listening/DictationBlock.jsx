@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import BlockCard from "../../../ui/components/BlockCard";
 import { useScreenCompletion } from "../../../screen/ScreenCompletionContext";
 import { resolveMediaUrl } from "../../services/MediaResolver";
@@ -7,8 +7,12 @@ import dictationMicUrl from "../../../../assets/images/dictation_mic.png";
 import dictationPlayPurpleUrl from "../../../../assets/images/dictation_play_purple.png";
 
 function DictationBlock({ block }) {
-    const { question } = block?.content || {};
-    const resolvedUrl = resolveMediaUrl(block?.content);
+    const content = block?.content || {};
+    const items = Array.isArray(content.items) ? content.items : [];
+    const activeItem = items[0] || {};
+
+    const question = content.question || activeItem.question || "Listen and type what you hear.";
+    const resolvedUrl = resolveMediaUrl(content);
     const audioRef = useRef(null);
 
     const [isPlaying, setIsPlaying] = useState(false);
@@ -17,14 +21,22 @@ function DictationBlock({ block }) {
 
     const completion = useScreenCompletion();
 
+    useEffect(() => {
+        setPlaybackError(false);
+    }, [resolvedUrl]);
+
     function togglePlay() {
         const audio = audioRef.current;
         if (!audio) return;
 
         if (audio.paused) {
+            setPlaybackError(false);
             audio.play()
                 .then(() => setIsPlaying(true))
-                .catch(() => setPlaybackError(true));
+                .catch((err) => {
+                    console.warn("Dictation audio play failed:", err);
+                    setPlaybackError(true);
+                });
         } else {
             audio.pause();
             setIsPlaying(false);

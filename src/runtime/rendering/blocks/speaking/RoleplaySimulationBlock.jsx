@@ -9,7 +9,7 @@ import illustrationUrl from "../../../../assets/images/speaking_puppet_show.png"
 
 function RoleplaySimulationBlock({ block }) {
     const {
-        title = "2-Way Roleplay",
+        title = "Roleplay",
         scenario = "Have a conversation",
         character1Name = "Person A",
         character2Name = "Person B",
@@ -19,6 +19,8 @@ function RoleplaySimulationBlock({ block }) {
         conversation = [],
         instructions = "Listen and respond as indicated"
     } = block.content;
+
+    const displayTitle = (title === "2-Way Roleplay" || title === "2-Way Role Play" || !title) ? "Roleplay" : title;
     const turns = conversationTurns || conversation;
 
     const [currentTurnIndex, setCurrentTurnIndex] = useState(0);
@@ -98,12 +100,12 @@ function RoleplaySimulationBlock({ block }) {
     );
 
     return (
-        <BlockCard type="roleplay_simulation" style={{ border: "none", boxShadow: "none", background: "transparent" }}>
+        <BlockCard type="roleplay_simulation">
             <div className="elab-block-two-column">
                 <div className="elab-block-interactive-side">
                     <BlockHeader
                         type="roleplay_simulation"
-                        title={title}
+                        title={displayTitle}
                         subtitle={scenario}
                     />
 

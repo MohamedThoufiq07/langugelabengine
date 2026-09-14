@@ -1,5 +1,6 @@
 import { useState } from "react";
 import BlockCard from "../../../ui/components/BlockCard";
+import { resolveMediaUrl } from "../../services/MediaResolver";
 
 // Import cutouts
 import badgeFlashcardUrl from "../../../../assets/images/badge_flashcard.png";
@@ -29,6 +30,8 @@ function FlashcardBlock({ block }) {
     }
 
     const currentCard = cards[currentIndex];
+    const cardImg = resolveMediaUrl(currentCard.image || currentCard.imageUrl || currentCard.frontImage || currentCard.src || currentCard);
+    const cardBackImg = resolveMediaUrl(currentCard.backImage || currentCard.back_image) || cardImg;
 
     function nextCard() {
         setFlipped(false);
@@ -71,7 +74,14 @@ function FlashcardBlock({ block }) {
                             {/* Front Face */}
                             <div className="elab-flashcard-face front">
                                 <span className="elab-flashcard-branch">🌿</span>
-                                <div className="elab-flashcard-left-content">
+                                <div className="elab-flashcard-left-content" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem" }}>
+                                    {cardImg && (
+                                        <img 
+                                            src={cardImg} 
+                                            alt={currentCard.front || "Flashcard Image"} 
+                                            style={{ maxHeight: "120px", maxWidth: "80%", objectFit: "contain", borderRadius: "8px" }} 
+                                        />
+                                    )}
                                     <span className="elab-flashcard-text">{currentCard.front}</span>
                                 </div>
                                 <div className="elab-flashcard-decorations">
@@ -85,7 +95,14 @@ function FlashcardBlock({ block }) {
                             {/* Back Face */}
                             <div className="elab-flashcard-face back">
                                 <span className="elab-flashcard-branch">🌿</span>
-                                <div className="elab-flashcard-left-content">
+                                <div className="elab-flashcard-left-content" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem" }}>
+                                    {cardBackImg && (
+                                        <img 
+                                            src={cardBackImg} 
+                                            alt={currentCard.back || "Flashcard Back Image"} 
+                                            style={{ maxHeight: "120px", maxWidth: "80%", objectFit: "contain", borderRadius: "8px" }} 
+                                        />
+                                    )}
                                     <span className="elab-flashcard-text">{currentCard.back}</span>
                                 </div>
                                 <div className="elab-flashcard-decorations">
