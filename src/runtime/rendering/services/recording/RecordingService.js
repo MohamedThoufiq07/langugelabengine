@@ -67,6 +67,29 @@ class RecordingService {
         }
 
         this.audioChunks = [];
+        this.transcript = "";
+
+        // Web Speech API for real-time speech-to-text transcription
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (SpeechRecognition) {
+            try {
+                this.recognition = new SpeechRecognition();
+                this.recognition.continuous = true;
+                this.recognition.interimResults = true;
+                this.recognition.lang = "en-US";
+                
+                this.recognition.onresult = (event) => {
+                    let currentTranscript = "";
+                    for (let i = 0; i < event.results.length; i++) {
+                        currentTranscript += event.results[i][0].transcript;
+                    }
+                    this.transcript = currentTranscript.trim();
+                };
+                this.recognition.start();
+            } catch (err) {
+                console.warn("Speech recognition initialization failed:", err);
+            }
+        }
 
         this.mediaRecorder = new MediaRecorder(this.stream);
 
@@ -153,6 +176,14 @@ class RecordingService {
 
         }
 
+        if (this.recognition) {
+            try {
+                this.recognition.stop();
+            } catch (e) {
+                // ignore
+            }
+        }
+
         return new Promise((resolve) => {
 
             this.mediaRecorder.onstop = () => {
@@ -179,6 +210,8 @@ class RecordingService {
 
                     this.startTime;
 
+                const recordedTranscript = this.transcript || "";
+
                 this.dispose();
 
                 resolve({
@@ -186,6 +219,8 @@ class RecordingService {
                     blob: audioBlob,
 
                     url: audioURL,
+
+                    transcript: recordedTranscript,
 
                     duration
 

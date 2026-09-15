@@ -79,8 +79,8 @@ function RoleplaySimulationBlock({ block }) {
 
     return (
         <BlockCard type="roleplay_simulation">
-            <div className="elab-block-two-column roleplay-redesign" style={{ marginTop: "1rem", marginBottom: "2rem" }}>
-                <div className="elab-block-interactive-side" style={{ flex: 1 }}>
+            <div className="roleplay-redesign" style={{ width: "100%", marginTop: "1rem", marginBottom: "2rem" }}>
+                <div className="elab-block-interactive-side" style={{ width: "100%", flex: 1 }}>
                     <BlockHeader
                         type="roleplay_simulation"
                         title={displayTitle}
@@ -94,7 +94,7 @@ function RoleplaySimulationBlock({ block }) {
                     )}
 
                     {/* Chat Bubble Stream */}
-                    <div className="roleplay-chat-stream" style={{ display: "flex", flexDirection: "column", gap: "1.25rem", marginTop: "1rem" }}>
+                    <div className="roleplay-chat-stream" style={{ display: "flex", flexDirection: "column", gap: "1.25rem", marginTop: "1rem", width: "100%" }}>
                         {turns.map((turn, idx) => {
                             const isSpeakerA = turn.speaker === "npc" || turn.speaker === "speakerA" || turn.speaker === nameA || idx % 2 === 0;
                             const currentName = isSpeakerA ? nameA : nameB;
@@ -112,7 +112,8 @@ function RoleplaySimulationBlock({ block }) {
                                         flexDirection: isSpeakerA ? "row" : "row-reverse",
                                         alignItems: "flex-start",
                                         gap: "0.75rem",
-                                        maxWidth: "100%"
+                                        maxWidth: "100%",
+                                        width: "100%"
                                     }}
                                 >
                                     {/* Avatar */}
@@ -143,7 +144,7 @@ function RoleplaySimulationBlock({ block }) {
 
                                     {/* Bubble Content */}
                                     <div style={{
-                                        maxWidth: "75%",
+                                        maxWidth: "60%",
                                         background: isSpeakerA ? "#ffffff" : "#2563eb",
                                         color: isSpeakerA ? "#1e293b" : "#ffffff",
                                         borderRadius: isSpeakerA ? "0 1.25rem 1.25rem 1.25rem" : "1.25rem 0 1.25rem 1.25rem",
@@ -155,10 +156,17 @@ function RoleplaySimulationBlock({ block }) {
                                             {currentName}
                                         </div>
 
-                                        {turnText && (
-                                            <div style={{ fontSize: "0.98rem", lineHeight: "1.5", fontWeight: 500 }}>
-                                                "{turnText}"
+                                        {/* Display prompt or student's transcribed/recorded text */}
+                                        {userRecording?.transcript ? (
+                                            <div style={{ fontSize: "0.98rem", lineHeight: "1.5", fontWeight: 600, background: isSpeakerA ? "#f8fafc" : "rgba(255,255,255,0.15)", padding: "0.4rem 0.75rem", borderRadius: "0.5rem", marginBottom: "0.5rem" }}>
+                                                "{userRecording.transcript}"
                                             </div>
+                                        ) : (
+                                            turnText && (
+                                                <div style={{ fontSize: "0.98rem", lineHeight: "1.5", fontWeight: 500 }}>
+                                                    "{turnText}"
+                                                </div>
+                                            )
                                         )}
 
                                         {/* Audio playback for turn audio */}
@@ -179,7 +187,7 @@ function RoleplaySimulationBlock({ block }) {
                                                         style={{ fontSize: "0.85rem", padding: "0.4rem 1rem" }}
                                                     >
                                                         <img src={recordDot} alt="Start" style={{ borderRadius: "50%", width: "14px", height: "14px" }} />
-                                                        {userRecording ? "Re-record Answer" : "Record Answer"}
+                                                        {userRecording ? "Re-record Voice" : "Record Voice"}
                                                     </button>
                                                 ) : (
                                                     <button
@@ -191,12 +199,6 @@ function RoleplaySimulationBlock({ block }) {
                                                         ⏹ Stop Recording
                                                     </button>
                                                 )}
-
-                                                {userRecording?.audio && (
-                                                    <div style={{ marginTop: "0.5rem" }}>
-                                                        <audio controls controlsList="nodownload noplaybackrate" disablePictureInPicture src={userRecording.audio} style={{ width: "100%", height: "32px" }} />
-                                                    </div>
-                                                )}
                                             </div>
                                         )}
                                     </div>
@@ -204,15 +206,6 @@ function RoleplaySimulationBlock({ block }) {
                             );
                         })}
                     </div>
-                </div>
-
-                {/* Right Side Illustration */}
-                <div className="elab-block-content-side" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    <img
-                        src={roleplayBoyGirlImg}
-                        alt="Roleplay Illustration"
-                        style={{ maxWidth: "260px", width: "100%", height: "auto", objectFit: "contain" }}
-                    />
                 </div>
             </div>
             <div style={{ marginBottom: "28px" }} />

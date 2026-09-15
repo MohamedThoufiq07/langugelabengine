@@ -17,9 +17,13 @@ function ImageBlock({ block }) {
         setImgSrc(url || defaultImageFallback);
     }, [block]);
 
+    const customWidth = jsonStyles.width || content.width || "100%";
+    const customHeight = jsonStyles.height || content.height || "auto";
+    const customMaxHeight = jsonStyles.maxHeight || content.maxHeight || "325px";
+
     const cardStyle = {
         width: "100%",
-        maxWidth: "100%",
+        maxWidth: "540px",
         minHeight: jsonStyles.minHeight ? jsonStyles.minHeight : "auto",
         margin: "0 auto",
         boxSizing: "border-box"
@@ -41,7 +45,16 @@ function ImageBlock({ block }) {
                         }
                     }}
                     className="elab-media-card-element"
-                    style={{ width: "100%", maxWidth: "100%", maxHeight: "420px", borderRadius: "14px", objectFit: "contain", display: "block" }}
+                    style={{
+                        width: "100%",
+                        height: "auto",
+                        maxWidth: "500px",
+                        maxHeight: "300px",
+                        borderRadius: "14px",
+                        objectFit: "contain",
+                        display: "block",
+                        margin: "0 auto"
+                    }}
                 />
                 {caption && (
                     <p className="elab-media-card-caption" style={{ marginTop: "8px", marginBottom: "0", textAlign: "center", fontWeight: "700" }}>{caption}</p>

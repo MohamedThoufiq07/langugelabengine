@@ -3524,8 +3524,17 @@ ol {
     margin-right: auto !important;
 }
 
+.runtime-shell[data-season-name="Spring Season"] .elab-media-card {
+    padding-top: 4.8rem !important;
+    padding-bottom: 4.5rem !important;
+    padding-left: 4.8rem !important;
+    padding-right: 4.8rem !important;
+    width: fit-content !important;
+    max-width: 90% !important;
+    margin: 0 auto !important;
+}
+
 .runtime-shell[data-season-name="Summer Season"] .elab-media-card,
-.runtime-shell[data-season-name="Spring Season"] .elab-media-card,
 .runtime-shell[data-season-name="Marine Season"] .elab-media-card,
 .runtime-shell[data-season-name="Desert Season"] .elab-media-card,
 .runtime-shell[data-season-name="Lava Season"] .elab-media-card {
@@ -6460,8 +6469,8 @@ ol {
 .elab-block-card[data-type="video"] video,
 .elab-media-frame img,
 .elab-media-frame video {
-    max-width: 100% !important;
-    max-height: none !important;
+    max-width: 500px !important;
+    max-height: 300px !important;
     width: 100% !important;
     height: auto !important;
     object-fit: contain !important;
@@ -6696,20 +6705,21 @@ ol {
 
 .elab-block-card.elab-media-card .elab-media-card-element {
     display: block;
-    width: auto !important;
-    max-width: 100% !important;
+    width: 100% !important;
+    max-width: 500px !important;
     height: auto !important;
-    max-height: clamp(200px, 36vh, 310px) !important;
+    max-height: 300px !important;
     object-fit: contain !important;
-    border-radius: 10px !important;
+    border-radius: 12px !important;
     margin: 0 auto;
 }
 
 /* Let videos preserve their native aspect ratio and fit snugly inside card. */
 .elab-block-card.elab-media-card[data-type="video"] .elab-media-card-element {
-    width: auto !important;
-    max-width: 540px !important;
-    max-height: clamp(180px, 30vh, 260px) !important;
+    width: 100% !important;
+    max-width: 500px !important;
+    height: auto !important;
+    max-height: 300px !important;
     object-fit: contain !important;
 }
 
@@ -6748,10 +6758,10 @@ video::-webkit-media-controls-overflow-button {
 }
 
 .elab-media-card[data-type="image"] .elab-media-card-element {
-    width: auto !important;
-    max-width: 100% !important;
+    width: 100% !important;
+    max-width: 500px !important;
     height: auto !important;
-    max-height: clamp(200px, 36vh, 310px) !important;
+    max-height: 300px !important;
     object-fit: contain !important;
 }
 
@@ -7589,8 +7599,8 @@ video::-webkit-media-controls-overflow-button {
 .elab-block-card.elab-media-card .elab-media-card-element {
     display: block;
     width: 100% !important;
-    max-width: 100% !important;
-    max-height: 46dvh !important;
+    max-width: 500px !important;
+    max-height: 300px !important;
     margin: 0 auto;
     object-fit: contain !important;
 }

@@ -239,7 +239,7 @@
 .runtime-shell[data-season-name="Spring Season"] .scene-backdrop-content {
   width: 100% !important;
   max-width: 1080px !important;
-  margin-left: calc(50% - 430px) !important;
+  margin-left: calc(50% - 390px) !important;
   margin-right: auto !important;
 }
 
@@ -381,7 +381,7 @@
 .runtime-shell[data-season-name="Marine Season"] .scene-backdrop-content {
   width: 100% !important;
   max-width: 1080px !important;
-  margin-left: calc(50% - 330px) !important;
+  margin-left: calc(50% - 390px) !important;
   margin-right: auto !important;
 }
 
