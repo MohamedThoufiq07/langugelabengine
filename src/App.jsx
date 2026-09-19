@@ -65,7 +65,8 @@ const SEASONS = [
     {
         name: "Summer Season",
         bg: "/summer season/bg1.png",
-        cardBg: "/summer season/summer bg board.png"
+        cardBg: "/summer season/summer bg board.png",
+        headingBoard: "/purple board.png"
     },
     {
         name: "Winter Season",
@@ -101,35 +102,36 @@ const SEASONS = [
 function App() {
 
     const experiencesList = useMemo(() => {
-
-        return Object.entries(experienceModules).map(([filePath, expData], idx) => {
-
+        const rawList = Object.entries(experienceModules).map(([filePath, expData]) => {
             const parts = filePath.split("/");
             const folderName = parts[parts.length - 2] || "Sample";
             const cleanTitle = (expData && expData.title)
                 ? expData.title
                 : folderName.replace(/_/g, " ").replace(/\.\.\./g, "").trim();
 
-            // Group 6 lessons per season:
-            // Lessons 1-6 (idx 0..5): Summer Season
-            // Lessons 7-12 (idx 6..11): Winter Season
-            // Lessons 13-18 (idx 12..17): Spring Season
-            // Lessons 19-24 (idx 18..23): Desert Season
-            // Lessons 25-30 (idx 24..29): Marine Season
-            // Lessons 31-36 (idx 30..35): Lava Season
-            const seasonIndex = Math.floor(idx / 6) % SEASONS.length;
-            const season = SEASONS[seasonIndex];
-
             return {
                 id: (expData && expData.id) || folderName,
                 folderName,
                 title: cleanTitle,
-                season,
                 data: expData
             };
-
         });
 
+        // Ensure Hello!_This_Is_Me..._v233 is placed at the top (Lesson 1 - Summer Season)
+        rawList.sort((a, b) => {
+            if (a.folderName === "Hello!_This_Is_Me..._v233") return -1;
+            if (b.folderName === "Hello!_This_Is_Me..._v233") return 1;
+            return a.folderName.localeCompare(b.folderName);
+        });
+
+        return rawList.map((item, idx) => {
+            const seasonIndex = Math.floor(idx / 6) % SEASONS.length;
+            const season = SEASONS[seasonIndex];
+            return {
+                ...item,
+                season
+            };
+        });
     }, []);
 
     const [selectedExpIndex, setSelectedExpIndex] = useState(0);

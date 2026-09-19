@@ -38,7 +38,7 @@ function HeadingBlock({ block }) {
                     margin: 0, 
                     fontWeight: fontWeight, 
                     fontFamily: fontFamily,
-                    backgroundImage: "var(--theme-heading-board, url('/locked board.png'))",
+                    backgroundImage: "url('/locked board.png')",
                     backgroundSize: "100% 100%",
                     backgroundRepeat: "no-repeat",
                     backgroundPosition: "center",

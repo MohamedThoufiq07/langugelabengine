@@ -3748,9 +3748,17 @@ ol {
 
 .elab-custom-title-purple {
     font-family: 'Poppins', 'Inter', sans-serif;
-    font-size: 26px !important;
+    font-size: 22px !important;
     font-weight: 800 !important;
-    color: #7E5BE2 !important;
+    color: #ffffff !important;
+    background: var(--theme-heading-board, url('/purple board.png')) no-repeat center / 100% 100% !important;
+    padding: 10px 32px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 150px;
+    height: 52px;
+    box-sizing: border-box;
     margin: 0 !important;
     text-transform: uppercase;
 }
@@ -5500,7 +5508,7 @@ ol {
 .speaking-badge-tag.voice,
 .speaking-badge-tag.pronunciation,
 .speaking-badge-tag.input {
-    background: var(--theme-heading-board, url('/purple board.png')) no-repeat !important;
+    background: var(--theme-heading-board, url('/brown board.png')) no-repeat !important;
     background-size: 100% 100% !important;
     color: #ffffff !important;
     border: none !important;

@@ -23,7 +23,8 @@ const GATING_TYPES = new Set([
     "hotspot_explorer",
     "functional_reading",
     "audio_mystery",
-    "roleplay_simulation"
+    "roleplay_simulation",
+    "multimedia_reading_assessment"
 
 ]);
 

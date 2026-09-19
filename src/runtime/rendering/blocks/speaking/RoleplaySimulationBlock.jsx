@@ -41,8 +41,66 @@ function RoleplaySimulationBlock({ block }) {
 
     const [responses, setResponses] = useState({});
     const [recordingTurnIndex, setRecordingTurnIndex] = useState(null);
+    const [activeListenTurnIndex, setActiveListenTurnIndex] = useState(null);
     const [error, setError] = useState("");
     const completion = useScreenCompletion();
+
+    const handleListen = (turn, idx) => {
+        const rawAudio = turn.audio || turn.audioUrl || turn.sound || turn.voiceUrl || turn.audio_url || turn.sound_url || turn.speakerAudio || turn.dialogueAudio || turn.audioFile || turn.mediaUrl || turn.media_url || turn.url || turn.clipUrl || turn.referenceAudio;
+        const turnAudio = resolveMediaUrl(rawAudio);
+        const turnText = turn.prompt || turn.text || turn.dialogue || turn.message || turn.expectedResponse || "";
+
+        if (window.speechSynthesis) {
+            window.speechSynthesis.cancel();
+        }
+
+        setActiveListenTurnIndex(idx);
+
+        const speakWithTTS = () => {
+            if (window.speechSynthesis && turnText) {
+                const utterance = new SpeechSynthesisUtterance(turnText);
+                utterance.lang = "en-US";
+                utterance.rate = 0.95;
+
+                const voices = window.speechSynthesis.getVoices() || [];
+                const speakerName = (turn.speaker === "npc" || turn.speaker === "speakerA" ? nameA : nameB).toLowerCase();
+                const isFemale = speakerName.includes("maya") || speakerName.includes("girl") || speakerName.includes("woman") || speakerName.includes("she") || turn.gender === "female";
+
+                let bestVoice = null;
+
+                if (isFemale) {
+                    bestVoice = voices.find(v => v.lang.startsWith("en") && (v.name.includes("Samantha") || v.name.includes("Zira") || v.name.includes("Jenny") || v.name.includes("Google US English") || v.name.includes("Female")));
+                    utterance.pitch = 1.15;
+                } else {
+                    bestVoice = voices.find(v => v.lang.startsWith("en") && (v.name.includes("David") || v.name.includes("Guy") || v.name.includes("George") || v.name.includes("Male")));
+                    utterance.pitch = 0.95;
+                }
+
+                if (!bestVoice) {
+                    bestVoice = voices.find(v => v.lang.startsWith("en")) || voices[0];
+                }
+
+                if (bestVoice) {
+                    utterance.voice = bestVoice;
+                }
+
+                utterance.onend = () => setActiveListenTurnIndex(null);
+                utterance.onerror = () => setActiveListenTurnIndex(null);
+                window.speechSynthesis.speak(utterance);
+            } else {
+                setActiveListenTurnIndex(null);
+            }
+        };
+
+        if (turnAudio) {
+            const audioObj = new Audio(turnAudio);
+            audioObj.onended = () => setActiveListenTurnIndex(null);
+            audioObj.onerror = () => speakWithTTS();
+            audioObj.play().catch(() => speakWithTTS());
+        } else {
+            speakWithTTS();
+        }
+    };
 
     async function startRecording(turnIdx) {
         try {
@@ -169,10 +227,81 @@ function RoleplaySimulationBlock({ block }) {
                                             )
                                         )}
 
-                                        {/* Audio playback for turn audio */}
-                                        {turnAudio && (
-                                            <div style={{ marginTop: "0.5rem" }}>
-                                                <audio controls controlsList="nodownload noplaybackrate" disablePictureInPicture src={turnAudio} style={{ width: "100%", height: "36px" }} />
+                                        {/* Styled Listen Button for playing audio file or reading via TTS */}
+                                        {(turnText || turnAudio) && (
+                                            <div style={{ marginTop: "0.6rem" }}>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => handleListen(turn, idx)}
+                                                    style={{
+                                                        display: "inline-flex",
+                                                        alignItems: "center",
+                                                        gap: "6px",
+                                                        padding: "5px 14px",
+                                                        borderRadius: "20px",
+                                                        backgroundColor: activeListenTurnIndex === idx ? "#7c3aed" : (isSpeakerA ? "#f3e8ff" : "rgba(255,255,255,0.25)"),
+                                                        color: activeListenTurnIndex === idx ? "#ffffff" : (isSpeakerA ? "#7e22ce" : "#ffffff"),
+                                                        border: isSpeakerA ? "1.5px solid #d8b4fe" : "1.5px solid rgba(255,255,255,0.4)",
+                                                        fontWeight: 700,
+                                                        fontSize: "0.85rem",
+                                                        cursor: "pointer",
+                                                        transition: "all 0.15s ease",
+                                                        boxShadow: "0 2px 6px rgba(0,0,0,0.06)"
+                                                    }}
+                                                >
+                                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                                                        <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" />
+                                                    </svg>
+                                                    {activeListenTurnIndex === idx ? "Listening..." : "Listen"}
+                                                </button>
+                                            </div>
+                                        )}
+
+                                        {/* Interactive Student Choice Buttons */}
+                                        {Array.isArray(turn.choices || turn.options || turn.choiceButtons) && (turn.choices || turn.options || turn.choiceButtons).length > 0 && (
+                                            <div style={{ marginTop: "0.75rem", display: "flex", flexDirection: "column", gap: "0.4rem" }}>
+                                                {(turn.choices || turn.options || turn.choiceButtons).map((choice, choiceIdx) => {
+                                                    const choiceText = typeof choice === "string" ? choice : (choice.text || choice.label || choice.option);
+                                                    const isSelectedChoice = responses[idx]?.selectedChoice === choiceIdx;
+
+                                                    return (
+                                                        <button
+                                                            key={choiceIdx}
+                                                            type="button"
+                                                            onClick={() => {
+                                                                setResponses(prev => {
+                                                                    const next = {
+                                                                        ...prev,
+                                                                        [idx]: {
+                                                                            ...prev[idx],
+                                                                            selectedChoice: choiceIdx,
+                                                                            choiceText: choiceText,
+                                                                            transcript: choiceText
+                                                                        }
+                                                                    };
+                                                                    completion?.saveAnswer?.(block.id, next);
+                                                                    completion?.reportAnswered(block.id);
+                                                                    return next;
+                                                                });
+                                                            }}
+                                                            style={{
+                                                                padding: "0.45rem 0.85rem",
+                                                                borderRadius: "0.5rem",
+                                                                border: isSelectedChoice ? "2px solid #2563eb" : (isSpeakerA ? "1.5px solid #cbd5e1" : "1.5px solid rgba(255,255,255,0.4)"),
+                                                                backgroundColor: isSelectedChoice ? "#dbeafe" : (isSpeakerA ? "#f8fafc" : "rgba(255,255,255,0.1)"),
+                                                                color: isSelectedChoice ? "#1e40af" : (isSpeakerA ? "#1e293b" : "#ffffff"),
+                                                                fontWeight: isSelectedChoice ? 700 : 500,
+                                                                fontSize: "0.88rem",
+                                                                textAlign: "left",
+                                                                cursor: "pointer",
+                                                                transition: "all 0.15s ease"
+                                                            }}
+                                                        >
+                                                            💬 {choiceText}
+                                                        </button>
+                                                    );
+                                                })}
                                             </div>
                                         )}
 
@@ -187,7 +316,7 @@ function RoleplaySimulationBlock({ block }) {
                                                         style={{ fontSize: "0.85rem", padding: "0.4rem 1rem" }}
                                                     >
                                                         <img src={recordDot} alt="Start" style={{ borderRadius: "50%", width: "14px", height: "14px" }} />
-                                                        {userRecording ? "Re-record Voice" : "Record Voice"}
+                                                        {userRecording?.audio ? "Re-record Voice" : "Record Voice"}
                                                     </button>
                                                 ) : (
                                                     <button

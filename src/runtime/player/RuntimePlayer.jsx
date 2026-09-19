@@ -167,15 +167,31 @@ function RuntimePlayer({ runtime, onNextLesson, onExit }) {
         // If already on very first screen of first activity, do nothing
     }, [runtime, refreshScreen, selectedActivityIndex, activities]);
 
+    // Calculate total screens and current global screen position across all activities in the experience (unconditional hook execution)
+    const allScreensList = useMemo(() => {
+        return (experience?.activities || []).flatMap(act => act.screens || []);
+    }, [experience]);
+
+    const globalScreenIndex = useMemo(() => {
+        let count = 0;
+        const actIdx = selectedActivityIndex ?? 0;
+        const scrIdx = runtime?.getCurrentScreenIndex() ?? 0;
+
+        for (let i = 0; i < actIdx && i < (experience?.activities?.length || 0); i++) {
+            count += (experience?.activities?.[i]?.screens?.length || 0);
+        }
+        return count + scrIdx;
+    }, [selectedActivityIndex, runtime, experience, screen]);
+
     if (loading || !screen) {
         return <LoadingScreen />;
     }
 
-    // Override progress structure to display only active activity screens count
+    // Override progress structure to display global screen progress across all experience screens
     const customProgress = {
         ...progress,
-        currentScreen: (runtime.getCurrentScreenIndex() ?? 0) + 1,
-        totalScreens: activityScreens.length
+        currentScreen: globalScreenIndex + 1,
+        totalScreens: allScreensList.length > 0 ? allScreensList.length : (activityScreens.length || 1)
     };
 
     const Renderer = registry.getRenderer("screen");

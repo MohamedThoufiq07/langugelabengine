@@ -12,6 +12,16 @@ function SingleSquareCard({ card, index, cardWidth }) {
     const cardImg = resolveMediaUrl(card.image || card.imageUrl || card.frontImage || card.src || (typeof card === "object" ? card : null));
     const cardBackImg = resolveMediaUrl(card.backImage || card.back_image) || cardImg;
 
+    const frontAudio = resolveMediaUrl(card.audio || card.audioUrl || card.frontAudio);
+    const backAudio = resolveMediaUrl(card.backAudio || card.audio || card.audioUrl);
+
+    function playAudio(e, audioUrl) {
+        e.stopPropagation();
+        if (!audioUrl) return;
+        const sound = new Audio(audioUrl);
+        sound.play().catch(err => console.warn("Audio playback error:", err));
+    }
+
     return (
         <div style={{ perspective: "1000px", width: cardWidth || "240px", height: "280px", flexShrink: 0 }}>
             <div
@@ -46,17 +56,38 @@ function SingleSquareCard({ card, index, cardWidth }) {
                         boxSizing: "border-box"
                     }}
                 >
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%", flex: 1 }}>
+                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "0.5rem", width: "100%", flex: 1 }}>
                         <span style={{ fontSize: "1.4rem", fontWeight: 800, color: "#1e293b", fontFamily: "'Poppins', sans-serif", textAlign: "center" }}>
                             {frontText}
                         </span>
+                        {frontAudio && (
+                            <button
+                                type="button"
+                                onClick={(e) => playAudio(e, frontAudio)}
+                                style={{
+                                    background: "#eff6ff",
+                                    border: "1.5px solid #93c5fd",
+                                    color: "#2563eb",
+                                    borderRadius: "9999px",
+                                    padding: "0.35rem 0.85rem",
+                                    fontWeight: 700,
+                                    fontSize: "0.85rem",
+                                    cursor: "pointer",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: "0.35rem"
+                                }}
+                            >
+                                🔊 Listen
+                            </button>
+                        )}
                     </div>
                     <span style={{ fontSize: "0.85rem", fontWeight: 700, color: "#94a3b8", fontFamily: "'Poppins', sans-serif" }}>
                         Click to flip
                     </span>
                 </div>
 
-                {/* Back Face: Prominent Top Image spanning near borders, Text displayed directly below, Click to flip at bottom */}
+                {/* Back Face: Prominent Top Image, Text directly below, Audio play button */}
                 <div
                     style={{
                         position: "absolute",
@@ -77,13 +108,12 @@ function SingleSquareCard({ card, index, cardWidth }) {
                     }}
                 >
                     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem", width: "100%", flex: 1, justifyContent: "flex-start" }}>
-                        {/* Top Prominent Image near borders */}
                         {cardBackImg && (
                             <img
                                 src={cardBackImg}
                                 alt={backText}
                                 style={{
-                                    height: "150px",
+                                    height: "130px",
                                     width: "100%",
                                     objectFit: "cover",
                                     borderRadius: "1.1rem",
@@ -91,10 +121,30 @@ function SingleSquareCard({ card, index, cardWidth }) {
                                 }}
                             />
                         )}
-                        {/* Text directly below the image */}
-                        <span style={{ fontSize: "1.3rem", fontWeight: 800, color: "#1e293b", fontFamily: "'Poppins', sans-serif", textAlign: "center", wordBreak: "break-word", marginTop: "0.35rem", padding: "0 0.5rem" }}>
+                        <span style={{ fontSize: "1.15rem", fontWeight: 800, color: "#1e293b", fontFamily: "'Poppins', sans-serif", textAlign: "center", wordBreak: "break-word", padding: "0 0.5rem" }}>
                             {backText}
                         </span>
+                        {backAudio && (
+                            <button
+                                type="button"
+                                onClick={(e) => playAudio(e, backAudio)}
+                                style={{
+                                    background: "#f0fdf4",
+                                    border: "1.5px solid #86efac",
+                                    color: "#16a34a",
+                                    borderRadius: "9999px",
+                                    padding: "0.3rem 0.75rem",
+                                    fontWeight: 700,
+                                    fontSize: "0.8rem",
+                                    cursor: "pointer",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: "0.3rem"
+                                }}
+                            >
+                                🔊 Listen
+                            </button>
+                        )}
                     </div>
                     <span style={{ fontSize: "0.85rem", fontWeight: 700, color: "#94a3b8", fontFamily: "'Poppins', sans-serif" }}>
                         Click to flip

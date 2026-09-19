@@ -27,6 +27,7 @@ import WordSearchBlock from "./blocks/reading/WordSearchBlock";
 import ReadingBlock from "./blocks/reading/ReadingBlock";
 import HotspotExplorerBlock from "./blocks/reading/HotspotExplorerBlock";
 import FunctionalReadingBlock from "./blocks/reading/FunctionalReadingBlock";
+import MultimediaReadingAssessmentBlock from "./blocks/reading/MultimediaReadingAssessmentBlock";
 
 // Writing
 import FillBlankBlock from "./blocks/writing/FillBlankBlock";
@@ -81,6 +82,7 @@ const registry = {
     reading_passage: ReadingBlock,
     hotspot_explorer: HotspotExplorerBlock,
     functional_reading: FunctionalReadingBlock,
+    multimedia_reading_assessment: MultimediaReadingAssessmentBlock,
 
     // Writing
     fill_blank: FillBlankBlock,
