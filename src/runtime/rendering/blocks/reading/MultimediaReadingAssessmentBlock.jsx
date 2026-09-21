@@ -315,6 +315,22 @@ function MultimediaReadingAssessmentBlock({ block }) {
                             const qText = q.questionText || q.question || q.prompt || `Question #${idx + 1}`;
                             const userAns = answers[qId];
                             const targetBlankAns = q.targetCorrectBlankAnswer || q.targetAnswer || q.correctAnswer;
+                            const correctAnswerIdx = q.correctAnswerIndex ?? 0;
+
+                            const isUserCorrect = isFillInBlank
+                                ? (targetBlankAns ? String(userAns || "").toLowerCase().trim() === String(targetBlankAns).toLowerCase().trim() : true)
+                                : (userAns === correctAnswerIdx);
+
+                            const showFeedback = !isAssessment || submitted;
+
+                            let cardBorder = "1.5px solid #cbd5e1";
+                            if (isActivePause) {
+                                cardBorder = "2.5px solid #f59e0b";
+                            } else if (isAnswered) {
+                                cardBorder = showFeedback
+                                    ? (isUserCorrect ? "2px solid #22c55e" : "2px solid #ef4444")
+                                    : "2px solid #22c55e";
+                            }
 
                             return (
                                 <div
@@ -322,7 +338,7 @@ function MultimediaReadingAssessmentBlock({ block }) {
                                     style={{
                                         backgroundColor: isActivePause ? "#fffbe6" : "#ffffff",
                                         borderRadius: "1rem",
-                                        border: isActivePause ? "2.5px solid #f59e0b" : isAnswered ? "2px solid #22c55e" : "1.5px solid #cbd5e1",
+                                        border: cardBorder,
                                         padding: "1.25rem",
                                         boxShadow: isActivePause ? "0 4px 18px rgba(245, 158, 11, 0.25)" : "0 4px 12px rgba(0,0,0,0.04)",
                                         display: "flex",
@@ -337,9 +353,21 @@ function MultimediaReadingAssessmentBlock({ block }) {
                                         </div>
                                         <div style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}>
                                             {isAnswered && (
-                                                <span style={{ fontSize: "0.78rem", fontWeight: 800, padding: "4px 10px", borderRadius: "12px", backgroundColor: "#dcfce7", color: "#15803d" }}>
-                                                    ✓ Answered
-                                                </span>
+                                                showFeedback ? (
+                                                    isUserCorrect ? (
+                                                        <span style={{ fontSize: "0.78rem", fontWeight: 800, padding: "4px 10px", borderRadius: "12px", backgroundColor: "#dcfce7", color: "#15803d", border: "1px solid #86efac" }}>
+                                                            ✓ Correct
+                                                        </span>
+                                                    ) : (
+                                                        <span style={{ fontSize: "0.78rem", fontWeight: 800, padding: "4px 10px", borderRadius: "12px", backgroundColor: "#fee2e2", color: "#991b1b", border: "1px solid #fca5a5" }}>
+                                                            ✕ Wrong
+                                                        </span>
+                                                    )
+                                                ) : (
+                                                    <span style={{ fontSize: "0.78rem", fontWeight: 800, padding: "4px 10px", borderRadius: "12px", backgroundColor: "#dcfce7", color: "#15803d" }}>
+                                                        ✓ Answered
+                                                    </span>
+                                                )
                                             )}
                                         </div>
                                     </div>
@@ -359,7 +387,12 @@ function MultimediaReadingAssessmentBlock({ block }) {
                                                         minWidth: "220px",
                                                         padding: "0.75rem 1rem",
                                                         borderRadius: "0.6rem",
-                                                        border: isAnswered ? "2px solid #22c55e" : "2px solid #cbd5e1",
+                                                        border: (showFeedback && isAnswered)
+                                                            ? (isUserCorrect ? "2px solid #22c55e" : "2px solid #ef4444")
+                                                            : (isAnswered ? "2px solid #22c55e" : "2px solid #cbd5e1"),
+                                                        backgroundColor: (showFeedback && isAnswered)
+                                                            ? (isUserCorrect ? "#f0fdf4" : "#fef2f2")
+                                                            : "#ffffff",
                                                         fontSize: "1rem",
                                                         fontWeight: 600,
                                                         outline: "none"
@@ -372,7 +405,9 @@ function MultimediaReadingAssessmentBlock({ block }) {
                                                     style={{
                                                         padding: "0.75rem 1.5rem",
                                                         borderRadius: "0.6rem",
-                                                        backgroundColor: isAnswered ? "#16a34a" : "#2563eb",
+                                                        backgroundColor: (showFeedback && isAnswered)
+                                                            ? (isUserCorrect ? "#16a34a" : "#dc2626")
+                                                            : "#2563eb",
                                                         color: "#ffffff",
                                                         border: "none",
                                                         fontWeight: 700,
@@ -380,13 +415,14 @@ function MultimediaReadingAssessmentBlock({ block }) {
                                                         boxShadow: "0 2px 8px rgba(37,99,235,0.2)"
                                                     }}
                                                 >
-                                                    {isAnswered ? "Submit Answer" : "Submit Answer"}
+                                                    Submit Answer
                                                 </button>
                                             </div>
 
-                                            {submitted && targetBlankAns && (
-                                                <div style={{ fontSize: "0.88rem", fontWeight: 700, color: (String(userAns || "").toLowerCase().trim() === String(targetBlankAns).toLowerCase().trim()) ? "#15803d" : "#b91c1c" }}>
-                                                    Target Correct Blank Answer: <span style={{ textDecoration: "underline" }}>{targetBlankAns}</span>
+                                            {showFeedback && isAnswered && targetBlankAns && (
+                                                <div style={{ fontSize: "0.88rem", fontWeight: 700, color: isUserCorrect ? "#15803d" : "#b91c1c" }}>
+                                                    {isUserCorrect ? "✓ Correct!" : "✕ Wrong. Correct Answer: "}
+                                                    <span style={{ textDecoration: isUserCorrect ? "none" : "underline" }}>{targetBlankAns}</span>
                                                 </div>
                                             )}
                                         </div>
@@ -397,11 +433,13 @@ function MultimediaReadingAssessmentBlock({ block }) {
                                                 const optText = typeof opt === "string" ? opt : (opt.text || opt.label || `Option ${optIdx + 1}`);
                                                 const optImage = typeof opt === "object" ? resolveMediaUrl(opt.imageUrl || opt.image) : null;
                                                 const isSelected = userAns === optIdx;
-                                                const isRightOption = optIdx === q.correctAnswerIndex;
+                                                const isRightOption = optIdx === correctAnswerIdx;
 
                                                 let optionBg = "#ffffff";
                                                 let optionBorder = "2px solid #cbd5e1";
                                                 let optionColor = "#1e293b";
+                                                let badgeBg = isSelected ? "#3b82f6" : "#f1f5f9";
+                                                let badgeColor = isSelected ? "#ffffff" : "#475569";
 
                                                 if (isSelected) {
                                                     optionBg = "#eff6ff";
@@ -409,15 +447,19 @@ function MultimediaReadingAssessmentBlock({ block }) {
                                                     optionColor = "#1d4ed8";
                                                 }
 
-                                                if (submitted) {
+                                                if (showFeedback && isAnswered) {
                                                     if (isRightOption) {
                                                         optionBg = "#f0fdf4";
                                                         optionBorder = "2px solid #22c55e";
                                                         optionColor = "#15803d";
+                                                        badgeBg = "#22c55e";
+                                                        badgeColor = "#ffffff";
                                                     } else if (isSelected && !isRightOption) {
                                                         optionBg = "#fef2f2";
                                                         optionBorder = "2px solid #ef4444";
                                                         optionColor = "#b91c1c";
+                                                        badgeBg = "#ef4444";
+                                                        badgeColor = "#ffffff";
                                                     }
                                                 }
 
@@ -449,8 +491,8 @@ function MultimediaReadingAssessmentBlock({ block }) {
                                                             width: "28px",
                                                             height: "28px",
                                                             borderRadius: "50%",
-                                                            backgroundColor: isSelected ? (submitted ? (isRightOption ? "#22c55e" : "#ef4444") : "#3b82f6") : "#f1f5f9",
-                                                            color: isSelected ? "#ffffff" : "#475569",
+                                                            backgroundColor: badgeBg,
+                                                            color: badgeColor,
                                                             display: "flex",
                                                             alignItems: "center",
                                                             justifyContent: "center",
@@ -473,7 +515,7 @@ function MultimediaReadingAssessmentBlock({ block }) {
                                     )}
 
                                     {/* Feedback / Explanation */}
-                                    {submitted && q.explanation && (
+                                    {(showFeedback || submitted) && q.explanation && (
                                         <div style={{ marginTop: "0.25rem" }}>
                                             <button
                                                 type="button"

@@ -712,7 +712,7 @@
                           "imageUrl": "/media/media_library/2ef641b972b84f2aac0ac453aa5484d4.jpeg"
                         }
                       ],
-                      "pauseAt": 35,
+                      "pauseAt": 0,
                       "question": "How does he feel? ",
                       "correctAnswerIndex": 0
                     }
@@ -877,23 +877,23 @@
                 "content": {
                   "audioUrl": "",
                   "scenario": "Analyze the multimedia material and answer the interactive questions.",
-                  "videoUrl": "",
+                  "videoUrl": "/media/media_library/2f3d96f12c0d40c89a1c8e4f60a80c12.mp4",
                   "mediaType": "multimedia",
                   "questions": [
                     {
                       "id": "q1",
                       "options": [
                         {
-                          "text": "Option A",
+                          "text": "boy",
                           "imageUrl": ""
                         },
                         {
-                          "text": "Option B",
+                          "text": "girl",
                           "imageUrl": ""
                         }
                       ],
                       "imageUrl": "",
-                      "question": "What is the main topic of the presentation?",
+                      "question": "Who are you?",
                       "correctAnswerIndex": 0
                     }
                   ],
@@ -1304,7 +1304,7 @@
                       "prompt": "",
                       "speaker": "user",
                       "allowAudioRecord": true,
-                      "expectedResponse": "eight years old"
+                      "expectedResponse": "8 years old"
                     }
                   ],
                   "npcCharacter": "Anu",
