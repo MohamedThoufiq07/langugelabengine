@@ -40,6 +40,7 @@ function RoleplaySimulationBlock({ block }) {
     const avatarB = resolveMediaUrl(speakerBAvatarUrl || userAvatarUrl);
 
     const [responses, setResponses] = useState({});
+    const [attempts, setAttempts] = useState({});
     const [recordingTurnIndex, setRecordingTurnIndex] = useState(null);
     const [activeListenTurnIndex, setActiveListenTurnIndex] = useState(null);
     const [error, setError] = useState("");
@@ -48,7 +49,7 @@ function RoleplaySimulationBlock({ block }) {
     const handleListen = (turn, idx) => {
         const rawAudio = turn.audio || turn.audioUrl || turn.sound || turn.voiceUrl || turn.audio_url || turn.sound_url || turn.speakerAudio || turn.dialogueAudio || turn.audioFile || turn.mediaUrl || turn.media_url || turn.url || turn.clipUrl || turn.referenceAudio;
         const turnAudio = resolveMediaUrl(rawAudio);
-        const turnText = turn.prompt || turn.text || turn.dialogue || turn.message || turn.expectedResponse || "";
+        const turnText = turn.prompt || turn.text || turn.dialogue || turn.expectedResponse || turn.expected_response || "";
 
         if (window.speechSynthesis) {
             window.speechSynthesis.cancel();
@@ -112,23 +113,158 @@ function RoleplaySimulationBlock({ block }) {
         }
     }
 
+    // Helper function to validate response matching against expected response strictly
+    const checkResponseMatch = (userTranscript, expectedResponse) => {
+        if (!expectedResponse || !expectedResponse.trim()) return true; // No expectation = match
+        if (!userTranscript || !userTranscript.trim()) return false; // Empty transcript = try again
+
+        const expandContractions = (text) => {
+            if (!text) return "";
+            return text.toLowerCase()
+                .replace(/\b(i)'?m\b/g, "$1 am")
+                .replace(/\b(you|we|they)'?re\b/g, "$1 are")
+                .replace(/\b(he|she|it|that|what|where|there)'?s\b/g, "$1 is")
+                .replace(/\b(can)'?t\b/g, "can not")
+                .replace(/\b(won)'?t\b/g, "will not")
+                .replace(/\b(don|doesn|didn|isn|aren|wasn|weren|hasn|haven|hadn|wouldn|couldn|shouldn)'?t\b/g, "$1 not")
+                .replace(/[^a-z0-9\s]/gi, " ")
+                .replace(/\s+/g, " ")
+                .trim();
+        };
+
+        const cleanUser = expandContractions(userTranscript);
+        const cleanExpected = expandContractions(expectedResponse);
+
+        if (!cleanUser || !cleanExpected) return false;
+
+        // Exact match after contraction expansion
+        if (cleanUser === cleanExpected) return true;
+
+        const userWords = cleanUser.split(/\s+/).filter(Boolean);
+        const expectedWords = cleanExpected.split(/\s+/).filter(Boolean);
+
+        // Homophone dictionary for common Speech-To-Text phonetic mismatches
+        const HOMOPHONES = {
+            "too": ["to", "two"],
+            "to": ["too", "two"],
+            "two": ["to", "too"],
+            "there": ["their", "theyre"],
+            "their": ["there", "theyre"],
+            "your": ["youre"],
+            "youre": ["your"],
+            "for": ["four", "fore"],
+            "four": ["for"],
+            "be": ["bee"],
+            "see": ["sea"],
+            "sea": ["see"],
+            "by": ["buy", "bye"],
+            "buy": ["by", "bye"],
+            "hear": ["here"],
+            "here": ["hear"],
+            "meet": ["meat"],
+            "meat": ["meet"],
+            "sun": ["son"],
+            "son": ["sun"]
+        };
+
+        const isWordMatched = (expWord, uWords) => {
+            if (uWords.includes(expWord)) return true;
+            const equivalents = HOMOPHONES[expWord] || [];
+            return equivalents.some(eq => uWords.includes(eq));
+        };
+
+        // Every expected word MUST be present (or homophone equivalent) in user transcript
+        const allExpectedWordsPresent = expectedWords.every(w => isWordMatched(w, userWords));
+        if (!allExpectedWordsPresent) return false;
+
+        // Reject conflicting greeting/time/negation keywords that alter sentence meaning
+        const conflictingKeywords = ["night", "evening", "afternoon", "morning", "bye", "goodbye", "hello", "hi", "no", "not"].filter(w => !expectedWords.includes(w));
+        if (conflictingKeywords.some(w => userWords.includes(w))) {
+            return false;
+        }
+
+        return true;
+    };
+
+    // Helper to identify if a turn is Speaker A (NPC/Partner) or Speaker B (User/Student)
+    const checkIsSpeakerA = (turn, idx) => {
+        if (turn.speaker === "npc" || turn.speaker === "speakerA" || turn.speaker === nameA) return true;
+        if (turn.speaker === "user" || turn.speaker === "speakerB" || turn.speaker === nameB) return false;
+        return idx % 2 === 0;
+    };
+
+    // Helper to check if student has completed a given turn index
+    const isTurnCompleted = (idx) => {
+        const resp = responses[idx];
+        if (!resp) return false;
+        return !!resp.completed;
+    };
+
+    // Determine if a turn at index `idx` is visible
+    // A turn is visible if all previous student turns before `idx` have been completed!
+    const isTurnVisible = (idx) => {
+        for (let k = 0; k < idx; k++) {
+            const turnK = turns[k];
+            const isStudentK = !checkIsSpeakerA(turnK, k);
+            if (isStudentK && !isTurnCompleted(k)) {
+                return false;
+            }
+        }
+        return true;
+    };
+
     async function stopRecording(turnIdx) {
         try {
             const result = await RecordingService.stopRecording();
             setRecordingTurnIndex(null);
 
-            setResponses(prev => {
-                const next = {
+            const currentTurn = turns[turnIdx];
+            const expected = (currentTurn?.expectedResponse || currentTurn?.expected_response || currentTurn?.targetAnswer || currentTurn?.text || currentTurn?.prompt || "").trim();
+            const transcript = result.transcript || "";
+            const isMatch = checkResponseMatch(transcript, expected);
+
+            const newAttemptCount = (attempts[turnIdx] || 0) + 1;
+            setAttempts(prev => ({ ...prev, [turnIdx]: newAttemptCount }));
+
+            if (isMatch) {
+                setResponses(prev => {
+                    const next = {
+                        ...prev,
+                        [turnIdx]: {
+                            audio: result.url,
+                            transcript: transcript || expected || "Recorded Response",
+                            completed: true,
+                            matched: true,
+                            errorMessage: null
+                        }
+                    };
+                    completion?.saveAnswer?.(block.id, next);
+
+                    const studentTurnIndices = turns.map((t, i) => (!checkIsSpeakerA(t, i) ? i : null)).filter(i => i !== null);
+                    const finishedCount = studentTurnIndices.filter(i => !!next[i]?.completed).length;
+
+                    if (finishedCount >= studentTurnIndices.length && studentTurnIndices.length > 0) {
+                        completion?.reportAnswered(block.id);
+                    }
+                    return next;
+                });
+            } else {
+                const hintMsg = newAttemptCount >= 3
+                    ? `💡 Hint: Try saying "${expected}"`
+                    : `⚠️ Try again! Response not matched. (Attempt ${newAttemptCount}/3)`;
+
+                setResponses(prev => ({
                     ...prev,
                     [turnIdx]: {
+                        ...prev[turnIdx],
                         audio: result.url,
-                        transcript: result.transcript || ""
+                        transcript: transcript,
+                        completed: false,
+                        matched: false,
+                        errorMessage: hintMsg
                     }
-                };
-                completion?.saveAnswer?.(block.id, next);
-                completion?.reportAnswered(block.id);
-                return next;
-            });
+                }));
+            }
         } catch (err) {
             setError(err.message);
             setRecordingTurnIndex(null);
@@ -137,7 +273,7 @@ function RoleplaySimulationBlock({ block }) {
 
     return (
         <BlockCard type="roleplay_simulation">
-            <div className="roleplay-redesign" style={{ width: "100%", marginTop: "1rem", marginBottom: "2rem" }}>
+            <div className="roleplay-redesign" style={{ width: "100%", marginTop: "0.25rem", marginBottom: "1.5rem" }}>
                 <div className="elab-block-interactive-side" style={{ width: "100%", flex: 1 }}>
                     <BlockHeader
                         type="roleplay_simulation"
@@ -154,13 +290,20 @@ function RoleplaySimulationBlock({ block }) {
                     {/* Chat Bubble Stream */}
                     <div className="roleplay-chat-stream" style={{ display: "flex", flexDirection: "column", gap: "1.25rem", marginTop: "1rem", width: "100%" }}>
                         {turns.map((turn, idx) => {
-                            const isSpeakerA = turn.speaker === "npc" || turn.speaker === "speakerA" || turn.speaker === nameA || idx % 2 === 0;
+                            if (!isTurnVisible(idx)) return null;
+
+                            const isSpeakerA = checkIsSpeakerA(turn, idx);
                             const currentName = isSpeakerA ? nameA : nameB;
                             const currentAvatar = isSpeakerA ? avatarA : avatarB;
-                            const turnText = turn.text || turn.prompt || turn.dialogue || "";
+                            const turnText = turn.text || turn.prompt || turn.dialogue || turn.expectedResponse || turn.expected_response || "";
                             const turnAudio = resolveMediaUrl(turn.audio || turn.audioUrl);
-                            const allowRecord = turn.allowAudioRecord !== false && (turn.speaker === "user" || turn.speaker === "speakerB" || !isSpeakerA || turn.recordingRequired);
                             const userRecording = responses[idx];
+                            const completed = isTurnCompleted(idx);
+                            const allowRecord = turn.allowAudioRecord !== false && !isSpeakerA && !completed;
+
+                            const showHint = (attempts[idx] || 0) >= 3;
+                            const showText = isSpeakerA || completed || showHint;
+                            const showListenButton = isSpeakerA || (!completed && showHint);
 
                             return (
                                 <div
@@ -171,7 +314,8 @@ function RoleplaySimulationBlock({ block }) {
                                         alignItems: "flex-start",
                                         gap: "0.75rem",
                                         maxWidth: "100%",
-                                        width: "100%"
+                                        width: "100%",
+                                        animation: "fadeIn 0.35s ease-in-out"
                                     }}
                                 >
                                     {/* Avatar */}
@@ -202,7 +346,7 @@ function RoleplaySimulationBlock({ block }) {
 
                                     {/* Bubble Content */}
                                     <div style={{
-                                        maxWidth: "60%",
+                                        maxWidth: "65%",
                                         background: isSpeakerA ? "#ffffff" : "#2563eb",
                                         color: isSpeakerA ? "#1e293b" : "#ffffff",
                                         borderRadius: isSpeakerA ? "0 1.25rem 1.25rem 1.25rem" : "1.25rem 0 1.25rem 1.25rem",
@@ -214,21 +358,37 @@ function RoleplaySimulationBlock({ block }) {
                                             {currentName}
                                         </div>
 
-                                        {/* Display prompt or student's transcribed/recorded text */}
-                                        {userRecording?.transcript ? (
-                                            <div style={{ fontSize: "0.98rem", lineHeight: "1.5", fontWeight: 600, background: isSpeakerA ? "#f8fafc" : "rgba(255,255,255,0.15)", padding: "0.4rem 0.75rem", borderRadius: "0.5rem", marginBottom: "0.5rem" }}>
-                                                "{userRecording.transcript}"
+                                        {/* Display prompt / text for Speaker A, completed turn, or after 3 failed attempts (Hint mode) */}
+                                        {showText && turnText && (
+                                            <div style={{ fontSize: "0.98rem", lineHeight: "1.5", fontWeight: 500 }}>
+                                                "{completed ? (userRecording?.transcript || turnText) : turnText}"
                                             </div>
-                                        ) : (
-                                            turnText && (
-                                                <div style={{ fontSize: "0.98rem", lineHeight: "1.5", fontWeight: 500 }}>
-                                                    "{turnText}"
-                                                </div>
-                                            )
                                         )}
 
-                                        {/* Styled Listen Button for playing audio file or reading via TTS */}
-                                        {(turnText || turnAudio) && (
+                                        {/* Display error feedback / hint banner if STT transcript did not match */}
+                                        {!isSpeakerA && !completed && userRecording?.errorMessage && (
+                                            <div style={{
+                                                fontSize: "0.85rem",
+                                                fontWeight: 700,
+                                                color: showHint ? "#fef08a" : "#fee2e2",
+                                                backgroundColor: showHint ? "rgba(161, 98, 7, 0.45)" : "rgba(220, 38, 38, 0.4)",
+                                                border: showHint ? "1px solid rgba(253, 224, 71, 0.5)" : "1px solid rgba(252, 165, 165, 0.5)",
+                                                padding: "0.45rem 0.75rem",
+                                                borderRadius: "0.5rem",
+                                                marginTop: "0.35rem",
+                                                marginBottom: "0.4rem"
+                                            }}>
+                                                {userRecording.errorMessage}
+                                                {userRecording.transcript && showHint && (
+                                                    <div style={{ fontSize: "0.8rem", fontWeight: 600, marginTop: "0.25rem", opacity: 0.9, color: "#ffffff" }}>
+                                                        🗣️ You said: "{userRecording.transcript}"
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )}
+
+                                        {/* Styled Listen Button - shown for Speaker A or Speaker B in 3-attempt hint mode */}
+                                        {showListenButton && (turnText || turnAudio) && (
                                             <div style={{ marginTop: "0.6rem" }}>
                                                 <button
                                                     type="button"
@@ -277,11 +437,18 @@ function RoleplaySimulationBlock({ block }) {
                                                                             ...prev[idx],
                                                                             selectedChoice: choiceIdx,
                                                                             choiceText: choiceText,
-                                                                            transcript: choiceText
+                                                                            transcript: choiceText,
+                                                                            completed: true
                                                                         }
                                                                     };
                                                                     completion?.saveAnswer?.(block.id, next);
-                                                                    completion?.reportAnswered(block.id);
+
+                                                                    const studentTurnIndices = turns.map((t, i) => (!checkIsSpeakerA(t, i) ? i : null)).filter(i => i !== null);
+                                                                    const finishedCount = studentTurnIndices.filter(i => !!next[i]?.completed || !!next[i]?.audio || !!next[i]?.transcript || next[i]?.selectedChoice !== undefined).length;
+
+                                                                    if (finishedCount >= studentTurnIndices.length && studentTurnIndices.length > 0) {
+                                                                        completion?.reportAnswered(block.id);
+                                                                    }
                                                                     return next;
                                                                 });
                                                             }}
@@ -305,9 +472,9 @@ function RoleplaySimulationBlock({ block }) {
                                             </div>
                                         )}
 
-                                        {/* Recording controls for student response */}
+                                        {/* Recording controls & next turn actions for student response */}
                                         {allowRecord && (
-                                            <div style={{ marginTop: "0.75rem", paddingTop: "0.5rem", borderTop: isSpeakerA ? "1px solid #f1f5f9" : "1px solid rgba(255,255,255,0.2)" }}>
+                                            <div style={{ marginTop: "0.75rem", paddingTop: "0.5rem", borderTop: isSpeakerA ? "1px solid #f1f5f9" : "1px solid rgba(255,255,255,0.2)", display: "flex", alignItems: "center", gap: "0.5rem", flexWrap: "wrap" }}>
                                                 {recordingTurnIndex !== idx ? (
                                                     <button
                                                         type="button"

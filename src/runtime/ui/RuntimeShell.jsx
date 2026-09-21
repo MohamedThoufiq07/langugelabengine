@@ -59,6 +59,14 @@ function RuntimeShell({
         return () => clearInterval(timer);
     }, [experience]);
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+        const container = document.querySelector(".scene-content-area") || document.querySelector(".runtime-shell");
+        if (container) {
+            container.scrollTop = 0;
+        }
+    }, [progress?.currentScreen, progress?.currentActivity]);
+
     const formattedTime = useMemo(() => {
         const h = Math.floor(timeLeft / 3600);
         const m = Math.floor((timeLeft % 3600) / 60);

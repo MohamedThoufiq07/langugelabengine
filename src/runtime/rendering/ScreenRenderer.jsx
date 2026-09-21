@@ -55,11 +55,15 @@ function ScreenRenderer({
     const completedRef = useRef(false);
 
     useEffect(() => {
-
         setAnsweredIds(new Set());
-
         completedRef.current = false;
 
+        // Reset scroll to top of first block when transitioning to a new screen
+        window.scrollTo(0, 0);
+        const container = document.querySelector(".scene-content-area") || document.querySelector(".runtime-shell");
+        if (container) {
+            container.scrollTop = 0;
+        }
     }, [screen]);
 
     useEffect(() => {

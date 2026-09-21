@@ -5779,27 +5779,16 @@ ol {
 }
 
 /* Card Frame Fit Overrides for Interactive & Content Blocks */
-.runtime-shell .elab-block-card[data-type="sentence"],
-.elab-block-card[data-type="sentence"],
-.runtime-shell .elab-block-card[data-type="sentence_builder"],
-.elab-block-card[data-type="sentence_builder"],
+.runtime-shell .elab-block-card[data-type="roleplay_simulation"],
+.elab-block-card[data-type="roleplay_simulation"],
 .runtime-shell .elab-block-card[data-type="roleplay"],
 .elab-block-card[data-type="roleplay"],
 .runtime-shell .elab-block-card[data-type="role_play"],
 .elab-block-card[data-type="role_play"],
-.runtime-shell .elab-block-card[data-type="roleplay_simulation"],
-.elab-block-card[data-type="roleplay_simulation"],
-.runtime-shell .elab-block-card[data-type="flashcard"],
-.elab-block-card[data-type="flashcard"],
-.runtime-shell .elab-block-card[data-type="hotspot_explorer"],
-.elab-block-card[data-type="hotspot_explorer"],
-.runtime-shell .elab-block-card[data-type="match"],
-.elab-block-card[data-type="match"],
-.runtime-shell .elab-block-card[data-type="fill_blank"],
-.elab-block-card[data-type="fill_blank"],
-.runtime-shell .elab-block-card[data-type="fill_in_the_blanks"],
-.elab-block-card[data-type="fill_in_the_blanks"] {
-    padding: 3.8rem 4.8rem 4.5rem 4.8rem !important;
+.runtime-shell[data-season-name] .elab-block-card[data-type="roleplay_simulation"],
+.runtime-shell[data-season-name] .elab-block-card[data-type="roleplay"],
+.runtime-shell[data-season-name] .elab-block-card[data-type="role_play"] {
+    padding: 7.2rem 6.8rem 6.5rem 6.8rem !important;
     box-sizing: border-box !important;
     min-height: auto !important;
     overflow: visible !important;

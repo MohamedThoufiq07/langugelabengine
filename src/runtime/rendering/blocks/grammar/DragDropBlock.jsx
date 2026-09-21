@@ -29,16 +29,18 @@ function DragDropBlock({ block }) {
     let finalZones = [...dropZones];
     if (pairs && pairs.length > 0) {
         finalDraggable = pairs.map(p => {
-            const rawText = typeof p === "object" ? p.source : p;
-            const imgSrc = typeof p === "object" ? resolveMediaUrl(p.sourceImage || p.source_image || p.image || p.imageUrl || p) : resolveMediaUrl(p);
+            const rawText = typeof p === "object" ? (p.source || p.sourceText || p.text || "") : p;
+            const rawImg = typeof p === "object" ? (p.sourceImage || p.source_image || p.image || p.imageUrl) : null;
+            const imgSrc = resolveMediaUrl(rawImg || p);
             return {
                 text: rawText,
                 image: imgSrc
             };
         });
         finalZones = pairs.map(p => {
-            const rawText = typeof p === "object" ? p.target : p;
-            const imgSrc = typeof p === "object" ? resolveMediaUrl(p.targetImage || p.target_image) : null;
+            const rawText = typeof p === "object" ? (p.target || p.targetText || p.text || "") : p;
+            const rawImg = typeof p === "object" ? (p.targetImage || p.target_image) : null;
+            const imgSrc = resolveMediaUrl(rawImg);
             return {
                 text: rawText,
                 image: imgSrc
@@ -49,7 +51,7 @@ function DragDropBlock({ block }) {
             if (typeof item === "object" && item !== null) {
                 return {
                     text: item.text || item.label || item.source || "",
-                    image: resolveMediaUrl(item)
+                    image: resolveMediaUrl(item.sourceImage || item.source_image || item.image || item.imageUrl || item)
                 };
             }
             return { text: String(item), image: resolveMediaUrl(item) };
@@ -58,7 +60,7 @@ function DragDropBlock({ block }) {
             if (typeof zone === "object" && zone !== null) {
                 return {
                     text: zone.text || zone.label || zone.target || "",
-                    image: resolveMediaUrl(zone)
+                    image: resolveMediaUrl(zone.targetImage || zone.target_image || zone.image || zone.imageUrl || zone)
                 };
             }
             return { text: String(zone), image: null };
@@ -179,7 +181,7 @@ function DragDropBlock({ block }) {
                 )}
                 
                 {/* Draggable items (chips) */}
-                <div className="elab-drag-chips-row">
+                <div className="elab-drag-chips-row" style={{ display: "flex", flexWrap: "wrap", gap: "1.25rem", marginTop: "1rem", marginBottom: "1.5rem" }}>
                     {finalDraggable.map((itemObj, index) => (
                         <button
                             key={index}
@@ -191,22 +193,56 @@ function DragDropBlock({ block }) {
                             }}
                             disabled={placedItemIndices.has(index)}
                             className={`elab-drag-chip ${selectedItem === index ? "is-selected" : ""} ${placedItemIndices.has(index) ? "is-placed" : ""}`}
-                            style={{ cursor: "grab", display: "inline-flex", alignItems: "center", gap: "0.5rem" }}
+                            style={{
+                                cursor: "grab",
+                                display: "inline-flex",
+                                flexDirection: "column",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                gap: "0.4rem",
+                                padding: 0,
+                                border: "none",
+                                backgroundColor: "transparent",
+                                boxShadow: "none"
+                            }}
                         >
-                            {itemObj.image && (
+                            {itemObj.image ? (
                                 <img
                                     src={itemObj.image}
-                                    alt={itemObj.text}
-                                    style={{ width: "32px", height: "32px", objectFit: "cover", borderRadius: "6px" }}
+                                    alt={itemObj.text || "Draggable Item"}
+                                    style={{
+                                        width: "150px",
+                                        height: "105px",
+                                        objectFit: "cover",
+                                        borderRadius: "1rem",
+                                        display: "block",
+                                        border: selectedItem === index ? "4px solid #f59e0b" : "3px solid #ffffff",
+                                        boxShadow: selectedItem === index ? "0 0 22px rgba(245, 158, 11, 0.6)" : "0 6px 18px rgba(0, 0, 0, 0.14)",
+                                        transition: "all 0.2s ease"
+                                    }}
                                 />
+                            ) : (
+                                <span style={{
+                                    padding: "0.65rem 1.25rem",
+                                    borderRadius: "1rem",
+                                    backgroundColor: selectedItem === index ? "#fffbe6" : "#ffffff",
+                                    border: selectedItem === index ? "3px solid #f59e0b" : "2px solid #cbd5e1",
+                                    fontWeight: 800,
+                                    fontSize: "1.05rem",
+                                    boxShadow: "0 4px 12px rgba(0,0,0,0.08)"
+                                }}>
+                                    {itemObj.text}
+                                </span>
                             )}
-                            <span>{itemObj.text}</span>
+                            {itemObj.image && itemObj.text && itemObj.text.trim().length > 0 && (
+                                <span style={{ fontWeight: 800, fontSize: "1.05rem", color: "#1e293b", fontFamily: "'Poppins', sans-serif" }}>{itemObj.text}</span>
+                            )}
                         </button>
                     ))}
                 </div>
 
                 {/* Drop zones */}
-                <div className="elab-drop-zones-row">
+                <div className="elab-drop-zones-row" style={{ display: "flex", flexWrap: "wrap", gap: "1.5rem", justifyContent: "flex-start", alignItems: "flex-end", marginTop: "1rem" }}>
                     {finalZones.map((zoneObj, zoneIndex) => {
                         const itemIndex = placed[zoneIndex];
                         const filled = itemIndex !== undefined;
@@ -237,23 +273,83 @@ function DragDropBlock({ block }) {
                                     }
                                 }}
                                 className="elab-drop-zone-box"
+                                style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem" }}
                             >
-                                <div className="elab-drop-zone-dest">
-                                    <span>{zoneObj.text}</span>
+                                <div className="elab-drop-zone-dest" style={{ fontWeight: 800, fontSize: "1.1rem", color: "#ea580c", fontFamily: "'Poppins', sans-serif", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                                    {zoneObj.image && (
+                                        <img
+                                            src={zoneObj.image}
+                                            alt={zoneObj.text || "Target Zone"}
+                                            style={{ width: "44px", height: "44px", objectFit: "contain", borderRadius: "6px" }}
+                                        />
+                                    )}
+                                    {zoneObj.text && zoneObj.text.trim().length > 0 && (
+                                        <span>{zoneObj.text}</span>
+                                    )}
                                 </div>
-                                <div className={`elab-drop-zone-target-box ${filled ? "is-filled" : ""} ${wrongZone === zoneIndex ? "is-wrong" : ""}`}>
+                                <div
+                                    className={`elab-drop-zone-target-box ${filled ? "is-filled" : ""} ${wrongZone === zoneIndex ? "is-wrong" : ""}`}
+                                    style={{
+                                        minWidth: "155px",
+                                        minHeight: "110px",
+                                        borderRadius: "1.1rem",
+                                        border: filled ? "none" : "2.5px dashed #f97316",
+                                        backgroundColor: filled ? "transparent" : "rgba(255, 247, 237, 0.8)",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        padding: "0"
+                                    }}
+                                >
                                     {filled ? (
                                         <button 
                                             type="button"
                                             onClick={(e) => handleRemovePlaced(zoneIndex, e)}
-                                            className="elab-drag-chip" 
-                                            style={{ cursor: "pointer", border: "none" }}
+                                            style={{
+                                                cursor: "pointer",
+                                                border: "none",
+                                                backgroundColor: "transparent",
+                                                padding: 0,
+                                                display: "inline-flex",
+                                                flexDirection: "column",
+                                                alignItems: "center",
+                                                justifyContent: "center"
+                                            }}
                                             title="Click to remove / undo"
                                         >
-                                            <span>{placedObj?.text}</span>
+                                            {placedObj?.image ? (
+                                                <img
+                                                    src={placedObj.image}
+                                                    alt={placedObj.text || "Placed Item"}
+                                                    style={{
+                                                        width: "150px",
+                                                        height: "105px",
+                                                        objectFit: "cover",
+                                                        borderRadius: "1rem",
+                                                        display: "block",
+                                                        border: "3.5px solid #22c55e",
+                                                        boxShadow: "0 6px 18px rgba(34, 197, 94, 0.3)"
+                                                    }}
+                                                />
+                                            ) : (
+                                                <span style={{
+                                                    padding: "0.6rem 1.15rem",
+                                                    borderRadius: "0.85rem",
+                                                    backgroundColor: "#f0fdf4",
+                                                    border: "2.5px solid #22c55e",
+                                                    fontWeight: 800,
+                                                    fontSize: "1rem",
+                                                    color: "#15803d"
+                                                }}>
+                                                    {placedObj?.text}
+                                                </span>
+                                            )}
+                                            {placedObj?.image && placedObj?.text && placedObj.text.trim().length > 0 && (
+                                                <span style={{ fontWeight: 800, fontSize: "1rem", color: "#15803d", marginTop: "0.25rem" }}>{placedObj.text}</span>
+                                            )}
                                         </button>
                                     ) : (
-                                        <span className="elab-drop-here-text">Drop here</span>
+                                        <span className="elab-drop-here-text" style={{ fontWeight: 700, fontSize: "0.95rem", color: "#c2410c" }}>Drop here</span>
                                     )}
                                 </div>
                             </div>

@@ -173,33 +173,14 @@ function MultimediaReadingAssessmentBlock({ block }) {
                 {/* 1. MEDIA PLAYER (VIDEO / AUDIO / POSTER) */}
                 <div style={{
                     width: "100%",
-                    borderRadius: "1rem",
+                    borderRadius: "1.25rem",
                     overflow: "hidden",
-                    border: activePauseQuestion ? "3.5px solid #f59e0b" : "2px solid #e2e8f0",
-                    backgroundColor: "#0f172a",
-                    boxShadow: activePauseQuestion ? "0 0 24px rgba(245, 158, 11, 0.45)" : "0 4px 14px rgba(0,0,0,0.12)",
-                    transition: "all 0.3s ease",
-                    position: "relative"
+                    border: isAudio ? "2px solid rgba(255, 255, 255, 0.5)" : "2px solid #cbd5e1",
+                    backgroundColor: isAudio ? "transparent" : "#0f172a",
+                    boxShadow: isAudio ? "0 10px 30px rgba(168, 85, 247, 0.25)" : "0 6px 18px rgba(0,0,0,0.12)",
+                    position: "relative",
+                    transition: "all 0.3s ease"
                 }}>
-                    {activePauseQuestion && (
-                        <div style={{
-                            backgroundColor: "#f59e0b",
-                            color: "#ffffff",
-                            padding: "10px 18px",
-                            fontWeight: 800,
-                            fontSize: "0.95rem",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                            fontFamily: "'Poppins', sans-serif"
-                        }}>
-                            <span>⏸️ Media paused for question! Complete the answer below to resume video.</span>
-                            <span style={{ fontSize: "0.85rem", opacity: 0.9 }}>
-                                Pause Time: {getTargetSeconds(activePauseQuestion)}s
-                            </span>
-                        </div>
-                    )}
-
                     {isVideo ? (
                         resolvedMedia ? (
                             <video
@@ -218,22 +199,83 @@ function MultimediaReadingAssessmentBlock({ block }) {
                             </div>
                         )
                     ) : isAudio ? (
-                        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "1rem", background: "linear-gradient(135deg, #1e293b 0%, #0f172a 100%)", padding: "1.5rem" }}>
-                            <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", color: "#38bdf8", fontWeight: 700, fontSize: "1.05rem" }}>
-                                <span style={{ fontSize: "1.5rem" }}>🎧</span> Interactive Audio Player
+                        <div style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            gap: "1.25rem",
+                            background: "linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #d946ef 100%)",
+                            padding: "2rem 1.5rem",
+                            position: "relative",
+                            overflow: "hidden"
+                        }}>
+                            {/* Decorative ambient glow circles */}
+                            <div style={{
+                                position: "absolute",
+                                top: "-40px",
+                                right: "-40px",
+                                width: "130px",
+                                height: "130px",
+                                borderRadius: "50%",
+                                background: "rgba(255, 255, 255, 0.18)",
+                                pointerEvents: "none"
+                            }} />
+                            <div style={{
+                                position: "absolute",
+                                bottom: "-30px",
+                                left: "-30px",
+                                width: "100px",
+                                height: "100px",
+                                borderRadius: "50%",
+                                background: "rgba(255, 255, 255, 0.12)",
+                                pointerEvents: "none"
+                            }} />
+
+                            {/* Frosted Glass Badge */}
+                            <div style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "0.75rem",
+                                backgroundColor: "rgba(255, 255, 255, 0.22)",
+                                backdropFilter: "blur(10px)",
+                                padding: "0.55rem 1.35rem",
+                                borderRadius: "30px",
+                                color: "#ffffff",
+                                fontWeight: 800,
+                                fontSize: "1.05rem",
+                                fontFamily: "'Poppins', sans-serif",
+                                textShadow: "0 2px 4px rgba(0,0,0,0.15)",
+                                boxShadow: "0 4px 14px rgba(0,0,0,0.12)",
+                                border: "1px solid rgba(255, 255, 255, 0.35)"
+                            }}>
+                                <span style={{ fontSize: "1.4rem" }}>🎧</span>
+                                <span>Interactive Audio Player</span>
                             </div>
+
+                            {/* White Pill Audio Player Wrapper */}
                             {resolvedMedia ? (
-                                <audio
-                                    ref={mediaRef}
-                                    controls
-                                    onTimeUpdate={handleTimeUpdate}
-                                    onEnded={handleMediaEnded}
-                                    controlsList="nodownload"
-                                    src={resolvedMedia}
-                                    style={{ width: "100%", maxWidth: "500px" }}
-                                />
+                                <div style={{
+                                    width: "100%",
+                                    maxWidth: "520px",
+                                    backgroundColor: "rgba(255, 255, 255, 0.95)",
+                                    padding: "0.5rem 1rem",
+                                    borderRadius: "35px",
+                                    boxShadow: "0 8px 24px rgba(0,0,0,0.18)",
+                                    border: "2px solid rgba(255, 255, 255, 0.8)"
+                                }}>
+                                    <audio
+                                        ref={mediaRef}
+                                        controls
+                                        onTimeUpdate={handleTimeUpdate}
+                                        onEnded={handleMediaEnded}
+                                        controlsList="nodownload"
+                                        src={resolvedMedia}
+                                        style={{ width: "100%", height: "42px" }}
+                                    />
+                                </div>
                             ) : (
-                                <div style={{ color: "#94a3b8" }}>No audio source provided</div>
+                                <div style={{ color: "#ffffff", fontWeight: 700 }}>No audio source provided</div>
                             )}
                         </div>
                     ) : (
@@ -253,22 +295,6 @@ function MultimediaReadingAssessmentBlock({ block }) {
                     )}
                 </div>
 
-                {/* Helper prompt before audio/video ends */}
-                {hasPlayableMedia && !mediaEnded && questions.length > 0 && visibleQuestions.length === 0 && (
-                    <div style={{
-                        padding: "0.85rem 1.25rem",
-                        borderRadius: "0.75rem",
-                        backgroundColor: "#f8fafc",
-                        border: "1.5px dashed #cbd5e1",
-                        color: "#475569",
-                        fontWeight: 600,
-                        fontSize: "0.92rem",
-                        textAlign: "center"
-                    }}>
-                        {isVideo ? "🎬 Watch the video above." : "🎧 Listen to the audio above."} Interactive questions will appear as soon as playback finishes.
-                    </div>
-                )}
-
                 {/* 2. TRIGGERED / TARGETED QUESTIONS BELOW THE VIDEO */}
                 {visibleQuestions.length > 0 && (
                     <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem", animation: "fadeIn 0.3s ease" }}>
@@ -281,7 +307,6 @@ function MultimediaReadingAssessmentBlock({ block }) {
                         {visibleQuestions.map((q) => {
                             const idx = questions.indexOf(q);
                             const qId = getQId(q, idx);
-                            const targetSec = getTargetSeconds(q);
                             const isAnswered = answeredQuestions.has(qId);
                             const isActivePause = activePauseQuestion && (activePauseQuestion.id === q.id || activePauseQuestion === q);
                             const qMode = (q.mode || q.questionMode || q.type || "").toLowerCase();
@@ -311,18 +336,6 @@ function MultimediaReadingAssessmentBlock({ block }) {
                                             Question #{idx + 1}: {qText}
                                         </div>
                                         <div style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}>
-                                            {targetSec !== null && targetSec > 0 && (
-                                                <span style={{
-                                                    fontSize: "0.78rem",
-                                                    fontWeight: 700,
-                                                    padding: "4px 10px",
-                                                    borderRadius: "12px",
-                                                    backgroundColor: isActivePause ? "#f59e0b" : "#e0f2fe",
-                                                    color: isActivePause ? "#ffffff" : "#0369a1"
-                                                }}>
-                                                    ⏱️ Target: {targetSec}s
-                                                </span>
-                                            )}
                                             {isAnswered && (
                                                 <span style={{ fontSize: "0.78rem", fontWeight: 800, padding: "4px 10px", borderRadius: "12px", backgroundColor: "#dcfce7", color: "#15803d" }}>
                                                     ✓ Answered
@@ -367,7 +380,7 @@ function MultimediaReadingAssessmentBlock({ block }) {
                                                         boxShadow: "0 2px 8px rgba(37,99,235,0.2)"
                                                     }}
                                                 >
-                                                    {isAnswered ? "Update & Play ▶" : "Submit Answer & Play ▶"}
+                                                    {isAnswered ? "Submit Answer" : "Submit Answer"}
                                                 </button>
                                             </div>
 
