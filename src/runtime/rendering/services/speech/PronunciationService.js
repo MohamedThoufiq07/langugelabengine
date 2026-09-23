@@ -12,40 +12,31 @@
  * cached in the browser (IndexedDB) the first time it's used; every
  * transcription after that runs completely offline.
  *
- * Model: Xenova/whisper-base.en (~290MB)
- * - Better accuracy than tiny model
- * - Good balance between accuracy and performance
- * - Suitable for real-world speech recognition
- *
- * This gives feedback by transcribing what the student said and
- * comparing it to the target word/phrase — a practical proxy for
- * pronunciation quality, not true phoneme-level acoustic scoring
- * (that needs a dedicated pronunciation-assessment model, which has
- * no comparably small offline/WASM option).
+ * Model: Xenova/whisper-base.en (~290MB ONNX WASM model)
+ * - Optimal balance of fast load time, accuracy, and performance for browser STT
+ * - Cached locally in IndexedDB after initial load
  * ============================================================
  */
 
 let transcriberPromise = null;
 
-function getTranscriber(onProgress) {
+async function getTranscriber(onProgress) {
 
     if (!transcriberPromise) {
 
-        transcriberPromise = import(/* @vite-ignore */ "https://esm.sh/@xenova/transformers@2.17.2").then(
-            ({ pipeline, env }) => {
+        try {
+            const { pipeline, env } = await import("@xenova/transformers");
+            env.allowLocalModels = false;
 
-                // Only ever load the model from the HF CDN / IndexedDB
-                // cache, never look for a local server-hosted copy.
-                env.allowLocalModels = false;
-
-                return pipeline(
-                    "automatic-speech-recognition",
-                    "Xenova/whisper-base.en",
-                    { progress_callback: onProgress }
-                );
-
-            }
-        );
+            transcriberPromise = await pipeline(
+                "automatic-speech-recognition",
+                "Xenova/whisper-base.en",
+                { progress_callback: onProgress }
+            );
+        } catch {
+            transcriberPromise = null;
+            return null;
+        }
 
     }
 
@@ -101,17 +92,19 @@ async function decodeToFloat32Mono16k(blob) {
  */
 async function transcribe(blob, onProgress) {
 
-    const [transcriber, audio] = await Promise.all([
+    try {
+        const transcriber = await getTranscriber(onProgress);
 
-        getTranscriber(onProgress),
+        if (!transcriber) return "";
 
-        decodeToFloat32Mono16k(blob)
+        const audio = await decodeToFloat32Mono16k(blob);
 
-    ]);
+        const result = await transcriber(audio);
 
-    const result = await transcriber(audio);
-
-    return (result?.text || "").trim();
+        return (result?.text || "").trim();
+    } catch {
+        return "";
+    }
 
 }
 

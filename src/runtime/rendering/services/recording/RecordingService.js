@@ -68,6 +68,8 @@ class RecordingService {
 
         this.audioChunks = [];
         this.transcript = "";
+        this.sttFailed = false;
+        this.sttError = null;
 
         // Web Speech API for real-time speech-to-text transcription
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -85,10 +87,23 @@ class RecordingService {
                     }
                     this.transcript = currentTranscript.trim();
                 };
+
+                this.recognition.onerror = (event) => {
+                    if (event.error !== "network" && event.error !== "no-speech" && event.error !== "aborted") {
+                        console.warn("Speech recognition error:", event.error);
+                    }
+                    this.sttFailed = true;
+                    this.sttError = event.error;
+                };
+
                 this.recognition.start();
             } catch (err) {
                 console.warn("Speech recognition initialization failed:", err);
+                this.sttFailed = true;
+                this.sttError = err.message;
             }
+        } else {
+            this.sttFailed = true;
         }
 
         this.mediaRecorder = new MediaRecorder(this.stream);
@@ -211,6 +226,8 @@ class RecordingService {
                     this.startTime;
 
                 const recordedTranscript = this.transcript || "";
+                const sttFailed = this.sttFailed || !recordedTranscript;
+                const sttError = this.sttError;
 
                 this.dispose();
 
@@ -222,7 +239,11 @@ class RecordingService {
 
                     transcript: recordedTranscript,
 
-                    duration
+                    duration,
+
+                    sttFailed,
+
+                    sttError
 
                 });
 

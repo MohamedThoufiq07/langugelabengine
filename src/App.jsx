@@ -260,7 +260,7 @@ function App() {
                     }}
                 >
                     {experiencesList.map((exp, idx) => (
-                        <option key={exp.id || idx} value={idx}>
+                        <option key={`${exp.id || 'exp'}-${idx}`} value={idx}>
                             Lesson {idx + 1}: {exp.title} ({exp.season?.name || 'Default'})
                         </option>
                     ))}
@@ -277,7 +277,7 @@ function App() {
 
                     <RuntimePlayer
 
-                        key={experiencesList[selectedExpIndex]?.id || selectedExpIndex}
+                        key={`${experiencesList[selectedExpIndex]?.id || 'exp'}-${selectedExpIndex}`}
 
                         runtime={runtime}
 

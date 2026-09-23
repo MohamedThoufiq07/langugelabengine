@@ -60,11 +60,25 @@ function RuntimeShell({
     }, [experience]);
 
     useEffect(() => {
-        window.scrollTo(0, 0);
-        const container = document.querySelector(".scene-content-area") || document.querySelector(".runtime-shell");
-        if (container) {
-            container.scrollTop = 0;
-        }
+        const handleScrollReset = () => {
+            window.scrollTo(0, 0);
+            const container = document.querySelector(".scene-content-area") || document.querySelector(".runtime-shell");
+            if (container) {
+                container.scrollTop = 0;
+            }
+        };
+
+        handleScrollReset();
+
+        window.addEventListener("resize", handleScrollReset);
+        document.addEventListener("fullscreenchange", handleScrollReset);
+        document.addEventListener("webkitfullscreenchange", handleScrollReset);
+
+        return () => {
+            window.removeEventListener("resize", handleScrollReset);
+            document.removeEventListener("fullscreenchange", handleScrollReset);
+            document.removeEventListener("webkitfullscreenchange", handleScrollReset);
+        };
     }, [progress?.currentScreen, progress?.currentActivity]);
 
     const formattedTime = useMemo(() => {

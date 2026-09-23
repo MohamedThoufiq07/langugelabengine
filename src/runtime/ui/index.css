@@ -3386,7 +3386,7 @@ ol {
 
 /* ☀️ Summer Season Card Frame Padding ☀️ */
 .runtime-shell[data-season-name="Summer Season"] .elab-block-card {
-    padding: 5.2rem 5.0rem 5.2rem 5.0rem !important;
+    padding: 3.2rem 4.5rem 3.5rem 4.5rem !important;
 }
 
 .runtime-shell[data-season-name="Summer Season"] .elab-block-card[data-type="voice"] {
@@ -3575,7 +3575,7 @@ ol {
 
 .elab-block-title {
     font-family: 'Poppins', 'Inter', sans-serif;
-    font-size: 22px !important;
+    font-size: 20px !important;
     font-weight: 800 !important;
     letter-spacing: 0.02em;
     margin: 0 !important;
@@ -3583,13 +3583,17 @@ ol {
     background: var(--theme-heading-board, url('/purple board.png')) no-repeat !important;
     background-size: 100% 100% !important;
     color: #ffffff !important;
-    padding: 10px 32px !important;
+    padding: 8px 36px !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
     border-radius: 0 !important;
-    min-width: 150px;
-    height: 52px;
+    min-width: 160px;
+    width: auto !important;
+    max-width: 100% !important;
+    white-space: nowrap !important;
+    height: auto !important;
+    min-height: 48px !important;
     box-sizing: border-box;
 }
 

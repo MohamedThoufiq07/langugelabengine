@@ -3,6 +3,7 @@ import BlockCard from "../../../ui/components/BlockCard";
 import BlockHeader from "../../../ui/components/BlockHeader";
 import { useScreenCompletion } from "../../../screen/ScreenCompletionContext";
 import RecordingService from "../../services/recording/RecordingService";
+import PronunciationService from "../../services/speech/PronunciationService";
 import { resolveMediaUrl } from "../../services/MediaResolver";
 
 import roleplayBoyGirlImg from "/role play boy and girl.png";
@@ -220,8 +221,23 @@ function RoleplaySimulationBlock({ block }) {
 
             const currentTurn = turns[turnIdx];
             const expected = (currentTurn?.expectedResponse || currentTurn?.expected_response || currentTurn?.targetAnswer || currentTurn?.text || currentTurn?.prompt || "").trim();
-            const transcript = result.transcript || "";
-            const isMatch = checkResponseMatch(transcript, expected);
+
+            let transcript = (result.transcript || "").trim();
+
+            // If browser Speech Recognition is offline or empty, run local offline Whisper model
+            if (!transcript && result.blob) {
+                try {
+                    transcript = await PronunciationService.transcribe(result.blob);
+                } catch {
+                    // Silent catch when offline
+                }
+            }
+
+            const isOffline = typeof navigator !== "undefined" && !navigator.onLine;
+            const isSttUnavailable = result.sttFailed && !transcript;
+
+            // Check match with transcribed text, or accept recorded voice if offline / STT unavailable
+            const isMatch = checkResponseMatch(transcript, expected) || ((isOffline || isSttUnavailable) && !!result.url);
 
             const newAttemptCount = (attempts[turnIdx] || 0) + 1;
             setAttempts(prev => ({ ...prev, [turnIdx]: newAttemptCount }));
