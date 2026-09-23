@@ -112,8 +112,8 @@
 /* Standard default widget positioning for Summer / general seasons */
 .screen-progress-widget {
   position: absolute;
-  left: clamp(36px, 4.8vw, 65px);
-  bottom: clamp(175px, 22.5vh, 205px);
+  left: 4.4vw;
+  bottom: 31.5vh;
   z-index: 100;
   width: 160px;
   display: flex;
@@ -126,7 +126,7 @@
 
 .screen-progress-board-top {
   width: 140px;
-  height: 40px;
+  height: 26px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -136,8 +136,8 @@
 
 .screen-progress-board-bottom {
   width: 140px;
-  height: 36px;
-  margin-top: 2px;
+  height: 26px;
+  margin-top: -2px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -170,8 +170,8 @@
 
 /* ☀️ Specific alignment override for Summer Season ☀️ */
 .runtime-shell[data-season-name="Summer Season"] .screen-progress-widget {
-  left: clamp(38px, 4.5vw, 68px) !important;
-  bottom: clamp(182px, 23.5vh, 218px) !important;
+  left: 4.4vw !important;
+  bottom: 31.5vh !important;
   top: auto !important;
   width: 160px !important;
   gap: 0px !important;
@@ -179,11 +179,11 @@
 }
 
 .runtime-shell[data-season-name="Summer Season"] .screen-progress-board-top {
-  height: 28px !important;
+  height: 26px !important;
 }
 
 .runtime-shell[data-season-name="Summer Season"] .screen-progress-board-bottom {
-  height: 28px !important;
+  height: 26px !important;
   margin-top: -2px !important;
 }
 
@@ -194,8 +194,8 @@
 }
 
 .runtime-shell[data-season-name="Winter Season"] .screen-progress-widget {
-  left: clamp(48px, 5.8vw, 85px) !important;
-  bottom: clamp(218px, 27.5vh, 260px) !important;
+  left: 5.4vw !important;
+  bottom: 33vh !important;
   gap: 4px;
   z-index: 150 !important;
 }
@@ -240,8 +240,8 @@
 }
 
 .runtime-shell[data-season-name="Spring Season"] .screen-progress-widget {
-  left: clamp(55px, 6.8vw, 95px) !important;
-  bottom: clamp(160px, 20vh, 190px) !important;
+  left: 6.2vw !important;
+  bottom: 27.5vh !important;
   width: 160px !important;
   gap: 2px;
   z-index: 150 !important;
@@ -285,8 +285,8 @@
 }
 
 .runtime-shell[data-season-name="Desert Season"] .screen-progress-widget {
-  left: clamp(35px, 4.5vw, 68px) !important;
-  bottom: clamp(165px, 21vh, 195px) !important;
+  left: 4.4vw !important;
+  bottom: 30vh !important;
   gap: 2px;
   z-index: 150 !important;
 }
@@ -329,8 +329,8 @@
 }
 
 .runtime-shell[data-season-name="Lava Season"] .screen-progress-widget {
-  left: clamp(30px, 3.8vw, 60px) !important;
-  bottom: clamp(120px, 15vh, 155px) !important;
+  left: 4.0vw !important;
+  bottom: 25.5vh !important;
   gap: 2px;
   z-index: 150 !important;
 }
@@ -382,8 +382,8 @@
 }
 
 .runtime-shell[data-season-name="Marine Season"] .screen-progress-widget {
-  left: clamp(60px, 7.5vw, 100px) !important;
-  bottom: clamp(215px, 27vh, 260px) !important;
+  left: 7.2vw !important;
+  bottom: 33.5vh !important;
   width: 160px !important;
   gap: 1px;
   z-index: 150 !important;
