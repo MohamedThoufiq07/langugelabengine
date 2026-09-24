@@ -88,24 +88,51 @@ function MultimediaReadingAssessmentBlock({ block }) {
         const qId = getQId(q, idx);
         if (submitted && isAssessment) return;
 
+        const correctAnswerIdx = q.correctAnswerIndex ?? 0;
+        const currentAns = answers[qId];
+        const isCurrentlyCorrect = answeredQuestions.has(qId) && currentAns === correctAnswerIdx;
+
+        // If student already selected the correct answer, do NOT allow changing to wrong option!
+        if (isCurrentlyCorrect) return;
+
         setAnswers(prev => ({ ...prev, [qId]: optIdx }));
         const nextAnswered = new Set(answeredQuestions);
         nextAnswered.add(qId);
         setAnsweredQuestions(nextAnswered);
 
-        // Clear active question popup and resume video playback!
-        if (activePauseQuestion && (activePauseQuestion.id === q.id || activePauseQuestion === q)) {
-            setActivePauseQuestion(null);
-            setTimeout(() => {
-                if (mediaRef.current) {
-                    mediaRef.current.play().catch(() => {});
-                }
-            }, 300);
+        // Clear active question popup and resume video playback ONLY when correct answer is selected!
+        if (optIdx === correctAnswerIdx) {
+            if (activePauseQuestion && (activePauseQuestion.id === q.id || activePauseQuestion === q)) {
+                setActivePauseQuestion(null);
+                setTimeout(() => {
+                    if (mediaRef.current) {
+                        mediaRef.current.play().catch(() => {});
+                    }
+                }, 300);
+            }
         }
 
         if (nextAnswered.size >= questions.length && questions.length > 0) {
             completion?.reportAnswered?.(block.id);
         }
+    };
+
+    const handleResetQuestion = (qId) => {
+        setAnswers(prev => {
+            const next = { ...prev };
+            delete next[qId];
+            return next;
+        });
+        setAnsweredQuestions(prev => {
+            const next = new Set(prev);
+            next.delete(qId);
+            return next;
+        });
+        setBlankInputs(prev => {
+            const next = { ...prev };
+            delete next[qId];
+            return next;
+        });
     };
 
     // Handle Fill-in-the-blanks Submission & Auto-Resume
@@ -353,7 +380,11 @@ function MultimediaReadingAssessmentBlock({ block }) {
                                         </div>
                                         <div style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}>
                                             {isAnswered && (
-                                                showFeedback ? (
+                                                isFillInBlank ? (
+                                                    <span style={{ fontSize: "0.78rem", fontWeight: 800, padding: "4px 10px", borderRadius: "12px", backgroundColor: "#dcfce7", color: "#15803d", border: "1px solid #86efac" }}>
+                                                        ✓ Answered
+                                                    </span>
+                                                ) : showFeedback ? (
                                                     isUserCorrect ? (
                                                         <span style={{ fontSize: "0.78rem", fontWeight: 800, padding: "4px 10px", borderRadius: "12px", backgroundColor: "#dcfce7", color: "#15803d", border: "1px solid #86efac" }}>
                                                             ✓ Correct
@@ -381,18 +412,14 @@ function MultimediaReadingAssessmentBlock({ block }) {
                                                     placeholder="Type your answer here..."
                                                     value={blankInputs[qId] ?? (answers[qId] || "")}
                                                     onChange={(e) => setBlankInputs({ ...blankInputs, [qId]: e.target.value })}
-                                                    disabled={submitted && isAssessment}
+                                                    disabled={(submitted && isAssessment) || isAnswered}
                                                     style={{
                                                         flex: "1",
                                                         minWidth: "220px",
                                                         padding: "0.75rem 1rem",
                                                         borderRadius: "0.6rem",
-                                                        border: (showFeedback && isAnswered)
-                                                            ? (isUserCorrect ? "2px solid #22c55e" : "2px solid #ef4444")
-                                                            : (isAnswered ? "2px solid #22c55e" : "2px solid #cbd5e1"),
-                                                        backgroundColor: (showFeedback && isAnswered)
-                                                            ? (isUserCorrect ? "#f0fdf4" : "#fef2f2")
-                                                            : "#ffffff",
+                                                        border: isAnswered ? "2px solid #22c55e" : "2px solid #cbd5e1",
+                                                        backgroundColor: isAnswered ? "#f0fdf4" : "#ffffff",
                                                         fontSize: "1rem",
                                                         fontWeight: 600,
                                                         outline: "none"
@@ -401,30 +428,22 @@ function MultimediaReadingAssessmentBlock({ block }) {
                                                 <button
                                                     type="button"
                                                     onClick={() => handleFillBlankSubmit(q, idx)}
-                                                    disabled={submitted && isAssessment}
+                                                    disabled={(submitted && isAssessment) || isAnswered}
                                                     style={{
                                                         padding: "0.75rem 1.5rem",
                                                         borderRadius: "0.6rem",
-                                                        backgroundColor: (showFeedback && isAnswered)
-                                                            ? (isUserCorrect ? "#16a34a" : "#dc2626")
-                                                            : "#2563eb",
+                                                        backgroundColor: isAnswered ? "#16a34a" : "#2563eb",
                                                         color: "#ffffff",
                                                         border: "none",
                                                         fontWeight: 700,
-                                                        cursor: "pointer",
-                                                        boxShadow: "0 2px 8px rgba(37,99,235,0.2)"
+                                                        cursor: ((submitted && isAssessment) || isAnswered) ? "default" : "pointer",
+                                                        boxShadow: "0 2px 8px rgba(37,99,235,0.2)",
+                                                        opacity: ((submitted && isAssessment) || isAnswered) ? 0.8 : 1
                                                     }}
                                                 >
                                                     Submit Answer
                                                 </button>
                                             </div>
-
-                                            {showFeedback && isAnswered && targetBlankAns && (
-                                                <div style={{ fontSize: "0.88rem", fontWeight: 700, color: isUserCorrect ? "#15803d" : "#b91c1c" }}>
-                                                    {isUserCorrect ? "✓ Correct!" : "✕ Wrong. Correct Answer: "}
-                                                    <span style={{ textDecoration: isUserCorrect ? "none" : "underline" }}>{targetBlankAns}</span>
-                                                </div>
-                                            )}
                                         </div>
                                     ) : (
                                         /* MULTIPLE CHOICE MCQ MODE */
@@ -448,29 +467,38 @@ function MultimediaReadingAssessmentBlock({ block }) {
                                                 }
 
                                                 if (showFeedback && isAnswered) {
-                                                    if (isRightOption) {
-                                                        optionBg = "#f0fdf4";
-                                                        optionBorder = "2px solid #22c55e";
-                                                        optionColor = "#15803d";
-                                                        badgeBg = "#22c55e";
-                                                        badgeColor = "#ffffff";
-                                                    } else if (isSelected && !isRightOption) {
-                                                        optionBg = "#fef2f2";
-                                                        optionBorder = "2px solid #ef4444";
-                                                        optionColor = "#b91c1c";
-                                                        badgeBg = "#ef4444";
-                                                        badgeColor = "#ffffff";
+                                                    if (isUserCorrect) {
+                                                        if (isRightOption) {
+                                                            optionBg = "#f0fdf4";
+                                                            optionBorder = "2px solid #22c55e";
+                                                            optionColor = "#15803d";
+                                                            badgeBg = "#22c55e";
+                                                            badgeColor = "#ffffff";
+                                                        } else {
+                                                            optionBg = "#f8fafc";
+                                                            optionBorder = "2px solid #e2e8f0";
+                                                            optionColor = "#94a3b8";
+                                                        }
+                                                    } else {
+                                                        if (isSelected && !isRightOption) {
+                                                            optionBg = "#fef2f2";
+                                                            optionBorder = "2px solid #ef4444";
+                                                            optionColor = "#b91c1c";
+                                                            badgeBg = "#ef4444";
+                                                            badgeColor = "#ffffff";
+                                                        }
                                                     }
                                                 }
 
                                                 const letterLabel = String.fromCharCode(65 + optIdx);
+                                                const isDisabled = (submitted && isAssessment) || (isAnswered && isUserCorrect) || isSelected;
 
                                                 return (
                                                     <button
                                                         key={optIdx}
                                                         type="button"
                                                         onClick={() => handleMcqSelect(q, idx, optIdx)}
-                                                        disabled={submitted && isAssessment}
+                                                        disabled={isDisabled}
                                                         style={{
                                                             display: "flex",
                                                             alignItems: "center",
@@ -483,8 +511,9 @@ function MultimediaReadingAssessmentBlock({ block }) {
                                                             fontSize: "0.95rem",
                                                             fontWeight: 600,
                                                             textAlign: "left",
-                                                            cursor: (submitted && isAssessment) ? "default" : "pointer",
-                                                            transition: "all 0.15s ease"
+                                                            cursor: isDisabled ? "default" : "pointer",
+                                                            transition: "all 0.15s ease",
+                                                            opacity: (isAnswered && isUserCorrect && !isRightOption) ? 0.6 : 1
                                                         }}
                                                     >
                                                         <span style={{
