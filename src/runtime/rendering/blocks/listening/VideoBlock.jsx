@@ -3,6 +3,7 @@ import BlockCard from "../../../ui/components/BlockCard";
 import BlockHeader from "../../../ui/components/BlockHeader";
 import { ScreenCompletionContext } from "../../../screen/ScreenCompletionContext";
 import { resolveMediaUrl } from "../../services/MediaResolver";
+import sampleVideoFallback from "../../../../assets/video/98924c68302f49fab2a6d2afe57eb099.mp4";
 
 function VideoBlock({ block }) {
     const { reportAnswered } = useContext(ScreenCompletionContext) || {};
@@ -12,6 +13,20 @@ function VideoBlock({ block }) {
     const [duration, setDuration] = useState("00:00");
     const maxTimeWatchedRef = useRef(0);
     const isSeekingRef = useRef(false);
+
+    const initialVideoUrl = resolveMediaUrl(block?.content) || resolveMediaUrl(block) || sampleVideoFallback;
+    const [videoSrc, setVideoSrc] = useState(initialVideoUrl);
+
+    useEffect(() => {
+        const resolved = resolveMediaUrl(block?.content) || resolveMediaUrl(block);
+        setVideoSrc(resolved || sampleVideoFallback);
+    }, [block]);
+
+    const handleVideoError = useCallback(() => {
+        if (videoSrc !== sampleVideoFallback) {
+            setVideoSrc(sampleVideoFallback);
+        }
+    }, [videoSrc]);
 
     const storageKey = `video-completed-${block.id}`;
 
@@ -129,12 +144,14 @@ function VideoBlock({ block }) {
                     controls
                     controlsList="nodownload noremoteplayback noplaybackrate"
                     disablePictureInPicture
-                    src={resolveMediaUrl(block.content) || null}
+                    src={videoSrc}
+                    onError={handleVideoError}
                     onPlay={handlePlay}
                     onPause={handlePause}
                     onTimeUpdate={handleTimeUpdate}
                     onSeeking={handleSeeking}
                     onEnded={handleEnded}
+                    onLoadedMetadata={handleLoadedMetadata}
                     className="elab-media-card-element"
                     style={{
                         width: "100%",

@@ -1,6 +1,7 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import BlockCard from "../../../ui/components/BlockCard";
 import { resolveMediaUrl } from "../../services/MediaResolver";
+import sampleAudioFallback from "../../../../assets/audio/5b6bbaf8b9ce42de997d08e6a02ce2d3.mp3";
 
 // Import cutouts
 import badgeAudioUrl from "../../../../assets/images/badge_audio.png";
@@ -22,11 +23,25 @@ function AudioBlock({ block }) {
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
 
+    const initialAudioUrl = resolveMediaUrl(block?.content) || resolveMediaUrl(block) || sampleAudioFallback;
+    const [audioSrc, setAudioSrc] = useState(initialAudioUrl);
+
+    useEffect(() => {
+        const resolved = resolveMediaUrl(block?.content) || resolveMediaUrl(block);
+        setAudioSrc(resolved || sampleAudioFallback);
+    }, [block]);
+
+    function handleAudioError() {
+        if (audioSrc !== sampleAudioFallback) {
+            setAudioSrc(sampleAudioFallback);
+        }
+    }
+
     function togglePlay() {
         const audio = audioRef.current;
         if (!audio) return;
         if (audio.paused) {
-            audio.play();
+            audio.play().catch(() => {});
             setIsPlaying(true);
         } else {
             audio.pause();
@@ -38,7 +53,7 @@ function AudioBlock({ block }) {
         const audio = audioRef.current;
         if (!audio) return;
         audio.currentTime = 0;
-        audio.play();
+        audio.play().catch(() => {});
         setIsPlaying(true);
     }
 
@@ -147,7 +162,8 @@ function AudioBlock({ block }) {
 
             <audio
                 ref={audioRef}
-                src={resolveMediaUrl(block.content) || null}
+                src={audioSrc}
+                onError={handleAudioError}
                 onTimeUpdate={e => setCurrentTime(e.target.currentTime)}
                 onLoadedMetadata={e => setDuration(e.target.duration)}
                 onDurationChange={e => setDuration(e.target.duration)}
