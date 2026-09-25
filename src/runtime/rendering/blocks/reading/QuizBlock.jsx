@@ -97,7 +97,7 @@ function QuizBlock({ block }) {
             if (index === correctAnswerIndex) {
                 setFeedback("✓ Correct! Excellent!");
             } else {
-                setFeedback("✗ Incorrect. Try again!");
+                setFeedback("✗ Incorrect!");
             }
         }
 
@@ -116,6 +116,11 @@ function QuizBlock({ block }) {
 
         }
 
+    }
+
+    function handleTryAgain() {
+        setSelected(null);
+        setFeedback("");
     }
 
     const isAssessment = window.__isAssessment;
@@ -182,7 +187,7 @@ function QuizBlock({ block }) {
                         {options.map((option, index) => {
 
                             const isSelected = selected === index;
-                            const isCorrect = !isAssessment && selected !== null && index === correctAnswerIndex;
+                            const isCorrect = !isAssessment && isSelected && index === correctAnswerIndex;
                             const isIncorrect = !isAssessment && isSelected && index !== correctAnswerIndex;
 
                             return (
@@ -190,7 +195,7 @@ function QuizBlock({ block }) {
                                 <button
                                     key={index}
                                     onClick={() => handleSelect(index)}
-                                    disabled={!isAssessment && (selected === correctAnswerIndex || isSelected)}
+                                    disabled={!isAssessment && selected !== null}
                                     className={`quiz-custom-option ${isSelected ? "is-selected" : ""} ${isCorrect ? "is-correct" : ""} ${isIncorrect ? "is-incorrect" : ""}`}
                                 >
                                     <span className="quiz-option-badge">
@@ -206,21 +211,48 @@ function QuizBlock({ block }) {
                         })}
                     </div>
 
-                    {/* Feedback Message */}
+                    {/* Feedback Message with Try Again button */}
                     {feedback && (
                         <div style={{
                             marginTop: "16px",
-                            padding: "12px 14px",
-                            borderRadius: "6px",
-                            fontSize: "16px",
-                            fontWeight: "600",
-                            backgroundColor: feedback.includes("✓") ? "#dcfce7" : "#fee2e2",
-                            color: feedback.includes("✓") ? "#15803d" : "#dc2626",
-                            border: `2px solid ${feedback.includes("✓") ? "#22c55e" : "#ef4444"}`,
-                            textAlign: "center",
+                            padding: "10px 16px",
+                            borderRadius: "12px",
+                            fontSize: "15px",
+                            fontWeight: "700",
+                            backgroundColor: selected === correctAnswerIndex ? "#dcfce7" : "#fee2e2",
+                            color: selected === correctAnswerIndex ? "#15803d" : "#dc2626",
+                            border: `2px solid ${selected === correctAnswerIndex ? "#22c55e" : "#ef4444"}`,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            gap: "12px",
+                            boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
                             animation: "slideIn 0.3s ease-out"
                         }}>
-                            {feedback}
+                            <span>{feedback}</span>
+                            {selected !== correctAnswerIndex && !isAssessment && (
+                                <button
+                                    type="button"
+                                    onClick={handleTryAgain}
+                                    style={{
+                                        backgroundColor: "#ef4444",
+                                        color: "#ffffff",
+                                        border: "none",
+                                        borderRadius: "20px",
+                                        padding: "6px 16px",
+                                        fontSize: "13px",
+                                        fontWeight: "800",
+                                        cursor: "pointer",
+                                        display: "inline-flex",
+                                        alignItems: "center",
+                                        gap: "6px",
+                                        boxShadow: "0 2px 6px rgba(239, 68, 68, 0.4)",
+                                        whiteSpace: "nowrap"
+                                    }}
+                                >
+                                    🔄 Try Again
+                                </button>
+                            )}
                         </div>
                     )}
                 </div>

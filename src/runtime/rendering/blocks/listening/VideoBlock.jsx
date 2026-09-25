@@ -134,10 +134,6 @@ function VideoBlock({ block }) {
 
     return (
         <BlockCard type="video" className="elab-media-card" style={cardStyle}>
-            <BlockHeader
-                type="video"
-                title="Video"
-            />
             <div className="elab-media-card-content" style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "100%", padding: "0" }}>
                 <video
                     ref={videoRef}

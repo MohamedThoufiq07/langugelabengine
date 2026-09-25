@@ -31,10 +31,6 @@ function ImageBlock({ block }) {
 
     return (
         <BlockCard type="image" className="elab-media-card" style={cardStyle}>
-            <BlockHeader
-                type="image"
-                title="Image"
-            />
             <div className="elab-media-card-content" style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "100%", padding: "0", overflow: "hidden" }}>
                 <img
                     src={imgSrc}
