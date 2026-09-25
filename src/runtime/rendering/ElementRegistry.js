@@ -53,7 +53,7 @@ const registry = {
     videoclip: VideoBlock,
     sequence: SequenceBlock,
     dictation: DictationBlock,
-    audio_mystery: AudioMysteryBlock,
+    audio_mystery: MultimediaReadingAssessmentBlock,
 
     // Speaking
     dialogue: DialogueBlock,

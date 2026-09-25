@@ -5,22 +5,35 @@ import { useScreenCompletion } from "../../../screen/ScreenCompletionContext";
 import { resolveMediaUrl } from "../../services/MediaResolver";
 
 function MultimediaReadingAssessmentBlock({ block }) {
+    const rawContent = block?.content || {};
+
+    // Support audio_mystery or single-question content schema
+    const audioUrlFromClues = (Array.isArray(rawContent.clues) && rawContent.clues[0]?.audio) || null;
+    const extractedMediaUrl = rawContent.mediaUrl || rawContent.videoUrl || rawContent.audioUrl || rawContent.audio || audioUrlFromClues || rawContent.documentUrl || rawContent.image || rawContent.imageUrl || null;
+
+    let parsedQuestions = Array.isArray(rawContent.questions) ? rawContent.questions : [];
+    if ((!parsedQuestions || parsedQuestions.length === 0) && rawContent.question && rawContent.options) {
+        parsedQuestions = [{
+            id: "q-1",
+            question: rawContent.question,
+            type: "mcq",
+            options: rawContent.options,
+            correctAnswer: rawContent.correctAnswer ?? rawContent.correct_answer ?? rawContent.quiz_correct_index ?? 0
+        }];
+    }
+
     const {
-        mediaType = "video",
-        mediaUrl,
+        mediaType = (audioUrlFromClues || rawContent.audio || rawContent.audioUrl) ? "audio" : "video",
         posterUrl,
         videoUrl,
-        audioUrl,
-        image,
-        imageUrl,
-        documentUrl,
+        audioUrl = audioUrlFromClues || rawContent.audio,
         scenario,
         title = "Multimedia Reading Assessment",
-        instruction = scenario || "Watch/Listen to the media carefully. Interactive questions will appear when media completes or pauses at target seconds.",
-        questions = []
-    } = block.content || {};
+        instruction = scenario || rawContent.hints?.visualClue || "Watch/Listen to the media carefully. Interactive questions will appear when media completes or pauses at target seconds.",
+    } = rawContent;
 
-    const rawMedia = mediaUrl || videoUrl || audioUrl || documentUrl || image || imageUrl;
+    const questions = parsedQuestions;
+    const rawMedia = extractedMediaUrl;
     const resolvedMedia = resolveMediaUrl(rawMedia || videoUrl || audioUrl);
     const resolvedPoster = resolveMediaUrl(posterUrl);
 
