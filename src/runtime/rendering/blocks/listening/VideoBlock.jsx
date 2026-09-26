@@ -155,7 +155,7 @@ function VideoBlock({ block }) {
                         maxWidth: "500px",
                         maxHeight: "300px",
                         borderRadius: "12px",
-                        objectFit: "contain",
+                        objectFit: "cover",
                         backgroundColor: "transparent",
                         display: "block",
                         margin: "0 auto"

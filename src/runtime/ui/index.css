@@ -6710,18 +6710,18 @@ ol {
     max-width: 500px !important;
     height: auto !important;
     max-height: 300px !important;
-    object-fit: contain !important;
+    object-fit: cover !important;
     border-radius: 12px !important;
     margin: 0 auto;
 }
 
-/* Let videos preserve their native aspect ratio and fit snugly inside card. */
+/* Let videos preserve their native aspect ratio and fit snugly inside card without black bars. */
 .elab-block-card.elab-media-card[data-type="video"] .elab-media-card-element {
     width: 100% !important;
     max-width: 500px !important;
     height: auto !important;
     max-height: 300px !important;
-    object-fit: contain !important;
+    object-fit: cover !important;
 }
 
 video::-webkit-media-controls-overflow-button {

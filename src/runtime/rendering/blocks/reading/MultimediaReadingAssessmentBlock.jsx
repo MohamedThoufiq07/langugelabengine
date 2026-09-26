@@ -226,11 +226,12 @@ function MultimediaReadingAssessmentBlock({ block }) {
                             <video
                                 ref={mediaRef}
                                 controls
+                                disablePictureInPicture
                                 onTimeUpdate={handleTimeUpdate}
                                 onEnded={handleMediaEnded}
                                 poster={resolvedPoster || undefined}
-                                controlsList="nodownload"
-                                style={{ width: "100%", maxHeight: "380px", display: "block", objectFit: "contain", backgroundColor: "#000000" }}
+                                controlsList="nodownload noremoteplayback noplaybackrate"
+                                style={{ width: "100%", maxHeight: "380px", display: "block", objectFit: "cover", backgroundColor: "transparent" }}
                                 src={resolvedMedia}
                             />
                         ) : (
@@ -307,9 +308,10 @@ function MultimediaReadingAssessmentBlock({ block }) {
                                     <audio
                                         ref={mediaRef}
                                         controls
+                                        disablePictureInPicture
                                         onTimeUpdate={handleTimeUpdate}
                                         onEnded={handleMediaEnded}
-                                        controlsList="nodownload"
+                                        controlsList="nodownload noremoteplayback noplaybackrate"
                                         src={resolvedMedia}
                                         style={{ width: "100%", height: "42px" }}
                                     />
