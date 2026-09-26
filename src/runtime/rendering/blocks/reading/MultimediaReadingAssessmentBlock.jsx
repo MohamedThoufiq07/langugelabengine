@@ -101,7 +101,7 @@ function MultimediaReadingAssessmentBlock({ block }) {
         const qId = getQId(q, idx);
         if (submitted && isAssessment) return;
 
-        const correctAnswerIdx = q.correctAnswerIndex ?? 0;
+        const correctAnswerIdx = q.correctAnswerIndex ?? (typeof q.correctAnswer === "number" ? q.correctAnswer : 0);
         const currentAns = answers[qId];
         const isCurrentlyCorrect = answeredQuestions.has(qId) && currentAns === correctAnswerIdx;
 
@@ -357,7 +357,7 @@ function MultimediaReadingAssessmentBlock({ block }) {
                             const qText = q.questionText || q.question || q.prompt || `Question #${idx + 1}`;
                             const userAns = answers[qId];
                             const targetBlankAns = q.targetCorrectBlankAnswer || q.targetAnswer || q.correctAnswer;
-                            const correctAnswerIdx = q.correctAnswerIndex ?? 0;
+                            const correctAnswerIdx = q.correctAnswerIndex ?? (typeof q.correctAnswer === "number" ? q.correctAnswer : 0);
 
                             const isUserCorrect = isFillInBlank
                                 ? (targetBlankAns ? String(userAns || "").toLowerCase().trim() === String(targetBlankAns).toLowerCase().trim() : true)

@@ -121,7 +121,9 @@ function RoleplaySimulationBlock({ block }) {
 
         const expandContractions = (text) => {
             if (!text) return "";
+            const numMap = { "0": "zero", "1": "one", "2": "two", "3": "three", "4": "four", "5": "five", "6": "six", "7": "seven", "8": "eight", "9": "nine", "10": "ten", "11": "eleven", "12": "twelve" };
             return text.toLowerCase()
+                .replace(/\b([0-9]|1[0-2])\b/g, m => numMap[m] || m)
                 .replace(/\b(i)'?m\b/g, "$1 am")
                 .replace(/\b(you|we|they)'?re\b/g, "$1 are")
                 .replace(/\b(he|she|it|that|what|where|there)'?s\b/g, "$1 is")
@@ -222,7 +224,18 @@ function RoleplaySimulationBlock({ block }) {
             const currentTurn = turns[turnIdx];
             const expected = (currentTurn?.expectedResponse || currentTurn?.expected_response || currentTurn?.targetAnswer || currentTurn?.text || currentTurn?.prompt || "").trim();
 
-            let transcript = (result.transcript || "").trim();
+            // Helper to convert digits into words (e.g. 8 -> eight, 1 -> one)
+            const convertDigitsToWords = (str) => {
+                if (!str) return "";
+                const numberWords = {
+                    "0": "zero", "1": "one", "2": "two", "3": "three", "4": "four",
+                    "5": "five", "6": "six", "7": "seven", "8": "eight", "9": "nine",
+                    "10": "ten", "11": "eleven", "12": "twelve"
+                };
+                return str.replace(/\b([0-9]|1[0-2])\b/g, match => numberWords[match] || match);
+            };
+
+            let transcript = convertDigitsToWords((result.transcript || "").trim());
 
             // If browser Speech Recognition is offline or empty, run local offline Whisper model
             if (!transcript && result.blob) {

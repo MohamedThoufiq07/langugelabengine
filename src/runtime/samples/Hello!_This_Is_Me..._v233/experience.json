@@ -381,7 +381,7 @@
                       "pauseAt": 0,
                       "imageUrl": "",
                       "question": "find me",
-                      "correctAnswerIndex": 0
+                      "correctAnswerIndex": 1
                     }
                   ],
                   "documentUrl": "",
@@ -649,77 +649,6 @@
                     "Feeling"
                   ]
                 }
-              },
-              {
-                "id": "block-1789641174805-65635vlij",
-                "slot": "left",
-                "type": "multimedia_reading_assessment",
-                "styles": {
-                  "top": "540px",
-                  "left": "200px",
-                  "minHeight": "140px",
-                  "blockWidth": "400px"
-                },
-                "content": {
-                  "audioUrl": "",
-                  "scenario": "Analyze the multimedia material and answer the interactive questions.",
-                  "videoUrl": "/media/media_library/b02efeaea606493d8a168bb22bffd8bb.mp4",
-                  "mediaType": "video",
-                  "questions": [
-                    {
-                      "id": "q1",
-                      "options": [
-                        {
-                          "text": "arun",
-                          "imageUrl": ""
-                        },
-                        {
-                          "text": "maya",
-                          "imageUrl": ""
-                        }
-                      ],
-                      "imageUrl": "",
-                      "question": "What is his name?",
-                      "correctAnswerIndex": 0
-                    },
-                    {
-                      "id": "q_1789641182326",
-                      "type": "mcq",
-                      "options": [
-                        {
-                          "text": "8",
-                          "imageUrl": ""
-                        },
-                        {
-                          "text": "6",
-                          "imageUrl": ""
-                        }
-                      ],
-                      "pauseAt": 0,
-                      "question": " How old is Arun? ",
-                      "correctAnswerIndex": 0
-                    },
-                    {
-                      "id": "q_1789641251806",
-                      "type": "mcq",
-                      "options": [
-                        {
-                          "text": "",
-                          "imageUrl": "/media/media_library/987c7b189ff340dfbae7dfd1756b55f1.png"
-                        },
-                        {
-                          "text": "",
-                          "imageUrl": "/media/media_library/2ef641b972b84f2aac0ac453aa5484d4.jpeg"
-                        }
-                      ],
-                      "pauseAt": 0,
-                      "question": "How does he feel? ",
-                      "correctAnswerIndex": 0
-                    }
-                  ],
-                  "documentUrl": "",
-                  "documentText": "Read, listen, or view the media carefully before completing the assessment questions below."
-                }
               }
             ],
             "media_id": "",
@@ -862,43 +791,6 @@
                     }
                   ],
                   "correctAnswerIndex": 0
-                }
-              },
-              {
-                "id": "block-1789643089045-z9gompckr",
-                "slot": "left",
-                "type": "multimedia_reading_assessment",
-                "styles": {
-                  "top": "812px",
-                  "left": "248px",
-                  "minHeight": "140px",
-                  "blockWidth": "400px"
-                },
-                "content": {
-                  "audioUrl": "",
-                  "scenario": "Analyze the multimedia material and answer the interactive questions.",
-                  "videoUrl": "/media/media_library/2f3d96f12c0d40c89a1c8e4f60a80c12.mp4",
-                  "mediaType": "multimedia",
-                  "questions": [
-                    {
-                      "id": "q1",
-                      "options": [
-                        {
-                          "text": "boy",
-                          "imageUrl": ""
-                        },
-                        {
-                          "text": "girl",
-                          "imageUrl": ""
-                        }
-                      ],
-                      "imageUrl": "",
-                      "question": "Who are you?",
-                      "correctAnswerIndex": 0
-                    }
-                  ],
-                  "documentUrl": "",
-                  "documentText": "Read, listen, or view the media carefully before completing the assessment questions below."
                 }
               }
             ],
@@ -1304,7 +1196,7 @@
                       "prompt": "",
                       "speaker": "user",
                       "allowAudioRecord": true,
-                      "expectedResponse": "8 years old"
+                      "expectedResponse": "eight years old"
                     }
                   ],
                   "npcCharacter": "Anu",
@@ -1391,7 +1283,7 @@
                       "pauseAt": 0,
                       "imageUrl": "",
                       "question": "How old is Riya?",
-                      "correctAnswerIndex": 0
+                      "correctAnswerIndex": 2
                     }
                   ],
                   "documentUrl": "",

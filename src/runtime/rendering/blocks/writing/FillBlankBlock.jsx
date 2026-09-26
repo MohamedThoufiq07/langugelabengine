@@ -7,14 +7,15 @@ import grammarGirlReading from "/fill in the blanks img.png";
 
 // Fuzzy string matching for fill-in-the-blank answers
 function fuzzyMatch(userInput, expectedAnswer, tolerance = 0.85) {
-    const clean = (str) => str.toLowerCase().trim().replace(/\s+/g, " ");
+    const clean = (str) => (str || "").toLowerCase().trim().replace(/\s+/g, " ");
     const user = clean(userInput);
     const expected = clean(expectedAnswer);
     
+    if (!user) return false;
     if (user === expected) return true;
     
     const maxLen = Math.max(user.length, expected.length);
-    if (maxLen === 0) return true;
+    if (maxLen === 0) return false;
     
     const distance = levenshteinDistance(user, expected);
     const similarity = 1 - (distance / maxLen);
@@ -113,6 +114,7 @@ function FillBlankBlock({ block }) {
     function handleCheckAnswers() {
         let totalBlanks = 0;
         let correctCount = 0;
+        let filledCount = 0;
         const newCorrectness = {};
         const newFeedback = {};
 
@@ -121,8 +123,12 @@ function FillBlankBlock({ block }) {
             parsed.forEach(part => {
                 if (part.type === "blank") {
                     const key = `${item.id}-${part.index}`;
-                    const userAnswer = answers[key] || "";
-                    const isCorrect = fuzzyMatch(userAnswer, part.expected);
+                    const userAnswer = (answers[key] || "").trim();
+                    if (userAnswer.length > 0) filledCount++;
+
+                    const isCorrect = part.expected && part.expected.trim().length > 0
+                        ? fuzzyMatch(userAnswer, part.expected)
+                        : userAnswer.length > 0;
                     
                     newCorrectness[key] = isCorrect;
                     newFeedback[key] = isCorrect ? "✓" : "✗";
@@ -133,12 +139,19 @@ function FillBlankBlock({ block }) {
             });
         });
 
+        // Do not allow submission if any blank is empty
+        if (filledCount < totalBlanks) {
+            setCorrectness(newCorrectness);
+            setFeedback(newFeedback);
+            return;
+        }
+
         setCorrectness(newCorrectness);
         setFeedback(newFeedback);
 
         const isAssessment = !!window.__isAssessment;
 
-        // In assessment mode or if all correct, mark submitted and save answers without showing right/wrong indicators
+        // In assessment mode or if all correct, mark submitted
         if (isAssessment || (correctCount === totalBlanks && totalBlanks > 0)) {
             setSubmitted(true);
             completion?.saveAnswer?.(block.id, { ...answers, correct: isAssessment ? true : correctCount === totalBlanks, totalCorrect: correctCount, total: totalBlanks });
@@ -147,6 +160,21 @@ function FillBlankBlock({ block }) {
     }
 
     const isAssessment = !!window.__isAssessment;
+    const totalBlanksCount = useMemo(() => {
+        let count = 0;
+        items.forEach(item => {
+            const parsed = parseSentence(item.text);
+            count += parsed.filter(p => p.type === "blank").length;
+        });
+        return count;
+    }, [items]);
+
+    const filledBlanksCount = useMemo(() => {
+        return Object.values(answers).filter(val => typeof val === "string" && val.trim().length > 0).length;
+    }, [answers]);
+
+    const hasAttemptedCheck = Object.keys(correctness).length > 0;
+    const allCorrect = hasAttemptedCheck && Object.values(correctness).every(val => val === true);
 
     return (
         <BlockCard type="fill_blank">
@@ -205,7 +233,7 @@ function FillBlankBlock({ block }) {
                                                             borderBottom: isCorrect === true ? "3px solid #22c55e" : isCorrect === false ? "3px solid #ef4444" : "2px solid #0f766e",
                                                             background: isCorrect === true ? "rgba(34, 197, 94, 0.1)" : isCorrect === false ? "rgba(239, 68, 68, 0.1)" : "transparent",
                                                             textAlign: "center",
-                                                            width: `${Math.max(part.expected.length * 14 + 10, 80)}px`,
+                                                            width: `${Math.max((part.expected || "").length * 14 + 10, 80)}px`,
                                                             fontSize: "17px",
                                                             fontWeight: "bold",
                                                             color: isCorrect === true ? "#15803d" : isCorrect === false ? "#dc2626" : "#0f766e",
@@ -242,24 +270,47 @@ function FillBlankBlock({ block }) {
                     {!submitted && (
                         <button
                             onClick={handleCheckAnswers}
+                            disabled={filledBlanksCount < totalBlanksCount}
                             style={{
                                 marginTop: "16px",
-                                marginBottom: "28px",
+                                marginBottom: "16px",
                                 padding: "10px 24px",
-                                backgroundColor: "#4f46e5",
+                                backgroundColor: filledBlanksCount < totalBlanksCount ? "#94a3b8" : "#4f46e5",
                                 color: "white",
                                 border: "none",
                                 borderRadius: "6px",
                                 fontSize: "16px",
                                 fontWeight: "600",
-                                cursor: "pointer",
+                                cursor: filledBlanksCount < totalBlanksCount ? "not-allowed" : "pointer",
+                                opacity: filledBlanksCount < totalBlanksCount ? 0.7 : 1,
                                 transition: "background 0.2s"
                             }}
-                            onMouseOver={(e) => e.target.style.backgroundColor = "#4338ca"}
-                            onMouseOut={(e) => e.target.style.backgroundColor = "#4f46e5"}
+                            onMouseOver={(e) => {
+                                if (filledBlanksCount >= totalBlanksCount) e.target.style.backgroundColor = "#4338ca";
+                            }}
+                            onMouseOut={(e) => {
+                                if (filledBlanksCount >= totalBlanksCount) e.target.style.backgroundColor = "#4f46e5";
+                            }}
                         >
                             {isAssessment ? "Submit" : "Check Answers"}
                         </button>
+                    )}
+
+                    {/* Feedback / Error Message for empty or incorrect answers */}
+                    {!submitted && hasAttemptedCheck && !allCorrect && (
+                        <div style={{
+                            marginBottom: "20px",
+                            padding: "10px 14px",
+                            backgroundColor: "#fef2f2",
+                            border: "1.5px solid #fca5a5",
+                            borderRadius: "6px",
+                            color: "#991b1b",
+                            fontWeight: "600",
+                            fontSize: "14px",
+                            textAlign: "center"
+                        }}>
+                            ❌ Please check your answers and try again.
+                        </div>
                     )}
 
                     {/* Success / Submitted Message */}

@@ -195,7 +195,7 @@ function QuizBlock({ block }) {
                                 <button
                                     key={index}
                                     onClick={() => handleSelect(index)}
-                                    disabled={!isAssessment && selected !== null}
+                                    disabled={!isAssessment && selected === correctAnswerIndex}
                                     className={`quiz-custom-option ${isSelected ? "is-selected" : ""} ${isCorrect ? "is-correct" : ""} ${isIncorrect ? "is-incorrect" : ""}`}
                                 >
                                     <span className="quiz-option-badge">
