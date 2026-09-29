@@ -207,41 +207,7 @@
             "title": "Ask Your Friend",
             "layout": "1-column",
             "weight": "Bold",
-            "elements": [
-              {
-                "id": "block-1788776726035-jrd2ezezs",
-                "type": "hotspot_explorer",
-                "styles": {
-                  "top": "20px",
-                  "left": "20px"
-                },
-                "content": {
-                  "hotspots": [
-                    {
-                      "x": 211,
-                      "y": 94,
-                      "id": "hotspot_1",
-                      "hint": "Click on the highlighted object",
-                      "info": "Exploration description here...",
-                      "name": "Target 1",
-                      "width": 80,
-                      "height": 80
-                    },
-                    {
-                      "x": 198,
-                      "y": 191,
-                      "id": "hotspot_1788776741336",
-                      "hint": "",
-                      "info": "",
-                      "name": "Target 2",
-                      "width": 80,
-                      "height": 80
-                    }
-                  ],
-                  "imageUrl": "/media/media_library/5dbac5588aad4281b4eb83304c61e82d.jpg"
-                }
-              }
-            ],
+            "elements": [],
             "media_id": "",
             "alignment": "Center",
             "media_url": "",

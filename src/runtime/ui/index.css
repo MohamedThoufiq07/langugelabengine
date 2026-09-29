@@ -3395,11 +3395,13 @@ ol {
 
 /* ❄️ Winter Season Card Frame Padding ❄️ */
 .runtime-shell[data-season-name="Winter Season"] .elab-block-card {
-    padding: 3.8rem 5.5rem 4.2rem 5.5rem !important;
+    padding: 3.8rem 6.5rem 3.8rem 6.5rem !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
 }
 
 .runtime-shell[data-season-name="Winter Season"] .elab-block-card[data-type="voice"] {
-    padding: 3.5rem 4.8rem 3.5rem 4.8rem !important;
+    padding: 3.5rem 5.8rem 3.5rem 5.8rem !important;
 }
 
 /* 🌸 Spring Season Card Frame Padding 🌸 */
@@ -3511,49 +3513,72 @@ ol {
     box-sizing: border-box !important;
 }
 
-/* 🖼️ Media Cards (Image & Video) - Compact board framing 🖼️ */
-.elab-media-card {
+/* 🖼️ Media Cards (Image & Video) - Taller background block frame for all seasons 🖼️ */
+.elab-media-card,
+.elab-block-card.elab-media-card {
     position: relative !important;
-    padding-top: 2.2rem !important;
-    padding-bottom: 2.2rem !important;
-    padding-left: 2.2rem !important;
-    padding-right: 2.2rem !important;
-    width: fit-content !important;
-    max-width: fit-content !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 460px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
     margin-left: auto !important;
     margin-right: auto !important;
 }
 
-.runtime-shell[data-season-name="Spring Season"] .elab-media-card {
-    padding-top: 4.8rem !important;
-    padding-bottom: 4.5rem !important;
-    padding-left: 4.8rem !important;
-    padding-right: 4.8rem !important;
-    width: fit-content !important;
-    max-width: 90% !important;
+.runtime-shell[data-season-name="Winter Season"] .elab-media-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 480px !important;
+    padding: 3.5rem 6.5rem 3.5rem 6.5rem !important;
+    overflow: hidden !important;
     margin: 0 auto !important;
 }
 
-.runtime-shell[data-season-name="Summer Season"] .elab-media-card,
-.runtime-shell[data-season-name="Marine Season"] .elab-media-card,
+.runtime-shell[data-season-name="Winter Season"] .elab-media-card .elab-media-card-element {
+    max-width: 74% !important;
+    max-height: 340px !important;
+    object-fit: contain !important;
+}
+
+.runtime-shell[data-season-name="Spring Season"] .elab-media-card {
+    width: 100% !important;
+    max-width: 1080px !important;
+    min-height: 520px !important;
+    padding: 3.2rem 7.2rem 3.2rem 7.2rem !important;
+    overflow: hidden !important;
+    margin: 0 auto !important;
+}
+
+.runtime-shell[data-season-name="Marine Season"] .elab-media-card {
+    width: 100% !important;
+    max-width: 1080px !important;
+    min-height: 520px !important;
+    padding: 3.2rem 8.2rem 3.2rem 6.5rem !important;
+    overflow: hidden !important;
+    margin: 0 auto !important;
+}
+
+.runtime-shell[data-season-name="Summer Season"] .elab-media-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 520px !important;
+    padding: 3.2rem 5.2rem 3.2rem 5.2rem !important;
+    overflow: hidden !important;
+    margin: 0 auto !important;
+}
+
 .runtime-shell[data-season-name="Desert Season"] .elab-media-card,
 .runtime-shell[data-season-name="Lava Season"] .elab-media-card {
-    padding-top: 4.8rem !important;
-    padding-bottom: 4.5rem !important;
-    padding-left: 2.8rem !important;
-    padding-right: 2.8rem !important;
-    width: fit-content !important;
-    max-width: fit-content !important;
-    margin: 0 auto !important;
-}
-
-.runtime-shell[data-season-name="Winter Season"] .elab-media-card {
-    padding-top: 6.2rem !important;
-    padding-bottom: 5.8rem !important;
-    padding-left: 3.8rem !important;
-    padding-right: 3.8rem !important;
-    width: fit-content !important;
-    max-width: fit-content !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 520px !important;
+    padding: 3.2rem 5.8rem 3.2rem 5.8rem !important;
+    overflow: hidden !important;
     margin: 0 auto !important;
 }
 
@@ -6695,33 +6720,41 @@ ol {
 }
 
 .elab-block-card.elab-media-card > .elab-media-card-content {
-    width: 100%;
-    min-height: 0;
-    padding: 0 1rem !important;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    width: 100% !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    margin: 0 auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+    border-radius: 16px !important;
 }
 
 .elab-block-card.elab-media-card .elab-media-card-element {
-    display: block;
+    display: block !important;
     width: 100% !important;
-    max-width: 500px !important;
+    max-width: 88% !important;
     height: auto !important;
-    max-height: 300px !important;
-    object-fit: cover !important;
-    border-radius: 12px !important;
-    margin: 0 auto;
+    max-height: 430px !important;
+    object-fit: contain !important;
+    border-radius: 14px !important;
+    margin: 0 auto !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12) !important;
 }
 
-/* Let videos preserve their native aspect ratio and fit snugly inside card without black bars. */
+/* Let videos preserve their native aspect ratio and fit snugly inside card without black bars or spilling over borders. */
 .elab-block-card.elab-media-card[data-type="video"] .elab-media-card-element {
+    display: block !important;
     width: 100% !important;
-    max-width: 500px !important;
+    max-width: 88% !important;
     height: auto !important;
-    max-height: 300px !important;
-    object-fit: cover !important;
+    max-height: 430px !important;
+    object-fit: contain !important;
+    border-radius: 14px !important;
+    margin: 0 auto !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12) !important;
 }
 
 video::-webkit-media-controls-overflow-button {
@@ -6729,8 +6762,8 @@ video::-webkit-media-controls-overflow-button {
 }
 
 .elab-media-card-caption {
-    margin: 6px 0 0;
-    font-size: 14px;
+    margin: 10px 0 0;
+    font-size: 16px;
     font-weight: 700;
     line-height: 1.35;
     color: #475569;
@@ -6745,7 +6778,7 @@ video::-webkit-media-controls-overflow-button {
 
 .elab-block-card.elab-media-card[data-type="image"] {
     min-height: 0 !important;
-    gap: 6px;
+    gap: 10px;
 }
 
 .elab-media-card[data-type="image"] .elab-block-header {
@@ -6756,14 +6789,25 @@ video::-webkit-media-controls-overflow-button {
 
 .elab-media-card[data-type="image"] > .elab-media-card-content {
     padding: 0 !important;
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+    border-radius: 14px !important;
 }
 
 .elab-media-card[data-type="image"] .elab-media-card-element {
+    display: block !important;
     width: 100% !important;
-    max-width: 500px !important;
+    max-width: 86% !important;
     height: auto !important;
-    max-height: 300px !important;
+    max-height: 380px !important;
     object-fit: contain !important;
+    border-radius: 14px !important;
+    margin: 0 auto !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12) !important;
 }
 
 @media (max-width: 768px) {
@@ -7234,7 +7278,7 @@ video::-webkit-media-controls-overflow-button {
 }
 
 .runtime-shell[data-season-name="Winter Season"] .elab-block-card.elab-sequence-card {
-    padding: 5.5rem 5.0rem 5.5rem 5.0rem !important;
+    padding: 3.8rem 6.5rem 3.8rem 6.5rem !important;
 }
 
 .runtime-shell[data-season-name="Summer Season"] .elab-block-card.elab-sequence-card {
@@ -7604,10 +7648,12 @@ video::-webkit-media-controls-overflow-button {
 .elab-block-card.elab-media-card .elab-media-card-element {
     display: block;
     width: 100% !important;
-    max-width: 500px !important;
-    max-height: 300px !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: 340px !important;
     margin: 0 auto;
-    object-fit: contain !important;
+    object-fit: cover !important;
+    border-radius: 14px !important;
 }
 
 @media (max-width: 768px) {

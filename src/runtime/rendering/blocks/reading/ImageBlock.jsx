@@ -23,7 +23,7 @@ function ImageBlock({ block }) {
 
     const cardStyle = {
         width: "100%",
-        maxWidth: "540px",
+        maxWidth: "100%",
         minHeight: jsonStyles.minHeight ? jsonStyles.minHeight : "auto",
         margin: "0 auto",
         boxSizing: "border-box"
@@ -44,8 +44,8 @@ function ImageBlock({ block }) {
                     style={{
                         width: "100%",
                         height: "auto",
-                        maxWidth: "500px",
-                        maxHeight: "300px",
+                        maxWidth: "88%",
+                        maxHeight: "430px",
                         borderRadius: "14px",
                         objectFit: "contain",
                         display: "block",

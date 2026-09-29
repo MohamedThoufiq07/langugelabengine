@@ -238,61 +238,7 @@
             "title": "What's in Sam's Bag?",
             "layout": "1-column",
             "weight": "Bold",
-            "elements": [
-              {
-                "id": "block-1788841636918-xr5w9zzfk",
-                "type": "hotspot_explorer",
-                "styles": {
-                  "top": "20px",
-                  "left": "20px"
-                },
-                "content": {
-                  "hotspots": [
-                    {
-                      "x": 133,
-                      "y": 188,
-                      "id": "hotspot_1",
-                      "hint": "Click on the highlighted object",
-                      "info": "Exploration description here...",
-                      "name": "pencil",
-                      "width": 80,
-                      "height": 80
-                    },
-                    {
-                      "x": 167,
-                      "y": 214,
-                      "id": "hotspot_1788841667242",
-                      "hint": "",
-                      "info": "",
-                      "name": "eraser",
-                      "width": 80,
-                      "height": 80
-                    },
-                    {
-                      "x": 231,
-                      "y": 124,
-                      "id": "hotspot_1788841729897",
-                      "hint": "",
-                      "info": "",
-                      "name": "crayons",
-                      "width": 80,
-                      "height": 80
-                    },
-                    {
-                      "x": 278,
-                      "y": 178,
-                      "id": "hotspot_1788841765150",
-                      "hint": "",
-                      "info": "",
-                      "name": "sharpner",
-                      "width": 80,
-                      "height": 80
-                    }
-                  ],
-                  "imageUrl": "/media/media_library/e6f5b1fe45464368830cb9cec8963307.png"
-                }
-              }
-            ],
+            "elements": [],
             "media_id": "",
             "alignment": "Center",
             "media_url": "",

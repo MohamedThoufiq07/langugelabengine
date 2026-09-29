@@ -55,29 +55,6 @@
                     }
                   ]
                 }
-              },
-              {
-                "id": "block-1789023207692-n41uc5fnk",
-                "type": "hotspot_explorer",
-                "styles": {
-                  "top": "240px",
-                  "left": "20px"
-                },
-                "content": {
-                  "hotspots": [
-                    {
-                      "x": 100,
-                      "y": 100,
-                      "id": "hotspot_1",
-                      "hint": "Click on the highlighted object",
-                      "info": "Exploration description here...",
-                      "name": "Target 1",
-                      "width": 80,
-                      "height": 80
-                    }
-                  ],
-                  "imageUrl": ""
-                }
               }
             ],
             "media_id": "",

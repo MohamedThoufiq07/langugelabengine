@@ -81,8 +81,8 @@ function QuizBlock({ block }) {
 
     function handleSelect(index) {
 
-        // If student already selected the correct answer, do not allow changing it!
-        if (selected !== null && selected === correctAnswerIndex && !window.__isAssessment) return;
+        // If student already selected an option, do not allow selecting another until Try Again!
+        if (selected !== null && !window.__isAssessment) return;
 
         setSelected(index);
         completion?.saveAnswer?.(block.id, { 
@@ -195,7 +195,7 @@ function QuizBlock({ block }) {
                                 <button
                                     key={index}
                                     onClick={() => handleSelect(index)}
-                                    disabled={!isAssessment && selected === correctAnswerIndex}
+                                    disabled={!isAssessment && selected !== null}
                                     className={`quiz-custom-option ${isSelected ? "is-selected" : ""} ${isCorrect ? "is-correct" : ""} ${isIncorrect ? "is-incorrect" : ""}`}
                                 >
                                     <span className="quiz-option-badge">
